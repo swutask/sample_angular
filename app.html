@@ -1,0 +1,12 @@
+<ion-app>
+    <app-global-nav *ngIf="this.appSideMenuService.sideMenuEnabled" class="ion-hide-sm-down"></app-global-nav>
+    <ion-menu class="ion-hide-sm-up" contentId="main-content" side="start" (ionWillOpen)="sideMenu.refresh()" [disabled]="!this.appSideMenuService.sideMenuEnabled">
+        <ion-content>
+            <page-side-menu #sideMenu>
+            </page-side-menu>
+        </ion-content>
+    </ion-menu>
+    <app-side-menu *ngIf="this.appSideMenuService.sideMenuEnabled" class="sideParent ion-hide-sm-down"></app-side-menu>
+    <ion-router-outlet id="main-content" [ngClass]="this.appSideMenuService.sideMenuEnabled?'show':''" class="test">
+    </ion-router-outlet>
+</ion-app>

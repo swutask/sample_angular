@@ -1,0 +1,90 @@
+<ion-content>
+  <ion-icon class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon>
+  <ion-header class="ion-no-border header-top"> 
+    <ion-toolbar mode="md" color="pure-white">
+        <ion-buttons slot="start">
+            <ion-button color="success" routerDirection="back" (click)="goBack()">
+                <ion-icon src="assets/icon/arrowback.svg" class="ion-hide-sm-down">
+                </ion-icon>
+                <ion-icon src="assets/icon/arrowbackmobile.svg" class="ion-hide-sm-up">
+                </ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="dark" class="freedomtitle">
+            Freedom Number
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-item class="divider ion-hide-sm-up"></ion-item>
+<p class="subtitle mobile-align">Identify the "unearned" income needed monthly to cover your minimum core overhead (needs)</p>
+<div class="overall mobile-align">
+  <div class="overalltext">Overall Amount:</div>
+  <div class="balance">{{data.result | currency : 'USD' : 'symbol' : '1.0-0'}}</div>
+</div>
+<form>
+  <ion-label position="stacked" class="mobile-align">
+    Housing
+  </ion-label>
+  <ion-item lines="none" class="mobile-align">
+      <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+      </ion-icon>
+      <ion-input mask="separator.2" type="tel" inputmode="decimal"class="dollar-input" name="housing"
+      [(ngModel)]="data.housing" min="0" (ionChange)="calculate()" debounce="50">
+      </ion-input>
+  </ion-item>
+  <ion-label position="stacked" class="mobile-align">
+    Food
+  </ion-label>
+  <ion-item lines="none" class="mobile-align">
+    <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+    </ion-icon>
+    <ion-input mask="separator.2" type="tel" inputmode="decimal" class="dollar-input" name="food"
+    [(ngModel)]="data.food" min="0" (ionChange)="calculate()" debounce="50">
+    </ion-input>
+  </ion-item>
+  <ion-label position="stacked" class="mobile-align">
+      Utilities
+  </ion-label>
+  <ion-item lines="none" class="mobile-align">
+    <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+    </ion-icon>
+    <ion-input mask="separator.2" type="tel" inputmode="decimal" class="dollar-input" name="utilities"
+    [(ngModel)]="data.utilities" min="0" (ionChange)="calculate()" debounce="50">
+    </ion-input>
+  </ion-item>
+  <ion-label position="stacked" class="mobile-align">
+    Transportation
+  </ion-label>
+  <ion-item lines="none" class="mobile-align">
+    <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+    </ion-icon>
+    <ion-input mask="separator.2" type="tel" inputmode="decimal" class="dollar-input" name="transportation"
+    [(ngModel)]="data.transportation" min="0" (ionChange)="calculate()" debounce="50">
+    </ion-input>
+  </ion-item>
+  <ion-label position="stacked" class="mobile-align">
+    Other
+  </ion-label>
+  <ion-item lines="none" class="mobile-align">
+    <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+    </ion-icon>
+    <ion-input mask="separator.2" type="tel" inputmode="decimal" class="dollar-input" name="other"
+    [(ngModel)]="data.other" min="0" (ionChange)="calculate()" debounce="50">
+    </ion-input>
+  </ion-item>
+
+  <ion-button mode="ios" shape="round" type="button" class="save ion-margin contentalignbutton actionBtn ion-hide-sm-down" (click)="saveToAccount()">
+    Save changes
+  </ion-button>
+  <ion-button mode="ios" shape="round" type="button" class="cancel ion-margin actionBtn ion-hide-sm-down" (click)="goBack()">
+    Cancel
+  </ion-button>
+
+  <ion-button mode="ios" shape="round" type="button" class="save ion-margin contentalignbutton fullbtn ion-hide-sm-up" (click)="saveToAccount()">
+    Save changes
+  </ion-button>
+  <ion-button mode="ios" shape="round" type="button" class="cancel ion-margin fullbtn ion-hide-sm-up" (click)="goBack()">
+    Cancel
+  </ion-button>
+  </form>
+</ion-content>

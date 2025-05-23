@@ -1,0 +1,55 @@
+<ion-content class="phn-field" scrollY="false">
+  <ion-icon class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon>
+  <div class="contentdiv">
+      <h2>{{
+        type==='phone' ?
+        'Phone Number' :
+        'Email'
+        }}</h2>
+      
+  <div class="modeldivider"></div>
+    <div *ngIf="type==='phone'" [formGroup]="fm" class="field-main">
+      <h3 style="font-size:14px">
+        Please enter your phone number.
+      </h3>
+      <ion-item>
+        <ion-label position="stacked">Mobile Phone</ion-label>
+        <ion-intl-tel-input
+              (keyup.enter)="verify()"
+              formControlName="phoneNumber"
+              [preferredCountries]="preferredCountries"
+              defaultCountryiso="us"
+              modalCssClass="c-modal"
+              mode="md"
+              inputPlaceholder=" ">
+              </ion-intl-tel-input>
+      </ion-item>
+  
+      <div style="margin-bottom: 10px;" *ngIf="phoneNumber.invalid && phoneNumber.touched">
+        <ion-text color="danger" *ngIf="!phoneNumber.errors.required && phoneNumber.errors.phone">
+          <p class="ion-no-margin text-alert "><sub>Phone number is not valid.</sub></p>
+        </ion-text>
+      </div>
+    </div>
+  
+    <div *ngIf="type==='email'" [formGroup]="fm" class="field-main">
+      <h3 style="font-size:14px">
+        Please enter your new email.
+      </h3>
+      <ion-item class="email-item">
+        <ion-input (keyup.enter)="verify()" formControlName="email" name="email" placeholder="Email">
+        </ion-input>
+      </ion-item>
+    </div>
+    </div>
+    <ion-row class="buttonrow">
+      <ion-col class="savecol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+          <ion-button mode="ios" class="modalsave fullwidth" (click)="verify()" #savebtn>Submit</ion-button>
+      </ion-col>
+      <ion-col class="cancelcol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+          <ion-button mode="ios" type="button" class="modalcancel fullwidth" (click)="close()">
+              Cancel
+          </ion-button>
+      </ion-col>
+  </ion-row>
+</ion-content>

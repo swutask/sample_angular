@@ -1,0 +1,109 @@
+ion-content{
+	--background:var(--dark-background) url('/assets/images/Group.png') left bottom/55% no-repeat;
+	--ion-font-family:var(--font-family);
+
+    h2{
+        color: var(--ion-color-pure-white);
+        font-size: 40px;
+        margin-top: 30px;
+        margin-bottom: 8px;
+    }
+    p{
+        color: var(--ion-color-pure-white);
+        font-size: 16px;
+        margin-top: 0px;
+    }
+    h2, p{
+        max-width: 959px;
+        padding: 0 16px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align:center;
+    }
+    .login-footer{
+        margin-top: 30px;
+        color: var(--ion-color-pure-white);
+        .registernew{
+            font-weight: 900;
+        }
+    }
+    .save{
+        margin-bottom: 45px;
+    }
+    .backBtn{
+        position: fixed;
+        left: 90px;
+        top: 50%;
+        border-radius: 50%;
+        transform: translateY(-50%);
+        border: 1px solid var(--sub-title-color-second);
+        padding: 20px;
+        ion-icon{
+            position: absolute;
+            left: 12px;
+            top: 12px;
+        }
+    }
+    .itemHeader{
+        --background: transparent;
+        --padding-start: 9px;
+    }
+    @media (max-width: 39.9375em) {
+        h2{
+            font-size: 24px;
+        }
+        .login-footer{
+            position: fixed;
+            bottom: 30px;
+            width: 100%;
+        }
+    }
+}
+.logo_placeholder{
+	width: 140px;
+	height: 24px;
+	margin-top: 64px;
+	margin-left: auto;
+    margin-right: auto;
+    transform: scale(1.25);
+    @media (max-width: 39.9375em) {
+        margin-top: 24px;
+    }
+}
+.videoPlaceholder{
+    position: relative;
+    text-align: center;
+    max-width: 959px;
+    max-height: 539px;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    ion-img{
+        height: 100%;
+        max-width: 100%;
+        &::part(image){
+            max-height: 449px;
+        }
+    }
+    ion-img.video{
+        filter:brightness(0.5);
+        padding: 0 16px;
+        &::part(image){
+            border-radius: 16px;
+        }
+    }
+    ion-icon{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        color: white;
+        width: 18px;
+        height: 20px;
+        padding: 22px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(7px);
+    }
+}

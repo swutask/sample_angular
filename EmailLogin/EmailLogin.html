@@ -1,0 +1,41 @@
+<ion-header>
+    <ion-toolbar #j_359 color="primary">
+        <ion-title #j_361 color="dark" class="navbar-title">
+            Wealth Builder
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-img #j_346 src="assets/images/login_logo_2x.png" alt="Image error" class="login-logo">
+    </ion-img>
+    <p #j_347 class="login-slogan">
+        Please enter your email and we'll send you a one time password
+    </p>
+    <form #j_348 class="login-form" [formGroup]="fm">
+        <ion-grid #j_349>
+            <ion-row #j_350>
+                <ion-col #j_351>
+                    <ion-item #j_352__ion4Item>
+                        <ion-label #j_352__ion4Label position="floating">
+                            Email
+                        </ion-label>
+                        <ion-input (keyup.enter)="sendLink()" #j_352 type="email" formControlName="username" name="username">
+                        </ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row #j_353>
+                <!-- <ion-col #j_354>
+                    <ion-button #j_355 color="dark" expand="block" routerDirection="backward" routerLink="/login">
+                        CANCEL
+                    </ion-button>
+                </ion-col> -->
+                <ion-col #j_356>
+                    <ion-button #j_357 color="dark" expand="block" (click)="sendLink()">
+                        Login
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
+</ion-content>

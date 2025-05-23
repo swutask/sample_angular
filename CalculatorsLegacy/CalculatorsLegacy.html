@@ -1,0 +1,187 @@
+<ion-header>
+    <ion-toolbar #j_985 color="primary">
+        <ion-buttons #j_986 slot="start">
+            <ion-button #j_987 color="dark" routerDirection="back" (click)="goBack()">
+                <ion-icon #j_987__icon name="arrow-back">
+                </ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title #j_988 color="dark">
+            Legacy Calculators
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content color="cardbackground">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" spiner="spiral">
+        <ion-refresher-content>
+        </ion-refresher-content>
+    </ion-refresher>
+    <ion-card #j_912 color="pure-white" (click)="openFreedomCalc()" *ngIf="false">
+        <ion-grid #j_913>
+            <ion-row #j_914 class="calculator-row">
+                <ion-col #j_915 size="1" size-xs="2">
+                    <ion-icon #j_916 name="calculator" color="dark" size="large">
+                    </ion-icon>
+                </ion-col>
+                <ion-col #j_917>
+                    <ion-card-title #j_918 class="calculator-title">
+                        Freedom Calculator
+                    </ion-card-title>
+                    <ion-card-subtitle #j_919 class="calculator-subtitle">
+                        Identify minimum “unearned” income needed monthly to cover core needs
+                    </ion-card-subtitle>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card>
+    <ion-card #j_920 color="pure-white" (click)="openLifestyleCalc()" *ngIf="false">
+        <ion-grid #j_921>
+            <ion-row #j_922 class="calculator-row">
+                <ion-col #j_923 size="1" size-xs="2">
+                    <ion-icon #j_924 name="calculator" color="dark" size="large">
+                    </ion-icon>
+                </ion-col>
+                <ion-col #j_925>
+                    <ion-card-title #j_926 class="calculator-title">
+                        Lifestyle Calculator
+                    </ion-card-title>
+                    <ion-card-subtitle #j_927 class="calculator-subtitle">
+                        Identify total &quot;unearned&quot; income needed monthly to cover wants and luxuries
+                    </ion-card-subtitle>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card>
+    <ion-card #j_928 color="pure-white" (click)="openND1Calc()" *ngIf="false">
+        <ion-grid #j_929>
+            <ion-row #j_930 class="calculator-row">
+                <ion-col #j_931 size="1" size-xs="2">
+                    <ion-icon #j_932 name="calculator" color="dark" size="large">
+                    </ion-icon>
+                </ion-col>
+                <ion-col #j_933>
+                    <ion-card-title #j_934 class="calculator-title">
+                        ND1 Calculator (Spending Controls)
+                    </ion-card-title>
+                    <ion-card-subtitle #j_935 class="calculator-subtitle">
+                        Identify key &quot;earned&quot; income ratios to begin the Wealth Building process
+                    </ion-card-subtitle>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card>
+    <ion-card #j_936 color="pure-white" (click)="openNetWorthCalc()">
+        <ion-grid #j_937>
+            <ion-row #j_938 class="calculator-row">
+                <ion-col #j_939 size="1" size-xs="2">
+                    <ion-icon #j_940 name="calculator" color="dark" size="large">
+                    </ion-icon>
+                </ion-col>
+                <ion-col #j_941>
+                    <ion-card-title #j_942 class="calculator-title">
+                        Net Worth Calculator
+                    </ion-card-title>
+                    <ion-card-subtitle #j_943 class="calculator-subtitle">
+                        Calculate your net worth based on key asset and debt ratios
+                    </ion-card-subtitle>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card>
+    <ion-card #j_944 color="pure-white" (click)="openDebtPayoffCalc()">
+        <ion-grid #j_945>
+            <ion-row #j_946 class="calculator-row">
+                <ion-col #j_947 size="1" size-xs="2">
+                    <ion-icon #j_948 name="calculator" color="dark" size="large">
+                    </ion-icon>
+                </ion-col>
+                <ion-col #j_949>
+                    <ion-card-title #j_950 class="calculator-title">
+                        Debt Payoff Calculator
+                    </ion-card-title>
+                    <ion-card-subtitle #j_951 class="calculator-subtitle">
+                        Complete debt freedom and balance sheet restructuring planning tool
+                    </ion-card-subtitle>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card>
+    <ion-card #j_952 color="pure-white" (click)="openND2Calc()" *ngIf="false">
+        <ion-grid #j_953>
+            <ion-row #j_954 class="calculator-row">
+                <ion-col #j_955 size="1" size-xs="2">
+                    <ion-icon #j_956 name="calculator" color="dark" size="large">
+                    </ion-icon>
+                </ion-col>
+                <ion-col #j_957>
+                    <ion-card-title #j_958 class="calculator-title">
+                        ND2 Calculator (Capital Allocation)
+                    </ion-card-title>
+                    <ion-card-subtitle #j_959 class="calculator-subtitle">
+                        Wealth Account liquidity, cash flow and speculation key target ratios
+                    </ion-card-subtitle>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card>
+    <ion-card #j_960 color="pure-white" (click)="openCompoundReturnCalc()">
+        <ion-grid #j_961>
+            <ion-row #j_962 class="calculator-row">
+                <ion-col #j_963 size="1" size-xs="2">
+                    <ion-icon #j_964 name="calculator" color="dark" size="large">
+                    </ion-icon>
+                </ion-col>
+                <ion-col #j_965>
+                    <ion-card-title #j_966 class="calculator-title">
+                        Compound Return Calculator
+                    </ion-card-title>
+                    <ion-card-subtitle #j_967 class="calculator-subtitle">
+                        Projections and ROI simulations on any combination of asset types
+                    </ion-card-subtitle>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card>
+    <ion-card #j_968 color="pure-white" (click)="openPositionSizeCalc()">
+        <ion-grid #j_969>
+            <ion-row #j_970 class="calculator-row">
+                <ion-col #j_971 size="1" size-xs="2">
+                    <ion-icon #j_972 name="calculator" color="dark" size="large">
+                    </ion-icon>
+                </ion-col>
+                <ion-col #j_973>
+                    <ion-card-title #j_974 class="calculator-title">
+                        Position Size Calculator
+                    </ion-card-title>
+                    <ion-card-subtitle #j_975 class="calculator-subtitle">
+                        Identify key exit points and risk management ratios on a stock
+                    </ion-card-subtitle>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card>
+    <ion-card #j_976 color="pure-white" (click)="openGRMCalc()">
+        <ion-grid #j_977>
+            <ion-row #j_978 class="calculator-row">
+                <ion-col #j_979 size="1" size-xs="2">
+                    <ion-icon #j_980 name="calculator" color="dark" size="large">
+                    </ion-icon>
+                </ion-col>
+                <ion-col #j_981>
+                    <ion-card-title #j_982 class="calculator-title">
+                        GRM Calculator
+                    </ion-card-title>
+                    <ion-card-subtitle #j_983 class="calculator-subtitle">
+                        Identify key cash flow ratios on a potential rental property
+                    </ion-card-subtitle>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card>
+</ion-content>
+<ion-footer>
+    <div #j_990>
+        <bottom-menu>
+        </bottom-menu>
+    </div>
+</ion-footer>

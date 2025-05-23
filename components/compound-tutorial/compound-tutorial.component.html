@@ -1,0 +1,102 @@
+<ion-content>
+  <!-- <ion-icon class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon> -->
+  <ion-header class="ion-no-border header-top"> 
+    <ion-toolbar mode="md" color="pure-white">
+        <ion-buttons slot="start">
+            <ion-button color="success" routerDirection="back" (click)="goBack()">
+                <ion-icon src="assets/icon/close.svg" class="ion-hide-sm-down">
+                </ion-icon>
+                <ion-icon src="assets/icon/close.svg" class="ion-hide-sm-up">
+                </ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="dark" class="freedomtitle">
+            Tutorial
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-item class="divider ion-hide-sm-up"></ion-item>
+<p class="subTitle mobile-align">Compound Return (MOAC)</p>
+<div class="mobile-align">
+  <p>
+    The <b>Compound Return (MOAC)</b> module is a powerful tool to help you optimize passive (unearned) income through Cash Flow and other types of assets. Its incredible flexibility gives you ability to compare present vs future value of money and to forecast virtually unlimited scenarios on any combination of asset and investment types.
+  </p>
+  &nbsp;
+  <p>
+    <strong>Important Tips</strong>
+  </p>
+  &nbsp;
+  <p>
+    Start with the balance sheet. Once you have your assets fully accounted for you can start running forecasts and simulations to help make better asset allocation decisions. 
+  </p>
+  &nbsp;
+  <p>
+    Be careful not to include Assets in MOAC calculations that you do not want receiving new ND1 or ND2 capital. ie; Consumer, Depreciating and some Appreciating Assets. You'll want to use the "exclude from Compound Return" and/or "Exclude from further investment" settings on individual assets to prevent them from receiving new investment capital.
+  </p>  
+  &nbsp;
+  <p>
+    <strong>General Notes Re Calculations</strong>
+  </p>
+  &nbsp;
+  <p>
+    When Multiple Assets are included, the module computes the results of each asset independently of other assets, meaning the results of one asset have no bearing on another. 
+  </p>
+  &nbsp;
+  <p>
+    At the end of each year, the results are calculated by combining the values of all assets. Some values are simply added together:
+    <ion-row class="listratio">
+      <ion-col  size-lg="12" size-md="12" size-sm="12" size-xl="12" size-xs="12">
+        <ul>
+            <li>Annual Contribution</li>
+            <li>Balance</li>
+            <li>Basis</li>
+            <li>Income</li>
+            <li>Risk Adjusted Basis</li>
+            <li>Tax Paid</li>
+            <li>Total Distribution</li>
+        </ul>
+      </ion-col>
+    </ion-row>
+  </p>
+  <p>  
+    Other values are computed by first assigning a percentage depending on their position size in relation to the entire balance of the combined assets, then added together to give a total:
+    <ion-row class="listratio">
+      <ion-col  size-lg="12" size-md="12" size-sm="12" size-xl="12" size-xs="12">
+        <ul>
+            <li>Yield</li>
+            <li>Return</li>
+            <li>Yield on Cost</li>
+        </ul>
+      </ion-col>
+    </ion-row>
+    </p>
+  <p>
+    Additionally, logic adjustments were recently made so that all investment types (regardless of Portfolio, Individual Stock, or Units) follow the same algorithm. The nominal value of the yield is calculated and the yield growth rate is applied to this nominal value. This affected the following outputs:
+    <ion-row class="listratio">
+      <ion-col  size-lg="12" size-md="12" size-sm="12" size-xl="12" size-xs="12">
+        <ul>
+            <li>Total Dividends/Total Income</li>
+            <li>Total Distribution</li>
+            <li>Yield on Cost</li>
+            <li>Risk Adjusted Basis</li>
+        </ul>
+      </ion-col>
+    </ion-row>
+    </p>
+  <p>
+    This change was made to more accurately simulate real world scenarios and adapt industry standards for yield calculations.
+  </p>
+  &nbsp;
+  <p>
+    Rounding was turned off in the algorithm. Rounding is only applied at the very end of the cycle and right before the final values are displayed. This was done to be as accurate as possible with every calculation. It also reduces the output difference between Portfolio and Individual Stock scenarios.
+  </p>
+  &nbsp;
+  <p>
+    Dividend per share and income per unit were added in the results section and the output table. This shows the nominal value for each individual share or unit for a given year. This value is displayed to the tenth of a cent.
+  </p>
+  &nbsp;
+  <p>
+    Note: some mathematical discrepancies expected due to rounding and complexity and timing of multiple calculations.
+  </p>
+</div>
+</ion-content>

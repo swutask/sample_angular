@@ -1,0 +1,88 @@
+ion-content{
+	--background: #0a9b62 url('/assets/images/finish2.png') left 55px/100% no-repeat;
+	--ion-font-family:var(--font-family);
+    ion-chip{
+        transform: translateX(calc(100vw - 14vw));
+    }
+    .mainprogress{
+        --background:var(--ion-color-pure-white);
+        --color:var(--text-color);
+    }
+    .barprogress{
+        height: 4px;
+        &::part(track){
+            background: #0a9b62;
+        }
+    }
+    .logo_placeholder{
+        width: 140px;
+        height: 24px;
+        margin-top: 34px;
+        margin-bottom: 30px;
+        margin-left: 64px;
+        transform: scale(1.25);
+    }
+    .cup{
+        margin-top: 110px;
+        height: 138px;
+        width: 138px;
+        margin-left: auto;
+        margin-right: auto;
+        background: white;
+        border-radius: 50%;
+        padding: 35px;
+    }
+    .login-footer{
+        position: fixed;
+        bottom: 30px;
+        width: 100%;
+        .skip{
+            color: var(--ion-color-pure-white);
+            font-weight: 600;
+        }
+    }
+    .congrats{
+        color: var(--ion-color-pure-white);
+        text-align: center;
+        max-width: 718px;
+        margin-left: auto;
+        margin-right: auto;
+        h2{
+            font-size: 40px;
+            margin-top: 16px;
+            margin-bottom: 16px;
+        }
+        p{
+            font-size: 16px;
+            max-width: 656px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+    .cancel{
+        font-weight: 600;
+    }
+    @media (max-width: 39.9375em) {
+        --background: #0a9b62 url('/assets/images/finish2.png') left 70px/100% no-repeat;
+        .cup{
+            margin-top: 0px;
+            height: 80px;
+            width: 80px;
+            padding: 19px;
+        }
+        .congrats{
+            margin-left: 16px;
+            margin-right: 16px;
+            h2{
+                font-size: 24px;
+            }
+        }
+        .vertical-mobile{
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+    }
+}

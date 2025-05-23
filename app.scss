@@ -1,0 +1,47 @@
+@import "../scss/__aio_components.scss"; 
+
+.menu-title {
+    text-align: center;
+    font-weight: 600;
+}
+.menu-items {
+    width: 100%;
+}
+.capitalize {
+    text-transform: capitalize;
+}
+
+:host .avatar-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 19px;
+}
+
+//for icon in  side menu
+.md :host .avatar-icon {
+    margin-right: 32px;
+}
+ion-toolbar {
+    font-size: 18px;
+    ion-title, .toolbar-title {
+            text-align: center;
+        
+    }
+}
+
+.md :host {
+    ion-toolbar {
+        ion-title {
+            width: fit-content;
+        }
+        .toolbar-title {
+            min-width: fit-content;
+        }
+    }
+}
+
+:ng-deep ion-header {
+    --safe-area-inset-top: env(safe-area-inset-top);
+    padding-top: var(--safe-area-inset-top) !important;
+}
+

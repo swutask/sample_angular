@@ -1,0 +1,240 @@
+<ion-header class="ion-no-border header-top ion-hide-sm-up"> 
+    <ion-toolbar mode="md" color="pure-white">
+        <ion-buttons slot="start">
+            <ion-button color="success" routerDirection="back" (click)="goBack()">
+                <ion-icon src="assets/icon/arrowback.svg" class="ion-hide-sm-down">
+                </ion-icon>
+                <ion-icon src="assets/icon/arrowback2.svg" class="ion-hide-sm-up">
+                </ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="dark" class="freedomtitle">
+            Debt Payoff <ion-text color="medium">(CDE)</ion-text>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="freedom-number-details-content">
+    <div class="freedom-background">
+        <ion-header class="ion-no-border header-top ion-hide-sm-down"> 
+            <ion-toolbar mode="md" color="pure-white">
+                <ion-buttons slot="start">
+                    <ion-button color="success" routerDirection="back" (click)="goBack()">
+                        <ion-icon src="assets/icon/arrowback.svg" class="ion-hide-sm-down">
+                        </ion-icon>
+                        <ion-icon src="assets/icon/arrowback2.svg" class="ion-hide-sm-up">
+                        </ion-icon>
+                    </ion-button>
+                </ion-buttons>
+                <ion-title color="dark" class="freedomtitle">
+                    Debt Payoff <ion-text color="medium">(CDE)</ion-text>
+                </ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <ion-item class="divider ion-hide-sm-up ion-margin-bottom"></ion-item>
+    <ion-grid class="ion-no-padding outalign mobile-align">
+        <ion-row>
+            <ion-col class="ion-no-padding">
+                <ion-card-title>
+                    Compound Debt Elimination (CDE) System
+                </ion-card-title>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="ion-no-padding">
+                <ion-card-subtitle>
+                    Set the values below for your personalized debt freedom plan
+                </ion-card-subtitle>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <form #j_1225="ngForm" class="outalign mobile-align">
+        <ion-item mode="ios" (click)="openND1()" lines="full" class="cursor-pointer otherLinks">
+            <ion-label>
+                Accelerator Amount: 
+            </ion-label>
+            <ion-text>
+                {{ ((nd1CalculatorData.earnedIncome * nd1CalculatorData.debt
+                    / 100) | currency : 'USD' : 'symbol' : '1.0-0' )}}
+            </ion-text>
+            <ion-icon src="assets/icon/edit.svg" slot="end">
+            </ion-icon>
+        </ion-item>
+        <ion-item class="toogleItems slider-toggles" lines="none">
+            <ion-label class="ion-text-wrap">
+                Use income from Assets?
+                <ion-icon name="help-circle-outline" color="main-theme" ngClass="ion-icon-small" src="assets/icon/info.svg"
+                class="iconAlign" helpText="When selected, Assets with 'Reinvest income: into debt payoff' will have their income applied towards your Accelerator payment">
+                </ion-icon>
+            </ion-label>
+            <ion-text class="ion-hide-sm-down" slot="end">
+                {{ (data.incomeFromAssets | currency : 'USD' : 'symbol' : '1.0-0' )}}
+            </ion-text>
+            <ion-toggle #useIncomeFromAssetsCheckbox="ngModel" #useIncomeFromAssetsCheckbox_el
+            name="useIncomeFromAssetsCheckbox" value="" [(ngModel)]="data.useIncomeFromAssets"
+            (ionChange)="changeIncomeFromAssets()" slot="start" mode="ios" *ngIf="!isMobileWidth()" class="toggle-form">
+            </ion-toggle>
+            <ion-toggle #useIncomeFromAssetsCheckbox="ngModel" #useIncomeFromAssetsCheckbox_el
+            name="useIncomeFromAssetsCheckbox" value="" [(ngModel)]="data.useIncomeFromAssets"
+            (ionChange)="changeIncomeFromAssets()" slot="end" mode="ios" *ngIf="isMobileWidth()" class="toggle-form">
+            </ion-toggle>
+        </ion-item>
+        <ion-item class="mobileBalance ion-hide-sm-up" lines="none">
+            <ion-text>
+                {{ (data.incomeFromAssets | currency : 'USD' : 'symbol' : '1.0-0' )}}
+            </ion-text>
+        </ion-item>
+        <div class="assetToggle" >
+            <ion-accordion-group *ngIf="data.useIncomeFromAssets">
+                <ion-accordion value="tutorial" class="assetResult assets" toggle-icon="">
+                    <ion-item slot="header" (click)="toggleIconAccount=!toggleIconAccount" lines="none">
+                        <ion-label color="dark">Accounts List
+                        </ion-label>
+                        <ion-icon class="toggleslot" slot="end" [name]="toggleIconAccount?'chevron-up':'chevron-down'"></ion-icon>
+                    </ion-item>
+                    <div slot="content" *ngFor="let account of accountsWithReinvestIntoDebtPayOff">
+                        <ion-card class="accounts-list ion-padding-bottom" (click)="editAccount(account.id,'Asset')">
+                            <div class="accountarea" detail="false">
+                                <div class="accountName">
+                                    {{account.name}}
+                                </div>
+                                <div class="accountDescription">
+                                    {{account.description}}
+                                </div>
+                                <ion-item class="divider"></ion-item>
+                                <div class="accountBalanceBox">
+                                    <div class="accountBalance">
+                                      <div>{{account.assetType}}</div>
+                                      <div>{{getAssetTypeIndicatorLabel(account)}}</div>
+                                      <div>Yield {{account.currentYield}}%</div>
+                                    </div>
+                                    <div class="balance">{{account.currentBalance | currency : 'USD' : 'symbol' : '1.0-0' }}</div>
+                                </div>
+                            </div>
+                        </ion-card>
+                        </div>
+                </ion-accordion>
+            </ion-accordion-group>
+        </div>
+        <div class="boxselect">
+            <ion-label class="formLabel" position="stacked">
+                Sort Payoff By:
+            </ion-label>
+        </div>
+        <div>
+            <app-box-select class="boxselect" [options]="sortPayoffBy" [colsize]="'6'"
+            name="SelectItemWrapper1" (ngModelChange)="update($event)" [ngModel]="sortPayoffByValue"></app-box-select>
+        </div>
+    </form>
+    <div class="congrats-banner-mobile ion-hide-sm-up mobile-align" ></div>
+    <div class="congrats-banner outalign mobile-align">
+        <div class="title">
+            <span>Congratulations {{ profile.lastName ? (profile.firstName + ' ' + profile.lastName)
+            : profile.firstName }}!</span>
+        </div>
+        <div class="subtitile">
+            <span>Debt Payoff Results:</span>
+        </div>
+        <div class="details">
+            Current Payoff & Interest: <ion-text color="success">{{debtPayoffResults.calculatedOutputs?.currentPayoffText}} and {{debtPayoffResults.calculatedOutputs?.maximumInterestForAllDebtsText}}</ion-text>
+        </div>
+        <div class="details">
+            Accelerator Payoff & Interest: <ion-text color="success">{{debtPayoffResults.calculatedOutputs?.acceleratorPayoffText}} and {{debtPayoffResults.calculatedOutputs?.calculatedDebtAccelInterest}}</ion-text>
+        </div>
+        <div class="details">
+            Your Free Cash Flow (FCF) is <ion-text color="success">{{debtPayoffResults.calculatedOutputs?.additionalCashFlowText }} a month when paid
+                off</ion-text>
+        </div>
+    </div>
+    <ion-item class="divider"></ion-item>
+    <div class="chartTitle outalign mobile-align">Payoff Chart </div>
+    <ion-item lines="none" class="outalign contentchartalign mobile-align" id="compoundReturnChart">
+        <canvas *ngIf="showChart" baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+        [legend]="barChartLegend" [chartType]="barChartType" #myDebtCanvas></canvas>
+        <div *ngIf="!showChart">
+            <h2>Add at least one Liability account then edit Debt Payoff values to see this chart.</h2>
+        </div>
+    </ion-item>
+    <ion-item *ngIf="legendData?.length>0" lines="none" class=" outalign contentchartalign mobile-align">
+        <div class="my-legend fullwidth" #legendsItems>
+            <div class="legend-item" *ngFor="let legendItem of legendData;let i=index;">
+                <div class="box" [style.background-color]="legendItem.fillStyle"></div>
+                <div class="boxText">{{legendItem.text}}</div>
+            </div>
+        </div>
+    </ion-item>
+    <ion-item class="divider"></ion-item>
+    <div class="resultgroup tresult">
+                <ion-item slot="header" lines="none" >
+                    <ion-label color="dark">Payoff Order & Details
+                    </ion-label>
+                </ion-item>
+                <div slot="content">
+                    <ion-card
+                    class="accounts-list ion-padding-bottom cursor-pointer"
+                    *ngFor="let account of debtPayoffResults.finalDebtResults"
+                    (click)="editAccount(account.id,'Liability')">
+                        <div class="accountarea" detail="false">
+                            <div class="accountName">
+                                {{account.creditor}}
+                                <ion-icon src="assets/icon/arrowback.svg"
+                                class="nextLiability ion-hide-sm-down "
+                                 detail="false"></ion-icon>
+                            </div>
+                            <div class="accountDescription">
+                                {{accountDescription(account.id)}}
+                            </div>
+                            <ion-item class="divider ion-hide-sm-down"></ion-item>
+                            <div class="accountBalanceBox">
+                                <div class="accountBalance">
+                                    <div class="amountBox">
+                                        <div class="amountText">Amount Owed</div>
+                                        <div>{{account.originalBalance | currency : 'USD' : 'symbol' : '1.0-0' }}</div>
+                                    </div>
+                                    <div class="amountBox">
+                                        <div class="amountText">Min Payment</div>
+                                        <div>{{account.minPayment | currency : 'USD': 'symbol' : '1.0-0' }}</div>
+                                    </div>
+                                    <div class="amountBox">
+                                        <div class="amountText">New Monthly Pymt</div>
+                                        <div>{{account.accelText}}</div>
+                                    </div>
+                                    <div class="amountBox">
+                                        <div class="amountText">Type of Debt</div>
+                                        <div>{{account.typeOfDebtText}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ion-card>
+                    </div>
+    </div>
+    </div>
+    <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+        <ion-fab-button color="new-dark" (click)="openTutorial()">
+          <ion-icon src="assets/icon/education.svg"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+    <ion-modal trigger="tutorialModal" mode="ios" class="side-menu2"
+    [enterAnimation]="platform.width()>640?enterAnimation:undefined"
+    [leaveAnimation]="platform.width()>640?leaveAnimation:undefined">
+    <ng-template>
+        <ng-container *ngTemplateOutlet="balancemenu">
+        </ng-container> 
+    </ng-template>
+    </ion-modal>
+    <ng-template #balancemenu>
+        <ion-content scrollY="false" class="ion-padding-more">
+            <ion-item>
+                <ion-label color="success">Tutorial
+                    <p>Debt PayOff</p>
+                </ion-label>
+            </ion-item> 
+        </ion-content>
+    </ng-template>
+</ion-content>
+<ion-footer>
+    <div>
+        <bottom-menu>
+        </bottom-menu>
+    </div>
+</ion-footer>

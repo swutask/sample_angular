@@ -1,0 +1,74 @@
+.accounts-content .signup-form{
+    --padding-left: 35px;
+    --padding-right: 35px;
+    --padding-top: 20px;
+    --padding-bottom: 20px;
+}
+.ios .add-icon {
+    margin: 0px;
+    margin-right: -6px;
+    height: auto;
+}
+
+
+.accounts-title {
+	font-size: 18px;
+}
+
+.accounts-list ion-item{
+    font-size: 15px;
+    font-weight: normal;
+    font-style: normal;
+    color: #666;
+    text-transform: none;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    --padding-start: 0px!important;
+    --inner-padding-end: 0px!important;
+}
+
+.mt-5 {
+    margin-top: 5px;
+}
+
+ion-card-header {
+    padding-bottom: 5px;
+}
+
+
+ion-card {
+    margin: 10px;
+    background: #FFFFFF;
+}
+
+ion-grid, ion-col{
+    padding: 0!important;
+}
+
+ion-grid.md{
+    padding-bottom: 13px!important;
+}
+
+ion-grid.ios{
+    padding-bottom: 20px!important;
+}
+
+wrap {
+  overflow-wrap: break-word;
+}
+
+.description-label {
+    font-size: 12px;
+}
+
+.default-label {
+    font-size: 12px;
+    font-weight: 500;
+    margin-right: 0;
+    clear: right;
+}
+
+.margin {
+    margin: 0px 15px 0px 15px;
+}
+

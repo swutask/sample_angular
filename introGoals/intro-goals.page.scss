@@ -1,0 +1,228 @@
+ion-content{
+	--background:var(--dark-background) url('/assets/images/GroupGlobe.png') right bottom/60% no-repeat;
+	--ion-font-family:var(--font-family);
+    .backbox{
+        margin-right: 15px;
+    }
+    h2{
+        color: var(--ion-color-pure-white);
+        font-size: 40px;
+        margin-top: 30px;
+        margin-bottom: 8px;
+    }
+    p{
+        color: var(--ion-color-pure-white);
+        font-size: 16px;
+        margin-top: 0px;
+    }
+    h2, p{
+        max-width: 959px;
+        padding: 0 16px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align:center;
+    }
+    .login-footer{
+        margin-top: 30px;
+        color: var(--ion-color-pure-white);
+        .registernew{
+            font-weight: 900;
+        }
+    }
+    .logo_placeholder{
+        width: 140px;
+        height: 24px;
+        margin-top: 34px;
+        margin-bottom: 50px;
+        margin-left: 64px;
+        transform: scale(1.25);
+    }
+    .videoPlaceholder{
+        position: relative;
+        text-align: center;
+        max-width: 959px;
+        max-height: 539px;
+        margin-top: 40px;
+        margin-left: auto;
+        margin-right: auto;
+        ion-img{
+            height: 100%;
+            max-width: 100%;
+            filter:brightness(0.5);
+            padding: 0 16px;
+            &::part(image){
+                border-radius: 16px;
+            }
+        }
+        ion-icon{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            color: white;
+            width: 18px;
+            height: 20px;
+            padding: 22px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(7px);
+        }
+    }
+    .backBtn{
+        position: fixed;
+        left: 90px;
+        top: 50%;
+        border-radius: 50%;
+        transform: translateY(-50%);
+        border: 1px solid var(--sub-title-color-second);
+        padding: 20px;
+        ion-icon{
+            position: absolute;
+            left: 12px;
+            top: 12px;
+        }
+    }
+    
+    .progressgrid{
+        margin-left: 230px;
+        margin-right: 230px;
+        ion-col{
+            padding: 8px;
+        }
+        .gridCard{
+            height: 100%;
+            background: var(--second-dark-background);
+            border-radius: 24px;
+            transition: .5s;
+            // chart right arrow
+            ion-note{
+                border: 1px solid #E6E6E6;
+                width: 20px;
+                height: 20px;
+                padding: 21px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                transition: all 0.4s ease-in-out;
+                margin-right: 32px;
+                margin-top: 32px;
+                .arrow-icon{
+                    color: var(--ion-color-pure-white);
+                    width: 20px;
+                    height: 20px;
+                }
+                .white-arw{
+                    display: none;
+                }
+                ion-icon{
+                    font-size: 20px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 50%;
+                    flex-shrink: 0;
+                }
+            }
+            &:hover,&.selected{
+                background: var(--main-theme);
+                ion-note{
+                    background-color: var(--ion-color-pure-white);
+                    .arrow-icon{
+                        color: var(--main-theme);
+                        display: block;
+                    }
+                }
+            }
+            .cardheading{
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                ion-img{
+                    width: 110px;
+                    height: 73px;
+                    margin-top: 28px;
+                    margin-left: 26px;
+                    image-rendering: -webkit-optimize-contrast;
+                }
+            }
+            .textheading{
+                font-size: 24px;
+                margin: 4px 32px;
+                color: var(--ion-color-pure-white);
+            }
+            .textdescription{
+                font-size: 14px;
+                margin: 4px 32px 32px;
+                color: var(--ion-color-pure-white);
+            }
+        }
+    }
+    .mainprogress{
+        --background:var(--main-theme);
+        --color:var(--ion-color-pure-white);
+    }
+    .itemHeader{
+        --background: transparent;
+        --padding-start: 9px;
+    }
+    .barprogress{
+        height: 4px;
+        &::part(track){
+            background:var(--graph-jet);
+        }
+    }
+    @media (max-width: 39.9375em) {
+        ion-chip{
+            position: absolute;
+            transform: translateX(40px) translateY(-12px);
+        }
+        h2{
+            margin-left: 16px;
+            font-size: 22px;
+            margin-bottom: 14px;
+            text-align: left;
+            padding: 0;
+        }
+        .login-footer{
+            position: fixed;
+            bottom: 30px;
+            width: 100%;
+        }
+        .progressgrid{
+            margin-left: 0px;
+            margin-right: 0px;
+            .gridCard{
+                display: block;
+                border-radius: 16px;
+                .cardheading{
+                    align-items: center;
+                    ion-img{
+                        margin-top: 15px;
+                        width: 81px;
+                        height: 54px;
+                        margin-left: auto;
+                        margin-right: auto;
+                        image-rendering: -webkit-optimize-contrast;
+                    }
+                    ion-note{
+                        margin-top: 12px;
+                    }
+                }
+                .textheading{
+                    font-size: 18px;
+                    margin-top: 16px;
+                    text-align: center;
+                    margin-left: 0;
+                    margin-right: 0;
+                    margin-bottom: 16px;
+                }
+            }
+        }
+        ion-button{
+            font-weight: 600;
+        }
+    }
+}

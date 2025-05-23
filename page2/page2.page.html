@@ -1,0 +1,38 @@
+<ion-header class="ion-hide-sm-up">
+  <ion-toolbar>
+      <ion-title  color="dark " class="backTitle">
+        Verify Phone
+      </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="edit-profile-modal">
+  <div class="main-container">
+      <ion-header class="ion-hide-sm-down">
+          <ion-toolbar>
+              <ion-title  color="dark " class="backTitle">
+                Verify Phone
+              </ion-title>
+          </ion-toolbar>
+      </ion-header>
+    <form class="wb-form" novalidate="" [formGroup]="fm">
+      <h1 class="signup-slogan">
+        We were unable to verify your mobile phone number. Please enter it below with numbers only.
+      </h1>
+      <ion-item>
+        <ion-label position="stacked">Mobile Phone</ion-label>
+        <ion-intl-tel-input
+          (keyup.enter)="submit()"
+          formControlName="phoneNumber"
+          [preferredCountries]="preferredCountries"
+          defaultCountryiso="us"
+          inputPlaceholder=" ">
+        </ion-intl-tel-input>
+      </ion-item>
+      <div class="btn-main">
+        <ion-button class="saveBtn btns" (click)="submit()">
+          Submit
+        </ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>

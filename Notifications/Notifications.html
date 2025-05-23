@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-toolbar #j_1124>
+        <ion-avatar slot="start" class="avatar-icon" (click)="navigateToProfile()">
+            <ion-img #j_1364 [src]="userAvatar || this.userSvc.defaultAvatar" alt="Image error" alt="image">
+            </ion-img>
+        </ion-avatar>
+        <ion-title #j_1126>
+            Notifications
+        </ion-title>
+        <ion-button #j_1127 expand="block" slot="end" class="add-icon">
+            <ion-icon #j_1127__icon name="notifications" slot="icon-only" color="dark">
+            </ion-icon>
+        </ion-button>
+        <ion-button #j_1128 expand="block" slot="end" class="add-icon" (click)="createNewAccount()">
+            <ion-icon #j_1128__icon name="add-circle" slot="icon-only" color="dark">
+            </ion-icon>
+        </ion-button>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div #j_1119>
+    </div>
+    <ion-list #j_1120>
+        <ion-item #j_1121>
+            <ion-label #j_1122>
+                Label text
+            </ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>
+<ion-footer>
+    <div #j_1130>
+        <bottom-menu>
+        </bottom-menu>
+    </div>
+</ion-footer>

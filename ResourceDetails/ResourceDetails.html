@@ -1,0 +1,47 @@
+<ion-header class="video-header">
+    <ion-toolbar color="primary-transparent" class="navbar-title">
+        <ion-buttons slot="start">
+            <ion-back-button text="">
+            </ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="resource-details-content">
+    <div class="media-wrapper" style="display: block; position:relative; width: 100%;"
+    [slot]="mediaSlot">
+        <video-frame style="display: block; width: 100%;" (click)="openDocument($event)"
+        [video]="videoUrl" [image]="resource.image.url" [resource]="content" [audio]="content.audio? content.audio.url:''"
+        *ngIf="content">
+        </video-frame>
+    </div>
+    <div #j_1208 [ngClass]="{'content-block':fixedMode}">
+        <h3 #j_1209 class="resource-details-header" *ngIf="resource && resource.title">
+            {{resource.title}}
+        </h3>
+        <ion-text #j_1210 class="resource-details-subtitle" *ngIf="resource && resource.subTitle">
+            {{resource.subTitle}}
+        </ion-text>
+        <ng-container #j_1211 *ngFor="let author of resource?.authors; let isLast=last">
+            <ion-text #j_1212 class="resource-details-authors" *ngIf="author && author?.name">
+                {{author.name}}{{isLast ? '' : ', '}}
+            </ion-text>
+        </ng-container>
+        <ion-segment (ionChange)="segmentChanged($event)" [value]="view" color="dark">
+            <ion-segment-button *ngFor="let slideName of slideNames" [value]=slideName>
+                <ion-label>
+                    {{ slideName | uppercase }}
+                </ion-label>
+            </ion-segment-button>
+        </ion-segment>
+        <ion-slides #slider [pager]="false" (ionSlideDidChange)="slideDidChange()">
+            <ion-slide value="content">
+                <resource-details-tabs-content [resource]="resource">
+                </resource-details-tabs-content>
+            </ion-slide>
+            <ion-slide value="about">
+                <resource-details-tabs-about [resource]="resource">
+                </resource-details-tabs-about>
+            </ion-slide>
+        </ion-slides>
+    </div>
+</ion-content>

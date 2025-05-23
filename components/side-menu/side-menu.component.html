@@ -1,0 +1,82 @@
+<div #dashMenu class="sidemenu">
+  <div class="menuHeader">
+    <ion-button color="transparent" mode="ios" (click)="toggle()">
+      <ion-icon name="chevron-back" class="arrowOutline" color="success" slot="icon-only"
+        [ngClass]="this.open?'':'show'"></ion-icon>
+    </ion-button>
+  </div>
+  <div class="menuBody">
+    <div title="Dashboard" class="menuItem cursor-pointer" (click)="openDashboard()"
+      [ngClass]="this.dashboardActive?'active':''">
+      <ion-icon [ngClass]="this.open?'menuiconopen':'menuiconclose'" src="assets/images/dashboard.svg"></ion-icon>
+      <ion-label [ngClass]="this.open?'':'ion-hide'">Dashboard</ion-label>
+    </div>
+    <div title="Balance Sheet" class="menuItem cursor-pointer" (click)="openAccounts()"
+      [ngClass]="this.accountActive?'active':''">
+      <ion-icon [ngClass]="this.open?'menuiconopen':'menuiconclose'" src="assets/images/account.svg"></ion-icon>
+      <ion-label [ngClass]="this.open?'':'ion-hide'">Balance Sheet</ion-label>
+    </div>
+    <div title="Plan" class="menuItem cursor-pointer" (click)="openPlanning();">
+      <!-- [ngClass]="this.plannningActiveLink?'active':''"-->
+      <ion-icon [ngClass]="this.open?'menuiconopen':'menuiconclose'" name="book-outline"></ion-icon>
+      <ion-label [ngClass]="this.open?'':'ion-hide'">Plan</ion-label>
+      <ion-icon class="addicon" [ngClass]="this.open?'':'ion-hide'" name="add" color="main-theme"></ion-icon>
+    </div>
+    <div class="plansub" [ngClass]="{'showSubMenu':this.plannningActive,'ion-hide':!this.open}">
+      <div class="planMenuItem cursor-pointer" (click)="openOnboarding()" [ngClass]="this.onboardActive?'active':''">
+        <ion-label [ngClass]="this.open?'':'ion-hide'">Onboarding</ion-label>
+      </div>
+      <div class="planMenuItem cursor-pointer" (click)="openProgress()" [ngClass]="this.progressActive?'active':''">
+        <ion-label [ngClass]="this.open?'':'ion-hide'">
+          Progress ({{getCompPercentage(isProfileDone, isGoalsDone, isFreedomDone, isLifestyleDone, isLegacyDone,
+            isAssetDone, isLiabilityDone, isBudgetingDone, isCapitalDone, isCompoundDone, isIncomeDone, isPorfolioDone,
+            isRiskDone, isTaxDone, isAssetPDone, isDebtDone, isDebtFree)}}%)
+        </ion-label>
+      </div>
+      <div class="planMenuItem cursor-pointer" (click)="openGoals()" [ngClass]="this.goalsActive?'active':''">
+        <ion-label [ngClass]="this.open?'':'ion-hide'">Goals & Preferences</ion-label>
+      </div>
+      <div class="planMenuItem cursor-pointer" (click)="openFreedom()" [ngClass]="this.freedomActive?'active':''">
+        <ion-label [ngClass]="this.open?'':'ion-hide'">Freedom Number</ion-label>
+      </div>
+      <div class="planMenuItem cursor-pointer" (click)="openLifestyle()" [ngClass]="this.lifestyleActive?'active':''">
+        <ion-label [ngClass]="this.open?'':'ion-hide'">Lifestyle Number</ion-label>
+      </div>
+      <div class="planMenuItem cursor-pointer" (click)="openBudgeting()" [ngClass]="this.nd1Active?'active':''">
+        <ion-label [ngClass]="this.open?'':'ion-hide'">Budgeting</ion-label>
+      </div>
+      <div class="planMenuItem cursor-pointer" (click)="openDebt()" [ngClass]="this.debtActive?'active':''">
+        <ion-label [ngClass]="this.open?'':'ion-hide'">Debt Payoff</ion-label>
+      </div>
+      <div class="planMenuItem cursor-pointer" (click)="openCapital()" [ngClass]="this.nd2Active?'active':''">
+        <ion-label [ngClass]="this.open?'':'ion-hide'">Capital Allocation</ion-label>
+      </div>
+      <div class="planMenuItem cursor-pointer" (click)="openCompound()" [ngClass]="this.compoundActive?'active':''">
+        <ion-label [ngClass]="this.open?'':'ion-hide'">Compound Return</ion-label>
+      </div>
+    </div>
+    <div title="Learn" class="menuItem cursor-pointer" (click)="openLearning()">
+      <ion-icon [ngClass]="this.open?'menuiconopen':'menuiconclose'" src="assets/images/learn.svg"></ion-icon>
+      <ion-label [ngClass]="this.open?'':'ion-hide'">Learn</ion-label>
+      <!-- <ion-icon class="addicon" [ngClass]="this.open?'':'ion-hide'" name="add" color="main-theme"></ion-icon> -->
+    </div>
+    <!-- <div class="plansub" [ngClass]="{'showSubMenu':this.learningActive,'ion-hide':!this.open}">
+      <div class="planMenuItem cursor-pointer" (click)="openLearningLink('courses')"
+        [ngClass]="this.coursesActive?'active':''">
+        <ion-label [ngClass]="this.open?'':'ion-hide'">Courses</ion-label>
+      </div>
+      <div class="planMenuItem cursor-pointer" (click)="openLearningLink('coaching')"
+        [ngClass]="this.coachingActive?'active':''" *ngIf="hasAccessTo()">
+        <ion-label [ngClass]="this.open?'':'ion-hide'">Coaching</ion-label>
+      </div>
+      <div class="planMenuItem cursor-pointer" (click)="openLearningLink('articles')"
+        [ngClass]="this.articlesActive?'active':''">
+        <ion-label [ngClass]="this.open?'':'ion-hide'">Articles</ion-label>
+      </div>
+    </div> -->
+    <div title="Connect" class="menuItem cursor-pointer" (click)="openConnect()">
+      <ion-icon [ngClass]="this.open?'menuiconopen':'menuiconclose'" name="accessibility-outline"></ion-icon>
+      <ion-label [ngClass]="this.open?'':'ion-hide'">Connect</ion-label>
+    </div>
+  </div>
+</div>

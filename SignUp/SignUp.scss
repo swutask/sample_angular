@@ -1,0 +1,185 @@
+ion-content{
+	--background:var(--dark-background) url('../../assets/images/Group.png') left bottom/55% no-repeat;
+	--ion-font-family:var(--font-family);
+}
+ion-title{
+	padding-left: 0px;
+}
+ion-chip{
+	transform: translateX(calc(100vw - 27vw));
+}
+.mainprogress{
+	--background:var(--main-theme);
+	--color:var(--ion-color-pure-white);
+}
+.itemHeader{
+	--background: transparent;
+	--padding-start: 9px;
+}
+.barprogress{
+	height: 4px;
+	&::part(track){
+		background:var(--graph-jet);
+	}
+}
+.logo_placeholder{
+	width: 140px;
+	height: 24px;
+	margin-top: 34px;
+	margin-bottom: 30px;
+	margin-left: 64px;
+	transform: scale(1.25);
+}
+.login-logo {
+	display: block;
+	margin: 0 auto;
+	width: 330px;
+    height: 221px;
+	margin-top: 32px;
+	image-rendering: -webkit-optimize-contrast;
+}
+.login-slogan {
+	margin-top: 25px;
+	margin-left: 35px;
+	margin-right: 30px;
+	margin-bottom: 16px;
+	font-weight: normal;
+	font-style: normal;
+	font-variant: normal;
+	color: var(--ion-color-pure-white);
+	font-size: 22px;
+	@media (max-width: 39.9375em) {
+		font-size:	16px ;
+	}
+}
+.logincontent{
+	max-width: 472px;
+	margin: 0 auto;
+}
+.center-form {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	flex: 1 0 auto;
+	justify-content: center;
+	min-height: 100%;
+}
+
+.wb-form {
+	margin-left: 35px;
+	margin-right: 35px;
+}
+.wb-form ion-item {
+	padding-left: 0;
+	--background:var(--dark-background);
+	color: var(--ion-color-pure-white);
+	border:1px solid #333333;
+    margin: 0 auto;
+}
+.wb-form ion-item.securecode {
+	margin: 16px auto;
+}
+.resendcode{
+	color: var(--ion-color-pure-white);
+}
+
+.signup-form ion-item {
+	padding-left: 0;
+}
+
+.signup-title {
+	text-align: center;
+	color: #2C3E50;
+}
+
+.signup-slogan {
+	text-align: center;
+	margin-top: 5px;
+	margin-left: 30px;
+	margin-right: 30px;
+	margin-bottom: 17px;
+	font-weight: normal;
+	font-style: normal;
+	font-variant: normal;
+	color: rgb(51, 51, 51);
+	font-size: 18px;
+}
+
+.signup-button {
+	margin-top: 50px;
+}
+
+.phone-number {
+	display: flex;
+    align-items: flex-end;
+}
+
+.phone-number ion-item:first-child {
+	flex-basis: 74px;
+}
+
+.phone-number ion-item:last-child {
+	flex: 1;
+}
+
+.terms-link {
+	text-align: center;
+	color: var(--ion-color-pure-white);
+	font-weight: normal;
+	font-style: normal;
+	font-variant: normal;
+	margin: 25px auto 10px;
+	max-width: 90%;
+	text-decoration: underline;
+}
+.terms{
+	position: absolute;
+    bottom: 10px;
+	font-size: 14px;
+	margin-top: 20px;
+	text-align: center;
+	color: var(--ion-color-pure-white);
+    width: 100%;
+	margin-right: auto;
+    margin-left: auto;
+	max-width: 472px;
+}
+
+ion-button.save{
+	@media (max-width: 39.9375em) {
+		width: 100%;
+	}
+}
+.backBtn{
+	position: absolute;
+    left: 90px;
+    top: 54%;
+	border-radius: 50%;
+	border: 1px solid var(--sub-title-color-second);
+	padding: 20px;
+	ion-icon{
+		position: absolute;
+		left: 12px;
+		top: 12px;
+	}
+}
+@media (max-width: 39.9375em) {
+	h2{
+		color: var(--ion-color-pure-white);
+		margin-left: 16px;
+		font-size: 22px;
+		margin-bottom: 14px;
+		text-align: left;
+		padding: 0;
+		margin-top: 20px;
+	}
+	.login-logo {
+		transform: scale(1.15) translateX(10px);
+	}
+	.logo_placeholder{
+		width: 168px;
+		height: 29px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}

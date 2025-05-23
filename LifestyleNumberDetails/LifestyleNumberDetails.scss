@@ -1,0 +1,141 @@
+.freedom-number-details-content {
+    --ion-font-family:var(--font-family);
+    form {
+        ion-item {
+            margin: 8px 0 24px 0;
+            --border-width: 2px; 
+            ion-icon.dollar {
+                margin-inline-end: 16px;
+            }    
+        }
+        ion-item.freedomnumber{
+            opacity: 0.4;
+        }
+    }   
+    ion-button{
+        text-transform: none;
+        font-weight: 600;
+    }
+    .overall{
+        margin-bottom: 6px;
+        ion-label{
+            font-size: 18px;
+        }
+        ion-text{
+            font-size: 24px;
+        }
+    }
+    canvas{
+        height: 128px !important;
+    }
+    .actionBtn{
+        margin-bottom: 69px;
+        margin-top: 6px;
+    }
+    .labeltop{
+        margin-top: 30px;
+    }
+    .contentchartalign{
+        --padding-start: 0px;
+        --inner-padding-end: 0px;
+    }
+    .my-legend{
+        width: 100%;
+        margin-top: 24px;
+    }
+    @media (max-width: 39.9375em) {
+        .fullbtn{
+            margin-top: 32px;
+        }
+        .save{
+            margin-bottom: 8px;
+        }
+        .cancel{
+            margin-top: 0;
+        }
+        .contentaligntutorial{
+            padding: 14px 24px;
+            margin: 0 16px;
+            border: 1px solid var(--border-two-color);
+            border-radius: 16px;
+            background: var(--tutorial-background);;
+        }
+        .subheading{
+            font-size: 16px;
+            margin-top: 14px;
+        }
+        .labeltop{
+            margin-top: 24px;
+        }
+        form {
+            ion-item {
+                margin: 8px 0 16px 0;
+            }
+            ion-item:last-child{
+                margin-bottom: 7px;
+            }
+        }
+        .my-legend{
+            margin-top: 16px;
+        }
+    }
+    @media (min-width: 40em) {
+        .contentalign{
+            margin-left: 85px;
+            margin-right: 45px;
+        }
+        .contentchartalign{
+            margin-right: 56px;
+            margin-left: 45px;
+        }
+        .contentalignbutton{
+            margin-left: 97px;
+            margin-right: 0px;
+        }
+        .contentaligntutorial{
+            margin-left: 97px;
+            margin-right: 72px;
+        }
+        .freedom-background{
+            max-width: 1252px;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 32px;
+            background: var(--ion-color-pure-white);
+        }
+        .header-top{
+            padding-top: 38px;
+        }
+        .subheading{
+            font-size: 14px;
+        }
+        .overall{
+            margin-top: 15px;
+        }
+    }
+}
+
+.divider{
+    --min-height: 5px;
+    --padding-start: 0px;
+}
+.box{
+    height: 16px;
+    width: 12px;
+}
+.boxText{
+    margin-left: 12px;
+}
+.my-legend{
+    width: 100%;
+    margin-top: 24px;
+}
+.boxValue{
+    margin-left: auto;
+}
+.legend-item{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 16px;
+}

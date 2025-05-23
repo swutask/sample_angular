@@ -1,0 +1,78 @@
+.ion-hide-important{
+    display:none;    
+}
+
+.a-detail-header {
+	font-size: 25px !important;
+	color: #333333;
+	font-weight: normal !important;
+	font-style: normal;
+	line-height: 110%;
+	margin: 40px 10px 25px 10px
+}
+
+.a-detail-date {
+    color: #666666;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 14px;
+    margin-left: 10px;
+    margin-bottom: 60px;
+}
+
+.a-detail-content {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.a-detail-footer {
+    background-color: #ebebeb; 
+    border: 1px solid powderblue;
+}
+
+.a-detail-footer p {
+    margin: 0;
+}
+
+.a-detail-footer p, .a-detail-footer p {
+    font-size: 1.4rem;
+}
+
+.a-detail-learn-more {
+	color: #D42020;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+
+
+.article-author {
+	margin-top: 15px !important;
+
+    font-family: "Helvetica neue";
+    font-weight: normal !important;
+    font-style: normal;
+    font-variant: normal;
+    font-size: 11px !important;
+
+    word-wrap: break-word;
+}
+
+.article-image {
+	height: 250px !important;
+	object-fit: cover;
+}
+
+.article-title {
+	color: rgb(51, 51, 51);
+    font-family: "Helvetica neue";
+	font-weight: normal;
+	font-style: normal;
+	font-variant: normal;
+	font-size: 17px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	line-height: 1.2;
+	padding: 8px 0;
+}
+

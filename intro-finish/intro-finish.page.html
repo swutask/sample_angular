@@ -1,0 +1,30 @@
+<ion-content>
+  <ion-progress-bar class="barprogress" color="light" value="0.75"></ion-progress-bar>
+  <ion-chip class="mainprogress">75%</ion-chip>
+  <ion-img src="assets/images/logo_placeholder.svg" alt="Image error" class="logo_placeholder ion-hide-sm-down">
+  </ion-img>
+  <div class="vertical-mobile">
+  <ion-img src="assets/icon/smiley.svg" alt="Image error" class="cup">
+  </ion-img>
+  <div class="congrats">
+    <h2>Awesome!</h2>
+    <h2>You now have a Wealth Builder account</h2>
+    <p>The first step in creating true wealth is to optimize your balance sheet for cash flow. Your balance sheet is everything you own  (assets) plus or minus everything you owe (debts or liabilities). Let’s start by adding your asset accounts!</p>
+  </div>
+  <div class="ion-text-center">
+    <ion-button mode="ios" shape="round" class="cancel ion-hide-sm-down" (click)="createNewAccount()">
+      Go to assets
+      <ion-icon color="main-theme" slot="end" name="arrow-forward-outline"></ion-icon>
+    </ion-button>
+    <ion-button mode="ios" shape="round" class="cancel ion-margin-top fullbtn ion-hide-sm-up" (click)="createNewAccount()">
+      Go to assets
+      <ion-icon color="main-theme" slot="end" name="arrow-forward-outline"></ion-icon>
+    </ion-button>
+  </div>
+  </div>
+  <div class="login-footer ion-text-center">
+    <div class="skip cursor-pointer" (click)="goToIntroFinish2()">
+      Skip process
+    </div>
+  </div>
+</ion-content>

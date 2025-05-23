@@ -1,0 +1,30 @@
+<ion-content class="phn-field" scrollY="false">
+  <ion-icon class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon>
+  <div class="contentdiv">
+    <h2>Code Confirmation</h2>
+    
+    <div class="modeldivider"></div>
+  <div [formGroup]="fm" class="field-main">
+    <p class="heading-text">
+      Please enter the confirmation code that you received.
+    </p>
+    <ion-item class="code-item">
+      <ion-input (keyup.enter)="confirmCode()" formControlName="code" name="code" placeholder="Code">
+      </ion-input>
+    </ion-item>
+    <p class="resend-code" (click)="sendOTP()">
+      Resend Code
+    </p>
+  </div>
+  </div>
+  <ion-row class="buttonrow">
+    <ion-col class="savecol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+        <ion-button mode="ios" class="modalsave fullwidth" (click)="confirmCode()" #savebtn>Submit</ion-button>
+    </ion-col>
+    <ion-col class="cancelcol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+        <ion-button mode="ios" type="button" class="modalcancel fullwidth" (click)="close()">
+            Cancel
+        </ion-button>
+    </ion-col>
+</ion-row>
+</ion-content>

@@ -1,0 +1,255 @@
+ion-avatar {
+  margin-right: 14px;
+}
+
+.edit-profile-modal {
+  --ion-font-family: var(--font-family);
+}
+
+.edit-profile-modal .banner {
+  width: 100%;
+  height: 370px;
+  max-height: 370px;
+  object-fit: cover;
+}
+
+.edit-profile-modal .banner::part(image) {
+  border-radius: 32px 32px 0px 0px;
+}
+
+.edit-profile-modal .freedomtitle ion-text {
+  font-size: 32px;
+}
+
+.edit-profile-modal .coretext {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.edit-profile-modal form .goals-formgroup {
+  margin-top: 38px;
+}
+
+.edit-profile-modal form .goals-formgroup h2 {
+  font-size: 28px;
+  margin-top: 44px;
+  margin-bottom: 42px;
+}
+
+.edit-profile-modal form .goals-formgroup .formLabel {
+  font-size: 16px;
+}
+
+.edit-profile-modal form ion-item {
+  margin: 12px 3px 5px 0;
+  --border-width: 1px;
+  --border-color: var(--border-one-color);
+  --padding-start: 17px;
+  --min-height: 44px;
+}
+
+.edit-profile-modal form ion-item.divider {
+  width: 100%;
+  --padding-start: 0px;
+  --border-color: var(--border-four-color);
+  --min-height: 0px;
+  --height: 0px;
+  --max-height: 0px;
+  --border-width: 0px;
+  margin-top: 24px;
+}
+
+.edit-profile-modal form ion-item ion-icon.dollar {
+  margin-right: 8px;
+}
+
+.edit-profile-modal form ion-item ion-icon {
+  transform: scale(0.65);
+}
+
+.edit-profile-modal form ion-item.otherLinks {
+  --border-width: 0px;
+  --padding-start: 0px;
+  --inner-padding-end: 0px;
+  --min-height: 60px;
+  border-bottom: 1px solid var(--border-two-color);
+}
+
+.edit-profile-modal form ion-item.otherLinks ion-label, .edit-profile-modal form ion-item.otherLinks ion-text {
+  font-size: 22px;
+}
+
+.edit-profile-modal form ion-text {
+  font-size: 12px;
+}
+
+.edit-profile-modal ion-button {
+  text-transform: none;
+  font-weight: 600;
+}
+
+.edit-profile-modal ion-button.cancel {
+  margin-right: 0px;
+}
+
+.edit-profile-modal .overall ion-label {
+  font-size: 16px;
+}
+
+.edit-profile-modal .overall ion-text {
+  font-size: 18px;
+}
+
+.edit-profile-modal .contentalign ion-card-subtitle {
+  text-transform: none;
+  font-size: 14px;
+  color: var(--sub-title-color);
+  font-weight: 400;
+  margin-top: 0px;
+}
+
+.edit-profile-modal .resultsubheading {
+  font-size: 12px;
+  color: var(--sub-title-color);
+}
+
+.edit-profile-modal .resulttext {
+  font-size: 14px;
+}
+
+@media (max-width: 39.9375em) {
+  .edit-profile-modal .grid-mobile-padding {
+    padding-left: 11px;
+    padding-right: 11px;
+  }
+  .edit-profile-modal .boxselect {
+    margin-bottom: 22px;
+  }
+  .edit-profile-modal ion-button.save {
+    margin-top: 32px;
+    margin-bottom: 8px;
+  }
+  .edit-profile-modal ion-button.cancel {
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+  .edit-profile-modal .freedomtitle ion-text {
+    font-size: 18px;
+  }
+  .edit-profile-modal form .goals-formgroup {
+    margin-top: 14px;
+  }
+  .edit-profile-modal form .goals-formgroup h2 {
+    font-size: 20px;
+    margin-top: 35px;
+    margin-bottom: 32px;
+  }
+  .edit-profile-modal form ion-item.otherLinks {
+    margin-top: 0px;
+    --min-height: 32px;
+  }
+  .edit-profile-modal form ion-item.otherLinks ion-label, .edit-profile-modal form ion-item.otherLinks ion-text {
+    font-size: 16px;
+  }
+  .edit-profile-modal form ion-item.divider {
+    margin-top: 12px;
+  }
+  .edit-profile-modal form .fullitem {
+    width: 110%;
+    margin-left: -15px;
+  }
+  .edit-profile-modal .coretext {
+    margin-top: 0px;
+    font-size: 16px;
+  }
+  .edit-profile-modal form .earneditem {
+    margin: 12px 0 16px 0;
+  }
+  .edit-profile-modal form ion-item.range:last-child {
+    margin-bottom: 9px;
+  }
+  .edit-profile-modal .contentaligntutorial {
+    padding: 14px 24px;
+    margin: 0 16px;
+    border: 1px solid var(--border-two-color);
+    border-radius: 16px;
+    background: var(--tutorial-background);
+    margin-top: 15px;
+  }
+  .edit-profile-modal .contentalign ion-card-subtitle {
+    text-transform: none;
+    font-size: 14px;
+    margin-top: 0px;
+  }
+  .edit-profile-modal .subheading {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 40em) {
+  .edit-profile-modal .boxselect {
+    margin-bottom: 18px;
+  }
+  .edit-profile-modal .editheading {
+    margin-top: 38px;
+  }
+  .edit-profile-modal form .earneditem {
+    margin: 12px 0 24px 0;
+  }
+  .edit-profile-modal ion-button.save {
+    width: 141px;
+    margin-bottom: 44px;
+  }
+  .edit-profile-modal ion-button.cancel {
+    width: 91px;
+    margin-bottom: 44px;
+  }
+  .edit-profile-modal .labeltop {
+    margin-top: 20px;
+  }
+  .edit-profile-modal .contentaligntutorial {
+    margin-left: 97px;
+    margin-right: 72px;
+  }
+  .edit-profile-modal .contentalign {
+    margin-left: 85px;
+    margin-right: 85px;
+  }
+  .edit-profile-modal .contentalignbutton {
+    margin-left: 95px;
+    margin-right: 0px;
+  }
+  .edit-profile-modal .contentaligntutorial {
+    margin-left: 97px;
+    margin-right: 72px;
+  }
+  .edit-profile-modal .freedom-background {
+    border-radius: 32px;
+    background: var(--ion-color-pure-white);
+  }
+  .edit-profile-modal .header-top {
+    padding-top: 38px;
+  }
+  .edit-profile-modal .subheading {
+    margin-top: 10px;
+    font-size: 18px;
+  }
+  .edit-profile-modal .overall {
+    margin-top: 15px;
+    margin-bottom: 9px;
+  }
+}
+
+.box {
+  height: 16px;
+  width: 12px;
+}
+
+.formlabel {
+  padding-top: 20px;
+  font-size: 16px;
+}
+
+h3 {
+  margin-top: 6px;
+}

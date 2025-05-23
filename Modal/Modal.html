@@ -1,0 +1,8 @@
+<div class="inner-content">
+    <div class="closeheader">
+        <ion-icon class="pointer" name="close" (click)="dismiss()"></ion-icon>
+    </div>
+    <h2 class="ion-margin" *ngIf="title">{{title}}</h2>
+    <div [innerHtml]="content">
+    </div>
+</div>

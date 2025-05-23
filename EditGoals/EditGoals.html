@@ -1,0 +1,252 @@
+<ion-header class="ion-no-border header-top ion-hide-sm-up"> 
+    <ion-toolbar mode="md" color="pure-white">
+        <ion-buttons slot="start">
+            <ion-button routerDirection="back" (click)="openMenu()">
+                <ion-icon class="titleicon" src="assets/images/Union.svg" color="dark"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="dark" class="freedomtitle">
+            Goals
+        </ion-title>
+        <ion-avatar class="avatar-icon" (click)="openMenu()" slot="end">
+            <ion-img [src]="userAvatar || this.userSvc.defaultAvatar" alt="Image error" alt="image" (ionError)="img.src='assets/images/no_avatar.png';" #img>
+            </ion-img>
+          </ion-avatar>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="edit-profile-modal" id="contentgoals" #contentgoals>
+    <ion-item class="divider ion-hide-sm-up ion-margin-bottom"></ion-item>
+    <div class="freedom-background">
+    <ion-grid class="grid-mobile-padding">
+        <ion-row class="ion-hide-sm-down contentalign editheading">
+            <ion-col class="freedomtitle">
+                <ion-text>Goals & Preferences </ion-text>
+            </ion-col>
+        </ion-row>
+        <ion-row class="contentalign">
+            <ion-col>
+                <ion-card-title class="coretext">
+                    Core Personal Settings
+                </ion-card-title>
+            </ion-col>
+        </ion-row>
+        <ion-row class="contentalign ion-no-padding-top">
+            <ion-col>
+                <ion-card-subtitle>
+                    Set income and legacy goals, identify temperament, risk preferences and primary
+                    wealth strategy.
+                </ion-card-subtitle>
+            </ion-col>
+        </ion-row>
+    <form class="form-bio" #f="ngForm" *ngIf="bioForm" [formGroup]="bioForm"
+    (ngSubmit)="updateBio(f.value)">
+        <div class="goals-formgroup" formGroupName="goals">
+            <ng-container class="goals-container">
+                <ion-row class="contentalign">
+                    <ng-container *ngFor="let goal of goals">
+                        <ion-item class="divider fullitem" lines="none" 
+                    *ngIf="(goal.name === 'earnedIncomeOptimizationPlan' || goal.name === 'primaryWealthStrategy')"></ion-item>
+                    <ion-col  
+                    [attr.size-lg]="goal.name=='currentEarnedIncome'||goal.name=='earnedIncomeGoal'||goal.name=='primaryWealthStrategy'||goal.name=='secondaryWealthStrategy'||goal.type === 'boxselect'?'6':'12'" 
+                    [attr.size-md]="goal.name=='currentEarnedIncome'||goal.name=='earnedIncomeGoal'||goal.name=='primaryWealthStrategy'||goal.name=='secondaryWealthStrategy'||goal.type === 'boxselect'?'6':'12'"
+                    [attr.size-xl]="goal.name=='currentEarnedIncome'||goal.name=='earnedIncomeGoal'||goal.name=='primaryWealthStrategy'||goal.name=='secondaryWealthStrategy'||goal.type === 'boxselect'?'6':'12'" 
+                    size-sm="12" size-xs="12">
+                    <!--<h2 *ngIf="(goal.name === 'earnedIncomeOptimizationPlan')">Goals</h2>
+                    <h2 *ngIf="(goal.name === 'activePassivePreference')">Personal preferences</h2>-->
+                        <div *ngIf="(goal.type === 'select' || goal.type === 'boxselect')">
+                            <ion-label class="formLabel" position="stacked">
+                                {{goal.label}}
+                            </ion-label>
+
+                             <ion-item class="item-with-help-icon">
+                                <ion-select formControlName="{{goal.name}}" class="custom-select-class" mode="md" [interface]="platform.width()<640?'action-sheet':'popover'" [interfaceOptions]="platform.width()<640?'actionSheetOptions':popoverSheetOptions" value="monthly">
+                                    <ion-select-option value="{{goalOption.id}}" *ngFor="let goalOption of goalConstants[goal.name]">
+                                        {{goalOption.label}}
+                                    </ion-select-option>
+                                </ion-select>
+                            </ion-item> 
+
+                        </div>
+                        <!-- Primary Goal -->
+                        <!-- <div *ngIf="(goal.type === 'boxselect')">
+                            <div class="boxselect">
+                                <ion-label class="formLabel" position="stacked">
+                                    {{goal.label}}
+                                </ion-label>
+                            </div> -->
+                            <!-- <div *ngIf="(goal.name === 'primaryGoal')">
+                                <app-box-select class="boxselect ion-hide-sm-down" [options]="goalConstants[goal.name]" formControlName="{{goal.name}}"></app-box-select>
+                                <ion-item class="ion-hide-sm-up">
+                                    <ion-select mode="md" class="selectGoals custom-select-class" interface="action-sheet" formControlName="{{goal.name}}" [interfaceOptions]="goalsAlertOptions">
+                                        <ion-select-option value="{{goalOption.id}}" *ngFor="let goalOption of goalConstants[goal.name]">
+                                            {{goalOption.label}}
+                                        </ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </div>
+                            <div *ngIf="(goal.name === 'legacyModel')">
+                                <app-box-select [colsize]="'3'" class="boxselect ion-hide-sm-down" [options]="goalConstants[goal.name]" formControlName="{{goal.name}}"></app-box-select>
+                                <ion-item class="ion-hide-sm-up">
+                                    <ion-select mode="md" class="selectGoals custom-select-class" interface="action-sheet" formControlName="{{goal.name}}" [interfaceOptions]="goalsAlertOptions">
+                                        <ion-select-option value="{{goalOption.id}}" *ngFor="let goalOption of goalConstants[goal.name]">
+                                            {{goalOption.label}}
+                                        </ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </div> -->
+                            <!-- <app-box-select *ngIf="(goal.name !== 'primaryGoal' && goal.name !== 'legacyModel')" class="boxselect ion-hide-sm-down" [options]="goalConstants[goal.name]" formControlName="{{goal.name}}"></app-box-select> -->
+                            <!-- <ion-item>
+                                <ion-select mode="md" class="selectGoals custom-select-class" interface="action-sheet" formControlName="{{goal.name}}" [interfaceOptions]="goalsAlertOptions">
+                                    <ion-select-option value="{{goalOption.id}}" *ngFor="let goalOption of goalConstants[goal.name]">
+                                        {{goalOption.label}}
+                                    </ion-select-option>
+                                </ion-select>
+                            </ion-item>
+                        </div> -->
+                        <!-- Biggest Challenge -->
+                        <div *ngIf="(goal.type === 'textarea')">
+                            <ion-label class="formLabel" position="stacked">
+                                {{goal.label}}
+                            </ion-label>
+                            <ion-item>
+                                <ion-textarea class="goal-input" formControlName="{{goal.name}}" rows="4">
+                                </ion-textarea>
+                            </ion-item>
+                        </div>
+                        <div *ngIf="(goal.type === 'text')">
+                            <ion-label class="formLabel" position="stacked">
+                                {{goal.label}}
+                            </ion-label>
+                            <ion-item>
+                                <ion-input class="goal-input" formControlName="{{goal.name}}">
+                                </ion-input>
+                            </ion-item>
+                        </div>
+                        <div *ngIf="(goal.type === 'number')">
+                            <ion-label class="formLabel" position="stacked">
+                                {{goal.label}}
+                            </ion-label>
+                            <ion-item>
+                                <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+                                </ion-icon>
+                                <ion-input clearInput="false" name="currentBalance" mask="separator.2" thousandSeparator="," type="tel" inputmode="decimal" class="dollar-input"
+                                formControlName="{{goal.name}}">
+                                </ion-input>
+                            </ion-item>
+                        </div>
+                        <ng-container *ngIf="goal.type === 'readonly'">
+                            <ion-item mode="ios" (click)="openFreedomCalculator()" lines="full" class="cursor-pointer otherLinks" *ngIf="goal.name === 'resultFreedom'">
+                                <ion-label>
+                                    Freedom Number 
+                                </ion-label>
+                                <ion-text>
+                                    {{freedomNumber | currency : 'USD' : 'symbol' : '1.0-0'}}
+                                </ion-text>
+                                <ion-icon src="assets/icon/edit.svg" slot="end">
+                                </ion-icon>
+                            </ion-item>
+                            <ion-item mode="ios" (click)="openLifestyleCalculator()" lines="full" class="cursor-pointer otherLinks" *ngIf="goal.name === 'resultLifestyle'">
+                                <ion-label>
+                                    Lifestyle Number
+                                </ion-label>
+                                <ion-text>
+                                    {{lifestyleNumber | currency : 'USD' : 'symbol' : '1.0-0'}}
+                                </ion-text>
+                                <ion-icon src="assets/icon/edit.svg" slot="end">
+                                </ion-icon>
+                            </ion-item>
+                            <ng-container *ngFor="let customGoal of customGoals">
+                                <ion-item mode="ios" (click)="editGoal(customGoal)" lines="full" class="cursor-pointer otherLinks" *ngIf="goal.name === 'resultLifestyle'">
+                                    <ion-label>
+                                        {{customGoal?.label}}
+                                    </ion-label>
+                                    <ion-text>
+                                        {{customGoal?.value | currency : 'USD' : 'symbol' : '1.0-0'}}
+                                    </ion-text>
+                                    <ion-icon src="assets/icon/edit.svg" slot="end">
+                                    </ion-icon>
+                                    <ion-icon (click)="removeCustomGoal(customGoal?.label, $event)" class="customdelete" src="assets/icon/trash.svg" slot="end">
+                                    </ion-icon>
+                                </ion-item>
+                            </ng-container>
+                            <ion-item mode="md" button="true" lines="none" class="customadd range cursor-pointer" 
+                            (click)="bluractive()"
+                            *ngIf="customGoals?.length < customGoalsLimit && goal.name === 'resultLifestyle'">
+                                <ion-icon name="add" slot="start" color="success"></ion-icon>
+                                <strong>Add a custom Unearned Income goal</strong>
+                            </ion-item>
+                        </ng-container>
+                    </ion-col>
+                </ng-container>
+                </ion-row>
+            </ng-container>
+        </div>
+    </form>
+</ion-grid>
+    <ion-button mode="ios" shape="round" type="button" class="save ion-margin contentalignbutton actionBtn ion-hide-sm-down" (click)="updateBio(bioForm.value)">
+        Save changes
+    </ion-button>
+    <ion-button mode="ios" shape="round" type="button" class="cancel ion-margin actionBtn ion-hide-sm-down" (click)="goBack()">
+        Cancel
+    </ion-button>
+    <ion-button mode="ios" shape="round" type="button" class="save ion-margin contentalignbutton fullbtn ion-hide-sm-up" (click)="updateBio(bioForm.value)">
+        Save changes
+    </ion-button>
+    <ion-button mode="ios" shape="round" type="button" class="cancel ion-margin fullbtn ion-hide-sm-up" (click)="goBack()">
+        Cancel
+    </ion-button>
+    </div>
+    <ion-modal
+     id="customaccount" class="customaccount" [isOpen]="openCustom" (didDismiss)="modalDismiss()">
+        <ng-template>
+            <ion-content scrollY="false">
+                <ion-icon class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon>
+                <div class="contentdiv">
+                    <h2 *ngIf="!currentGoal">New custom Goal</h2>
+                    <div *ngIf="!currentGoal" class="subheading">Add a custom goal and amount.</div>
+                    <h2 *ngIf="currentGoal">Edit custom Goal</h2>
+                    <div *ngIf="currentGoal" class="subheading">Edit custom goal and amount.</div>
+                <div class="modeldivider"></div>
+                    <form>
+                        <div class="enterPercent">
+                            <ion-item lines="none">
+                                <ion-input type="text" class="dollar-input" autofocus="true"
+                                name="goalLabel" placeholder="Goal title" [(ngModel)]="goalLabel" #goalLabelInput>
+                                </ion-input>
+                            </ion-item>
+                            <ion-item class="ion-margin-top" lines="none">
+                                <ion-icon src="assets/icon/Dollar.svg" color="success" slot="start">
+                                </ion-icon>
+                                <ion-input mask="separator.2" thousandSeparator="" type="tel" inputmode="decimal" class="dollar-input"
+                                name="goalValue" value="0" [(ngModel)]="goalValue" debounce="50" (ngModelChange)="customChnage()" #goalValueInput>
+                                </ion-input>
+                            </ion-item>
+                        </div>
+                    </form>
+                </div>
+                <ion-row class="buttonrow">
+                    <ion-col class="savecol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                        <ion-button *ngIf="!currentGoal" mode="ios" class="modalsave fullwidth" (click)="addCustomGoal()" disabled="true" #savebtn>Create goal</ion-button>
+                        <ion-button *ngIf="currentGoal" mode="ios" class="modalsave fullwidth" (click)="addCustomGoal()" disabled="true" #savebtn>Edit goal</ion-button>
+                    </ion-col>
+                    <ion-col class="cancelcol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                        <ion-button mode="ios" type="button" class="modalcancel fullwidth" (click)="modalDismiss()">
+                            Cancel
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </ion-content>
+        </ng-template>
+    </ion-modal>
+    <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+        <ion-fab-button color="new-dark" (click)="openTutorial()">
+          <ion-icon src="assets/icon/education.svg"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+</ion-content>
+<ion-footer>
+    <div>
+        <bottom-menu>
+        </bottom-menu>
+    </div>
+</ion-footer>

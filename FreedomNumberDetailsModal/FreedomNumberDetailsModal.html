@@ -1,0 +1,132 @@
+<ion-header>
+    <ion-toolbar #j_459 color="primary">
+        <ion-title #j_460 color="dark">
+            Freedom Number Modal
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="freedom-number-details-content">
+    <div #j_446>
+        <ion-collapsible-card cardTitle="Tutorial" cardContentTitle="">
+            <p>
+                Your Freedom Number is the minimum monthly Unearned Income (money that works for
+                you) needed to cover your core needs. It is the first specific target number and
+                milestone in the TWF money mastery system and is used to plot your financial independence
+                plan.
+            </p>
+            <p>
+                Using Maslow's Hierarchy of Needs model (ie; “food, clothing, shelter”), we make
+                a clear distinction between Freedom (core needs) and Lifestyle (luxury wants).
+            </p>
+            <p>
+                Ie; If my core needs are covered, I no longer need to “work for money”, I am free
+                to contribute to society or follow a passion. I am working for fulfillment not survival.
+                If for some reason I cannot physically work, my core needs are covered.
+            </p>
+            <p>
+                How it’s used. Your Freedom Number is used to plot your progress when running calculations
+                and projections on your existing Assets as well as “forecasting” and running simulations
+                on possible a/b “what if” scenarios.
+            </p>
+            <p>
+            </p>
+            <style>
+                .embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow:
+                hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container
+                embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+            </style>
+            <div class='embed-container'>
+                <iframe src='https://player.vimeo.com/video/432572346' frameborder='0' webkitAllowFullScreen
+                mozallowfullscreen allowFullScreen>
+                </iframe>
+            </div>
+        </ion-collapsible-card>
+    </div>
+    <ion-grid #j_447>
+        <ion-row #j_448 class="ion-wrap">
+            <ion-col #j_449 size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                <form #j_450>
+                    <ion-item #j_451__ion4Item>
+                        <ion-label #j_451__ion4Label position="floating">
+                            Housing
+                        </ion-label>
+                        <ion-icon #j_451__icon ngClass="dollar" name="logo-usd" slot="start" color="dark">
+                        </ion-icon>
+                        <ion-input #j_451 clearOnEdit="true" type="number" class="dollar-input" name="housing"
+                        [(ngModel)]="data.housing" (ionChange)="calculate()">
+                        </ion-input>
+                    </ion-item>
+                    <ion-item #j_452__ion4Item>
+                        <ion-label #j_452__ion4Label position="floating">
+                            Food
+                        </ion-label>
+                        <ion-icon #j_452__icon ngClass="dollar" name="logo-usd" slot="start" color="dark">
+                        </ion-icon>
+                        <ion-input #j_452 clearOnEdit="true" type="number" class="dollar-input" name="food"
+                        [(ngModel)]="data.food" (ionChange)="calculate()">
+                        </ion-input>
+                    </ion-item>
+                    <ion-item #j_453__ion4Item>
+                        <ion-label #j_453__ion4Label position="floating">
+                            Utilities
+                        </ion-label>
+                        <ion-icon #j_453__icon ngClass="dollar" name="logo-usd" slot="start" color="dark">
+                        </ion-icon>
+                        <ion-input #j_453 clearOnEdit="true" type="number" class="dollar-input" name="utilities"
+                        [(ngModel)]="data.utilities" (ionChange)="calculate()">
+                        </ion-input>
+                    </ion-item>
+                    <ion-item #j_454__ion4Item>
+                        <ion-label #j_454__ion4Label position="floating">
+                            Transportation
+                        </ion-label>
+                        <ion-icon #j_454__icon ngClass="dollar" name="logo-usd" slot="start" color="dark">
+                        </ion-icon>
+                        <ion-input #j_454 clearOnEdit="true" type="number" class="dollar-input" name="transportation"
+                        [(ngModel)]="data.transportation" (ionChange)="calculate()">
+                        </ion-input>
+                    </ion-item>
+                    <ion-item #j_455__ion4Item>
+                        <ion-label #j_455__ion4Label position="floating">
+                            Other
+                        </ion-label>
+                        <ion-icon #j_455__icon ngClass="dollar" name="logo-usd" slot="start" color="dark">
+                        </ion-icon>
+                        <ion-input #j_455 clearOnEdit="true" type="number" class="dollar-input" name="other"
+                        [(ngModel)]="data.other" (ionChange)="calculate()">
+                        </ion-input>
+                    </ion-item>
+                </form>
+            </ion-col>
+            <ion-col #j_456 size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                <ion-item #j_457__ion4Item disabled="false">
+                    <ion-label #j_457__ion4Label color="danger" slot="start">
+                        Freedom Number:
+                    </ion-label>
+                    <ion-icon #j_457__icon name="logo-usd" color="dark">
+                    </ion-icon>
+                    <ion-input #j_457 placeholder="Enter text" readonly="true" type="number" [(ngModel)]="data.result">
+                    </ion-input>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+<ion-footer>
+    <ion-grid #j_462>
+        <ion-row #j_463>
+            <ion-col #j_464 class="ion-no-padding">
+                <ion-button #j_465 color="primary" expand="block" type="button" class="ion-margin"
+                (click)="close()">
+                    Cancel
+                </ion-button>
+            </ion-col>
+            <ion-col #j_466 class="ion-no-padding">
+                <ion-button #j_467 color="primary" expand="block" type="button" class="ion-margin"
+                (click)="saveToAccount()">
+                    Save To Profile
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-footer>

@@ -1,0 +1,10 @@
+<ion-grid class="ion-no-padding">
+  <ion-row>
+    <ion-col *ngFor="let option of options" class="ion-no-padding" sizeLg="{{colsize}}" sizeMd="{{colsize}}" size-sm="12" sizeXl="{{colsize}}" size-xs="12">
+      <div class="optionbox cursor-pointer" (click)="selectValue(option, $event)" [ngClass]="val===option?.value||val===option?.label||val==option?.id?'optionselected':''">
+        <h2 *ngIf="option.label">{{option.label}}</h2>
+        <p *ngIf="option.description">{{option.description}}</p>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>

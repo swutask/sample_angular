@@ -1,0 +1,117 @@
+<ion-content>
+  <ion-progress-bar class="barprogress" color="main-theme ion-hide-sm-down" value="0.62"></ion-progress-bar>
+  <ion-chip class="mainprogress ion-hide-sm-down">62%</ion-chip>
+  <ion-img src="assets/images/logo_placeholder.svg" alt="Image error" class="logo_placeholder ion-hide-sm-down">
+  </ion-img>
+  <ion-item class="itemHeader ion-hide-sm-up" lines="none">
+    <ion-buttons slot="start" class="backbox">
+      <ion-button color="light" routerDirection="back" (click)="back()">
+        <ion-icon src="assets/icon/arrowback.svg">
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-progress-bar class="barprogress" color="main-theme" value="0.62"></ion-progress-bar>
+  </ion-item>
+  <ion-chip class="mainprogress ion-hide-sm-up">62%</ion-chip>
+  <h2 class="ion-hide-sm-up">Lifestyle number</h2>
+  <ion-img src="assets/images/lifestyle.png" class="income"></ion-img>
+  <div class="backBtn cursor-pointer ion-hide-sm-down" (click)="back()">
+    <ion-icon src="assets/icon/arrowback.svg" color="light"></ion-icon>
+  </div>
+  <div class="incomeform">
+    <div class="freedomtext">
+      <p>
+        Let's identify your Lifestyle Number!
+      </p>
+      <ion-icon name="help-circle-outline" helpText="Your Lifestyle Number is the total monthly Unearned Income (money that works for you) to cover wants and luxuries. It is the second specific target number and milestone in the TWF money mastery system and is used to plot your financial independence plan."
+        color="main-theme" class="ion-icon-small cursor-pointer" src="assets/icon/info.svg">
+      </ion-icon>
+    </div>
+    <div class="subtitle"> Amount needed monthly to cover luxuries</div>
+    <ion-segment (ionChange)="segmentChanged($event)" mode="ios" [(ngModel)]="split" [value]="split">
+      <ion-segment-button [value]="false">
+        <ion-label>Overall amount</ion-label>
+      </ion-segment-button>
+      <ion-segment-button [value]="true">
+        <ion-label>Split </ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-item lines="none" *ngIf="!split">
+      <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+      </ion-icon>
+      <ion-input mask="separator.2" type="tel" inputmode="decimal" placeholder="0" [(ngModel)]="overall"
+      class="dollar-input" name="earnedIncome" (ionChange)="calculate()">
+      </ion-input>
+    </ion-item>
+
+    <div class="overall" *ngIf="split">
+      Overall amount: {{data.result | currency : 'USD' : 'symbol' : '1.0-0'}}
+    </div>
+
+    <form class="labeltop" *ngIf="split">
+      <ion-label position="stacked">
+        Freedom Number
+    </ion-label>
+    <ion-item disabled="false" class="freedomnumber" lines="none">
+        <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="dark">
+        </ion-icon>
+        <ion-input readonly="true" mask="separator.2" type="tel" inputmode="decimal" class="dollar-input" (click)="back()"
+        name="freedomNumberRounded" [(ngModel)]="freedomNumberRounded">
+        </ion-input>
+    </ion-item>
+    <ion-label position="stacked">
+        Travel
+    </ion-label>
+    <ion-item lines="none">
+        <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+        </ion-icon>
+        <ion-input mask="separator.2" type="tel" inputmode="decimal" class="dollar-input" name="travel"
+        [(ngModel)]="data.travel" (ionChange)="calculate()">
+        </ion-input>
+    </ion-item>
+    <ion-label position="stacked">
+        Shopping
+    </ion-label>
+    <ion-item lines="none">
+        <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+        </ion-icon>
+        <ion-input mask="separator.2" type="tel" inputmode="decimal" class="dollar-input" name="shopping"
+        [(ngModel)]="data.shopping" (ionChange)="calculate()">
+        </ion-input>
+    </ion-item>
+    <ion-label position="stacked">
+        Entertainment
+    </ion-label>
+    <ion-item lines="none">
+        <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+        </ion-icon>
+        <ion-input mask="separator.2" type="tel" inputmode="decimal" class="dollar-input" name="entertainment"
+        [(ngModel)]="data.entertainment" (ionChange)="calculate()">
+        </ion-input>
+    </ion-item>
+    <ion-label position="stacked">
+        Other
+    </ion-label>
+    <ion-item lines="none">
+        <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+        </ion-icon>
+        <ion-input mask="separator.2" type="tel" inputmode="decimal" class="dollar-input" name="other"
+        [(ngModel)]="data.other" (ionChange)="calculate()">
+        </ion-input>
+    </ion-item>
+    </form>
+
+
+    <ion-button mode="ios" shape="round" class="save ion-hide-sm-down" (click)="saveToAccount()">
+      Continue
+      <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+    </ion-button>
+    <div class="ion-text-center">
+      <ion-button mode="ios" shape="round" class="save ion-margin-top fullbtn ion-hide-sm-up" (click)="saveToAccount()">
+        Continue
+        <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

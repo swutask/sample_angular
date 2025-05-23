@@ -1,0 +1,29 @@
+<ion-header>
+    <ion-toolbar #j_441 color="primary">
+        <ion-title #j_443 color="dark" class="navbar-title">
+            Wealth Builder
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-img #j_432 src="assets/images/login_logo_2x.png" alt="Image error" class="login-logo">
+    </ion-img>
+    <p #j_433 class="login-slogan">
+        Please enter your validation code.
+    </p>
+    <div #j_434 class="login-form" novalidate="" [formGroup]="fm">
+        <ion-item #j_436__ion4Item>
+            <ion-label #j_436__ion4Label position="floating">
+                Code
+            </ion-label>
+            <ion-input type="number" (keyup.enter)="confirmCode()" #j_436 formControlName="code" name="code">
+            </ion-input>
+        </ion-item>
+        <ion-button #j_437 expand="block" (click)="confirmCode()">
+            Submit
+        </ion-button>
+        <p #j_438 class="forgot-password" (click)="sendOTP()">
+            Resend Code
+        </p>
+    </div>
+</ion-content>

@@ -1,0 +1,741 @@
+<ion-header class="ion-hide-sm-up">
+  <ion-toolbar>
+    <ion-buttons *ngIf="!nameOrEmailEmpty" slot="start" class="backBtn">
+      <ion-button
+        color="dark"
+        routerDirection="back"
+        (click)="goBack()"
+        class="backbtn"
+      >
+        <ion-icon src="assets/icon/arrowback.svg" class="arrow-icon">
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title color="dark " class="backTitle"> Profile </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="edit-profile-modal">
+  <div class="main-container">
+    <ion-header class="ion-hide-sm-down">
+      <ion-toolbar>
+        <ion-buttons *ngIf="!nameOrEmailEmpty" slot="start" class="backBtn">
+          <ion-button
+            color="dark"
+            routerDirection="back"
+            (click)="goBack()"
+            class="backbtn"
+          >
+            <ion-icon src="assets/icon/arrowback.svg" class="arrow-icon">
+            </ion-icon>
+          </ion-button>
+        </ion-buttons>
+        <ion-title color="dark " class="backTitle"> Profile </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <form
+      class="form-bio"
+      #f="ngForm"
+      (ngSubmit)="updateBio(f.value)"
+      [formGroup]="bioForm"
+    >
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12" size-md="6">
+            <div class="img-section">
+              <div class="avtar-main">
+                <ion-avatar class="avatar" *ngIf="avatarUrl">
+                  <ion-img
+                    [src]="avatarUrl"
+                    alt="Image error"
+                    openAvatarActionSheet="changeAvatar()"
+                    (click)="openAvatarActionSheet()"
+                  >
+                  </ion-img>
+                </ion-avatar>
+                <div
+                  class="no-avatar"
+                  (click)="openAvatarActionSheet()"
+                  *ngIf="!avatarUrl"
+                ></div>
+                <ion-button
+                  buttonType="button"
+                  color="light"
+                  strong="true"
+                  class="ion-text-end editBtn zeroPadding"
+                  (click)="openAvatarActionSheet()"
+                >
+                  <ion-icon
+                    src="assets/icon/white-edit.svg"
+                    slot="end"
+                    class="edit-pencil"
+                  >
+                  </ion-icon>
+                </ion-button>
+                <input
+                  type="file"
+                  #imageuploader
+                  hidden
+                  (change)="onImageFileChange()"
+                />
+              </div>
+            </div>
+          </ion-col>
+          <ion-col size="12" class="mob-join">
+            <p class="joinDate">
+              <ion-icon src="assets/icon/Date.svg" class="clndrIcon"></ion-icon>
+              Joined: {{joinDate}}
+            </p>
+          </ion-col>
+
+          <ion-col size="12" size-md="6">
+            <fieldset formGroupName="profile" class="profile-form">
+              <ion-item class="default-border zeroPadding">
+                <ion-label position="stacked" class="label">
+                  First Name
+                </ion-label>
+                <ion-input
+                  autocapitalize="On"
+                  class="capitalize input-border zeroPadding"
+                  formControlName="firstName"
+                  placeholder="First name"
+                >
+                </ion-input>
+              </ion-item>
+              <ion-item class="default-border zeroPadding">
+                <ion-label position="stacked" class="label">
+                  Last Name
+                </ion-label>
+                <ion-input
+                  autocapitalize="On"
+                  class="capitalize input-border zeroPadding"
+                  formControlName="lastName"
+                  placeholder="Last name"
+                >
+                </ion-input>
+              </ion-item>
+            </fieldset>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <div class="borderHr"></div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-grid class="desk-join">
+        <ion-row>
+          <ion-col>
+            <p class="joinDate">
+              <ion-icon src="assets/icon/Date.svg" class="clndrIcon"></ion-icon>
+              Joined: {{joinDate}}
+            </p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <fieldset formGroupName="profile" class="profile-form">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" size-md="6" class="field-col">
+              <ion-item class="default-border zeroPadding">
+                <ion-label position="stacked" class="label"> Bio </ion-label>
+                <ion-input
+                  autocapitalize="on"
+                  autocomplete="on"
+                  autocorrect="on"
+                  type="text"
+                  formControlName="bio"
+                  class="capitalize input-border zeroPadding"
+                  placeholder="Type"
+                >
+                </ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" class="field-col">
+              <ion-item class="default-border zeroPadding">
+                <ion-label position="stacked" class="label">
+                  Location
+                </ion-label>
+                <ion-input
+                  autocomplete="on"
+                  autocorrect="on"
+                  placeholder="Type"
+                  formControlName="location"
+                  class="capitalize input-border zeroPadding"
+                >
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="12" size-md="6" class="field-col">
+              <div class="edit-feild">
+                <ion-item class="default-border zeroPadding">
+                  <ion-label position="stacked" class="label">
+                    Phone
+                  </ion-label>
+                  <div class="w-100">
+                    <ion-intl-tel-input
+                      [preferredCountries]="preferredCountries"
+                      defaultCountryiso="us"
+                      inputPlaceholder=" "
+                      modalCssClass="param"
+                      class="capitalize input-border zeroPadding phone-field"
+                      formControlName="phone"
+                    >
+                    </ion-intl-tel-input>
+                  </div>
+                </ion-item>
+                <ion-icon
+                  (click)="openEditPhoneNumberModal()"
+                  class="input-edit-button edit-pencil pointer"
+                  src="assets/icon/edit.svg"
+                ></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col size="12" size-md="6" class="field-col">
+              <div class="edit-feild">
+                <ion-item class="default-border zeroPadding">
+                  <ion-label position="stacked" class="label">
+                    Email
+                  </ion-label>
+                  <div class="w-100">
+                    <ion-input
+                      autocomplete="on"
+                      autocorrect="on"
+                      type="email"
+                      formControlName="email"
+                      class="capitalize input-border zeroPadding"
+                      placeholder="Enter your email"
+                      [disabled]="true"
+                    >
+                    </ion-input>
+                  </div>
+                </ion-item>
+                <ion-icon
+                  src="assets/icon/edit.svg"
+                  (click)="toggleEdit()"
+                  class="input-edit-button edit-pencil pointer"
+                ></ion-icon>
+              </div>
+            </ion-col>
+
+            <ion-col size="12" size-md="6" class="field-col">
+              <ion-item class="default-border zeroPadding">
+                <ion-label position="stacked" class="label">
+                  Website
+                </ion-label>
+                <ion-input
+                  autocomplete="on"
+                  autocorrect="on"
+                  type="url"
+                  formControlName="website"
+                  class="capitalize input-border zeroPadding"
+                  placeholder="Type"
+                >
+                </ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" class="field-col">
+              <ion-item class="default-border zeroPadding">
+                <div class="date-container">
+                  <ion-label position="stacked" class="label">
+                    Birthday
+                  </ion-label>
+                  <div class="date-fields">
+                    <ion-select
+                      (ionChange)="handleChange($event, 'month')"
+                      mode="md"
+                      [interface]="platform.width()<640?'action-sheet':'popover'"
+                      [interfaceOptions]="platform.width()<640?'actionSheetOptions':popoverSheetOptions"
+                      [value]="month"
+                      okText="Okay"
+                      cancelText="Dismiss"
+                      class="capitalize input-border zeroPadding date-selector"
+                    >
+                      <ion-select-option value="">Month</ion-select-option>
+                      <ion-select-option
+                        *ngFor="let _month of months"
+                        value="{{_month.value}}"
+                        >{{_month.label}}</ion-select-option
+                      >
+                    </ion-select>
+
+                    <ion-select
+                      (ionChange)="handleChange($event, 'day')"
+                      mode="md"
+                      [interface]="platform.width()<640?'action-sheet':'popover'"
+                      [interfaceOptions]="platform.width()<640?'actionSheetOptions':popoverSheetOptions"
+                      [value]="day"
+                      okText="Okay"
+                      cancelText="Dismiss"
+                      class="capitalize input-border zeroPadding date-selector"
+                    >
+                      <ion-select-option value="">Day</ion-select-option>
+                      <ion-select-option
+                        *ngFor="let _day of days"
+                        value="{{_day}}"
+                        >{{_day}}</ion-select-option
+                      >
+                    </ion-select>
+
+                    <ion-select
+                      (ionChange)="handleChange($event, 'year')"
+                      mode="md"
+                      [interface]="platform.width()<640?'action-sheet':'popover'"
+                      [interfaceOptions]="platform.width()<640?'actionSheetOptions':popoverSheetOptions"
+                      [value]="year"
+                      okText="Okay"
+                      cancelText="Dismiss"
+                      class="capitalize input-border zeroPadding date-selector"
+                    >
+                      <ion-select-option value="">Year</ion-select-option>
+                      <ion-select-option
+                        *ngFor="let _year of years"
+                        value="{{_year}}"
+                        >{{_year}}</ion-select-option
+                      >
+                    </ion-select>
+                  </div>
+                </div>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="12" size-md="6" class="field-col">
+              <ion-item class="default-border zeroPadding">
+                <ion-label position="stacked" class="label"> Sex </ion-label>
+                <div class="gender-main input-border">
+                  <span
+                    (click)="HandleGender('male')"
+                    [ngClass]="{'capitalize zeroPadding': true, 'selected-gen': gender == 'male'}"
+                  >
+                    <ion-icon name="male-outline" class="genderIcon">
+                    </ion-icon>
+                    Male
+                  </span>
+                  <span
+                    (click)="HandleGender('female')"
+                    [ngClass]="{'capitalize zeroPadding': true, 'selected-gen': gender == 'female'}"
+                  >
+                    <ion-icon name="female-outline" class="genderIcon">
+                    </ion-icon>
+                    Female
+                  </span>
+                </div>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" class="field-col">
+              <ion-label position="stacked" class="label">
+                Time Zone
+              </ion-label>
+              <ion-select
+                      formControlName="timeZone"
+                      mode="md"
+                      [interface]="platform.width()<640?'action-sheet':'popover'"
+                      [interfaceOptions]="platform.width()<640?'actionSheetOptions':popoverSheetOptions"
+                      okText="Okay"
+                      cancelText="Dismiss"
+                      class="capitalize input-border zeroPadding date-selector"
+                    >
+                      <ion-select-option value="">Select Timezone</ion-select-option>
+                      <ion-select-option
+                        *ngFor="let timezone of timezones"
+                        value="{{timezone.value}}"
+                        >{{ timezone.display }}</ion-select-option
+                      >
+                </ion-select>
+            </ion-col>
+            <ion-col size="12" class="field-col"></ion-col>
+            <ion-text
+              class="delete cursor-pointer ion-hide-sm-up"
+              (click)="deleteConfirmation($event)"
+            >
+              Delete my data
+            </ion-text>
+          </ion-row>
+        </ion-grid>
+
+        <ion-grid *ngIf="hasAccessToAdmin()">
+          <h2>Admin Only Links</h2>
+          <ion-row class="pointer">
+            <ion-col>
+              <ion-item
+                detailIcon="none"
+                routerDirection="forward"
+                detailIcon="none"
+                class="menu-item"
+                [routerLink]="['/calculatorslegacy']"
+                *ngIf="hasAccessToAdmin()"
+                lines="none"
+              >
+                <ion-icon
+                  name="calculator"
+                  slot="start"
+                  class="icon"
+                ></ion-icon>
+                <ion-label>Calculators (Legacy)</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row class="pointer">
+            <ion-col>
+              <ion-item
+                detailIcon="none"
+                routerDirection="forward"
+                detailIcon="none"
+                class="menu-item"
+                [routerLink]="['/checklist']"
+                *ngIf="hasAccessToAdmin()"
+                lines="none"
+              >
+                <ion-icon
+                  name="checkmark-circle-outline"
+                  slot="start"
+                  class="icon"
+                ></ion-icon>
+                <ion-label>Checklist</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row class="pointer">
+            <ion-col>
+              <ion-item
+                detailIcon="none"
+                routerDirection="root"
+                detailIcon="none"
+                class="menu-item"
+                (click)="openAdmin()"
+                *ngIf="hasAccessToAdmin()"
+                lines="none"
+              >
+                <ion-icon name="construct" slot="start" class="icon">
+                </ion-icon>
+                <ion-label>Admin (legacy Appery admin app)</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row class="pointer">
+            <ion-col>
+              <ion-item
+                detailIcon="none"
+                routerDirection="root"
+                detailIcon="none"
+                class="menu-item"
+                (click)="showDeletePlaid()"
+                *ngIf="hasAccessToAdmin()"
+                lines="none"
+              >
+                <ion-icon name="trash-outline" slot="start" class="icon">
+                </ion-icon>
+                <ion-label>Delete Plaid Item</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row class="pointer">
+            <ion-col>
+              <ion-item
+                detailIcon="none"
+                routerDirection="root"
+                detailIcon="none"
+                class="menu-item"
+                *ngIf="hasAccessToAdmin()"
+                (click)="bitrixToWbSync()"
+                lines="none"
+              >
+                <ion-icon name="sync" slot="start" class="icon"> </ion-icon>
+                <ion-label>On Demand Sync Bitrix with WB DB/Cognito</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" class="field-col">
+              <div class="btn-main">
+                <ion-button
+                  [disabled]="!(this.bioForm.getRawValue().profile.firstName?.trim() && this.bioForm.getRawValue().profile.email?.trim())"
+                  type="button"
+                  class="saveBtn btns"
+                  (click)="updateBio(f.value)"
+                >
+                  Save changes
+                </ion-button>
+                <ion-button class="cancelBtn btns" (click)="goBack()">
+                  Cancel
+                </ion-button>
+
+                <!-- <ion-button class="btns" id="checkout-and-portal-button" (click)="goToPortal()">
+                                    Billing
+                                </ion-button> -->
+
+                <ion-text
+                  class="delete cursor-pointer ion-hide-sm-down"
+                  (click)="deleteConfirmation($event)"
+                >
+                  Delete my data
+                </ion-text>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </fieldset>
+    </form>
+  </div>
+
+  <ion-modal class="birthday-picker" trigger="open-modal">
+    <ng-template>
+      <ion-content>
+        <ion-datetime
+          mode="md"
+          presentation="date"
+          size="cover"
+          showDefaultButtons="true"
+          [value]="birthdayValue"
+          (ionChange)="changeBirthdayDate(birthdayPicker.value)"
+          #birthdayPicker
+        >
+        </ion-datetime>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal
+    mode="ios"
+    reference="event"
+    id="deleteprofile"
+    class="customaccount"
+    [isOpen]="isDeleteModalOpen"
+    (didDismiss)="popDismiss()"
+  >
+    <ng-template>
+      <ng-container *ngTemplateOutlet="deleteAccountBox"> </ng-container>
+    </ng-template>
+  </ion-modal>
+
+  <ion-popover
+    mode="ios"
+    reference="event"
+    id="deleteprofile"
+    class="customaccount"
+    [isOpen]="isDeletePopOpen"
+    (didDismiss)="popDismiss()"
+  >
+    <ng-template>
+      <ng-container *ngTemplateOutlet="deleteAccountBox"> </ng-container>
+    </ng-template>
+  </ion-popover>
+
+  <ng-template #deleteAccountBox>
+    <ion-content scrollY="false">
+      <ion-icon
+        *ngIf="isDeleteModalOpen"
+        class="ion-hide-sm-up mobilehandle"
+        src="assets/icon/Handle.svg"
+      ></ion-icon>
+      <div class="contentdiv delete-modal">
+        <div>
+          <h2>{{deleteConfirmationHeader}}</h2>
+          <h3 style="font-size: 14px">{{deleteConfirmationMsg}}</h3>
+        </div>
+
+        <ion-input
+          type="text"
+          [(ngModel)]="deleteText"
+          maxLength="6"
+          class="capitalize input-border"
+        ></ion-input>
+      </div>
+
+      <ion-row class="buttonrow">
+        <ion-col
+          class="savecol"
+          size-lg="6"
+          size-md="6"
+          size-sm="12"
+          size-xl="6"
+          size-xs="12"
+        >
+          <ion-button
+            [disabled]="deleteText!=='DELETE'"
+            mode="ios"
+            class="modalsave fullwidth"
+            (click)="deleteConfirmed()"
+            #savebtn
+            >Yes, delete</ion-button
+          >
+        </ion-col>
+        <ion-col
+          class="cancelcol"
+          size-lg="6"
+          size-md="6"
+          size-sm="12"
+          size-xl="6"
+          size-xs="12"
+        >
+          <ion-button
+            mode="ios"
+            type="button"
+            class="modalcancel fullwidth"
+            (click)="popDismiss()"
+          >
+            Cancel
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-content>
+  </ng-template>
+
+  <ion-popover
+    mode="ios"
+    reference="event"
+    id="customaccount"
+    class="customaccount sideOffset"
+    [isOpen]="isDeletePlaidItemPopOpen"
+    (didDismiss)="popDismiss()"
+  >
+    <ng-template>
+      <ng-container *ngTemplateOutlet="deletePlaidItem"> </ng-container>
+    </ng-template>
+  </ion-popover>
+
+  <ion-modal
+    mode="ios"
+    reference="event"
+    id="customaccount"
+    class="customaccount"
+    [isOpen]="isDeletePlaidItemModalOpen"
+    (didDismiss)="popDismiss()"
+  >
+    <ng-template>
+      <ng-container *ngTemplateOutlet="deletePlaidItem"> </ng-container>
+    </ng-template>
+  </ion-modal>
+
+  <ng-template #deletePlaidItem>
+    <ion-content scrollY="false">
+      <div class="contentdiv">
+        <div>
+          <h2 style="font-size: 19px">Enter Plaid Item Id to delete</h2>
+          <h6>All accounts related to Plaid Item will be deleted</h6>
+          <div class="enterPercent">
+            <ion-item lines="none">
+              <ion-input
+                type="text"
+                class="dollar-input"
+                autofocus="true"
+                name="plaidItem"
+                placeholder="Enter Id"
+                [(ngModel)]="plaidItem"
+                #plaidItemInput
+              >
+              </ion-input>
+            </ion-item>
+          </div>
+        </div>
+      </div>
+
+      <ion-row class="buttonrow">
+        <ion-col
+          class="savecol"
+          size-lg="6"
+          size-md="6"
+          size-sm="12"
+          size-xl="6"
+          size-xs="12"
+        >
+          <ion-button
+            mode="ios"
+            class="modalsave fullwidth"
+            [disabled]="plaidItem==''"
+            (click)="deletePlaidItemById()"
+            #savebtn
+            >Ok</ion-button
+          >
+        </ion-col>
+        <ion-col
+          class="cancelcol"
+          size-lg="6"
+          size-md="6"
+          size-sm="12"
+          size-xl="6"
+          size-xs="12"
+        >
+          <ion-button
+            mode="ios"
+            type="button"
+            class="modalcancel fullwidth"
+            (click)="popDismiss()"
+          >
+            Cancel
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-content>
+  </ng-template>
+
+  <ion-popover
+    mode="ios"
+    reference="event"
+    id="customeditaccount"
+    class="customaccount sideOffset"
+    [isOpen]="isReviewDeletedAccountPopOpen"
+    (didDismiss)="popDismiss()"
+  >
+    <ng-template>
+      <ng-container *ngTemplateOutlet="reviewDeletedAccount"> </ng-container>
+    </ng-template>
+  </ion-popover>
+
+  <ion-modal
+    mode="ios"
+    reference="event"
+    id="customeditaccount"
+    class="customaccount"
+    [isOpen]="isReviewDeletedAccountModalOpen"
+    (didDismiss)="popDismiss()"
+  >
+    <ng-template>
+      <ng-container *ngTemplateOutlet="reviewDeletedAccount"> </ng-container>
+    </ng-template>
+  </ion-modal>
+
+  <ng-template #reviewDeletedAccount>
+    <ion-content scrollY="false" class="ion-padding-new">
+      <ion-icon
+        class="ion-hide-sm-up mobilehandle"
+        src="assets/icon/Handle.svg"
+      ></ion-icon>
+      <div class="contentdiv">
+        <h2>Following accounts were deleted</h2>
+        <div class="modeldivider"></div>
+        <div *ngFor="let account of deletedAccounts">
+          <div>
+            {{account?.name + ' - ' + (account?.currentBalance | currency :
+            'USD' : 'symbol' : '1.0-0')}}
+          </div>
+        </div>
+      </div>
+      <ion-row class="buttonrow">
+        <ion-col
+          class="savecol"
+          size-lg="12"
+          size-md="12"
+          size-sm="12"
+          size-xl="12"
+          size-xs="12"
+        >
+          <ion-button
+            mode="ios"
+            class="modalsave fullwidth"
+            (click)="popDismiss()"
+            #savebtn
+            >Ok</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-content>
+  </ng-template>
+</ion-content>

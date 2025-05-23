@@ -1,0 +1,25 @@
+<ion-content>
+  <ion-progress-bar class="barprogress" color="light" value="1"></ion-progress-bar>
+  <ion-chip class="mainprogress">100%</ion-chip>
+  <ion-img src="assets/images/logo_placeholder.svg" alt="Image error" class="logo_placeholder ion-hide-sm-down">
+  </ion-img>
+  <div class="vertical-mobile">
+  <ion-img src="assets/images/cup.svg" alt="Image error" class="cup">
+  </ion-img>
+  <div class="congrats">
+    <h2> Congratulations!</h2>
+    <h2>You finished the first part of the onboarding!</h2>
+    <p>Continue to view your Dashboard. When ready, select Balance Sheet to add more asset and liability accounts. Continue adding until you have an exact and accurate picture of your current situation. Then you'll experience the full power of Wealth Builder's ratio based money management tools! </p>
+  </div>
+  <div class="ion-text-center">
+    <ion-button mode="ios" shape="round" class="cancel ion-hide-sm-down" (click)="goToDashboard()">
+      Go to dashboard
+      <ion-icon color="main-theme" slot="end" name="arrow-forward-outline"></ion-icon>
+    </ion-button>
+    <ion-button mode="ios" shape="round" class="cancel ion-margin-top fullbtn ion-hide-sm-up" (click)="goToDashboard()">
+      Go to dashboard
+      <ion-icon color="main-theme" slot="end" name="arrow-forward-outline"></ion-icon>
+    </ion-button>
+  </div>
+  </div>
+</ion-content>

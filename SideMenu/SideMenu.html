@@ -1,0 +1,226 @@
+<ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" spiner="spiral">
+        <ion-refresher-content>
+        </ion-refresher-content>
+    </ion-refresher>
+    <ion-grid>
+        <ion-row class="ion-justify-content-center">
+            <ion-col class="avatar-cell" size="12">
+                <div class="img-section ion-margin-top">
+                    <ion-avatar class="avatar" *ngIf="profile.avatar">
+                        <ion-img [src]="profile.avatar" alt="Image error" Sheet="" (ionError)="img.src='assets/images/no_avatar.png';" #img>
+                        </ion-img>
+                    </ion-avatar>
+                    <div class="no-avatar" *ngIf="!profile.avatar">
+                    </div>
+                </div>
+                <ion-card-title class="ion-margin-start ion-margin-top">
+                    {{ profile.lastName ? (profile.firstName + ' ' + profile.lastName) : profile.firstName
+                    }}
+                </ion-card-title>
+                <ion-grid class="ion-no-padding">
+                    <ion-row class="ion-justify-content-center">
+                        <ion-col class="ion-align-self-center ion-text-nowrap">
+                            <div class="inline-div ion-margin-start">
+                                <ion-chip class="access" >{{access}}</ion-chip>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center" (click)="leaveScreen()">
+            <ion-col class="avatar-cell ion-align-self-center" size="12">
+                <ion-list class="menu-items cursor-pointer">
+                    <ion-item detailIcon="none" routerDirection="forward" detailIcon="none"
+                    class="menu-item" (click)="openDashboard()" lines="none">
+                        <ion-icon src="assets/images/dashboard.svg" slot="start" class="icon">
+                        </ion-icon>
+                        <ion-label>
+                            Dashboard
+                        </ion-label>
+                    </ion-item>
+                    <ion-item detailIcon="none" routerDirection="forward" detailIcon="none"
+                    class="menu-item" (click)="openAccounts()" lines="none">
+                        <ion-icon src="assets/images/account.svg" slot="start" class="icon">
+                        </ion-icon>
+                        <ion-label>
+                            Balance Sheet
+                        </ion-label>
+                    </ion-item>
+                    <ion-item detailIcon="none" detailIcon="none"
+                    class="menu-item" (click)="openPlannning();$event.stopPropagation()" lines="none">
+                        <ion-icon name="book-outline" slot="start" class="icon">
+                        </ion-icon>
+                        <ion-label>
+                            Plan
+                        </ion-label>
+                        <ion-icon name="add" slot="end" class="icon"></ion-icon>
+                    </ion-item>
+                    <div *ngIf="planningActive">
+                        <ion-item detailIcon="none" routerDirection="forward" detailIcon="none"
+                    class="sub-menu-item" (click)="openProgress()" lines="none">
+                            <ion-label>
+                                Progress ({{getCompPercentage(isProfileDone, isGoalsDone, isFreedomDone, isLifestyleDone, isLegacyDone, isAssetDone, isLiabilityDone, isBudgetingDone, isCapitalDone, isCompoundDone, isIncomeDone, isPorfolioDone, isRiskDone, isTaxDone, isAssetPDone, isDebtDone, isDebtFree)}}%)
+                            </ion-label>
+                        </ion-item>
+                        <ion-item detailIcon="none" routerDirection="forward" detailIcon="none"
+                    class="sub-menu-item" (click)="openOnboarding()" lines="none">
+                            <ion-label>
+                                Onboarding
+                            </ion-label>
+                        </ion-item>
+                        <ion-item detailIcon="none" routerDirection="forward" detailIcon="none"
+                    class="sub-menu-item" (click)="openGoals()" lines="none">
+                            <ion-label>
+                                Goals &amp; Preferences
+                            </ion-label>
+                        </ion-item>
+                        <ion-item detailIcon="none" routerDirection="forward" detailIcon="none"
+                    class="sub-menu-item" (click)="openFreedom()" lines="none">
+                            <ion-label>
+                                Freedom Number
+                            </ion-label>
+                        </ion-item>
+                        <ion-item detailIcon="none" routerDirection="forward" detailIcon="none"
+                    class="sub-menu-item" (click)="openLifestyle()" lines="none">
+                            <ion-label>
+                                Lifestyle Number
+                            </ion-label>
+                        </ion-item>
+                        <ion-item detailIcon="none" routerDirection="forward" detailIcon="none"
+                    class="sub-menu-item" (click)="openBudgeting()" lines="none">
+                            <ion-label>
+                                Budgeting
+                            </ion-label>
+                        </ion-item>
+                        <ion-item detailIcon="none" routerDirection="forward" detailIcon="none"
+                    class="sub-menu-item" (click)="openDebt()" lines="none">
+                            <ion-label>
+                                Debt Payoff
+                            </ion-label>
+                        </ion-item>
+                        <ion-item detailIcon="none" routerDirection="forward" detailIcon="none"
+                    class="sub-menu-item" (click)="openCapital()" lines="none">
+                            <ion-label>
+                                Capital Allocation
+                            </ion-label>
+                        </ion-item>
+                        <ion-item detailIcon="none" routerDirection="forward" detailIcon="none"
+                    class="sub-menu-item" (click)="openCompound()" lines="none">
+                            <ion-label>
+                                Compound Return
+                            </ion-label>
+                        </ion-item>
+                    </div>
+                    <ion-item detailIcon="none" detailIcon="none"
+                    class="menu-item" (click)="openLearning();$event.stopPropagation()" lines="none">
+                        <ion-icon src="assets/images/learn.svg" slot="start" class="icon">
+                        </ion-icon>
+                        <ion-label>
+                            Learn
+                        </ion-label>
+                        <!-- <ion-icon name="add" slot="end" class="icon"></ion-icon> -->
+                    </ion-item>
+                    <!-- <div *ngIf="learningActive">
+                        <ion-item detailIcon="none" routerDirection="forward" detailIcon="none"
+                    class="sub-menu-item" (click)="openLearningLink('courses')" lines="none">
+                            <ion-label>
+                                Courses
+                            </ion-label>
+                        </ion-item>
+                        <ion-item detailIcon="none" routerDirection="forward" detailIcon="none"
+                    class="sub-menu-item" (click)="openLearningLink('coaching')" lines="none"
+                    *ngIf="hasAccessTo()">
+                            <ion-label>
+                                Coaching
+                            </ion-label>
+                        </ion-item>
+                        <ion-item detailIcon="none" routerDirection="forward" detailIcon="none"
+                    class="sub-menu-item" (click)="openLearningLink('articles')" lines="none">
+                            <ion-label>
+                                Articles
+                            </ion-label>
+                        </ion-item>
+                    </div> -->
+                    <ion-item detailIcon="none" routerDirection="forward" detailIcon="none"
+                    class="menu-item" (click)="openConnect()" lines="none">
+                        <ion-icon name="accessibility-outline" slot="start" class="icon">
+                        </ion-icon>
+                        <ion-label>
+                            Connect
+                        </ion-label>
+                    </ion-item>
+                    <ion-item detailIcon="none" routerDirection="forward" detailIcon="none"
+                    class="menu-item" (click)="openEditProfile()" lines="none">
+                        <ion-icon src="assets/images/profile.svg" slot="start" class="icon">
+                        </ion-icon>
+                        <ion-label>
+                            Profile
+                        </ion-label>
+                    </ion-item>
+                    <ion-item detailIcon="none" detailIcon="none" class="menu-item" lines="none" id="iframeModalupgrademobile">
+                        <ion-icon src="assets/icon/arrowright.svg" name="help-buoy" slot="start" class="icon rotateicon">
+                        </ion-icon>
+                        <ion-label>
+                            Upgrade
+                        </ion-label>
+                    </ion-item>
+                    <ion-item detailIcon="none" detailIcon="none" class="menu-item" lines="none" (click)="goToPortal()">
+                        <ion-icon name="receipt-outline" slot="start" class="icon">
+                        </ion-icon>
+                        <ion-label>
+                            Billing
+                        </ion-label>
+                    </ion-item>
+                    <ion-item detailIcon="none" detailIcon="none" class="menu-item" lines="none" (click)="openDocs()">
+                        <ion-icon name="document-text-outline" slot="start" class="icon">
+                        </ion-icon>
+                        <ion-label>
+                            Documentation
+                        </ion-label>
+                    </ion-item>
+                    <ion-item detailIcon="none" detailIcon="none" class="menu-item" lines="none" (click)="openSupport()"><!-- id="iframeModalmobile" -->
+                        <ion-icon src="assets/images/support.svg" name="help-buoy" slot="start" class="icon">
+                        </ion-icon>
+                        <ion-label>
+                            Support
+                        </ion-label>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-item class="divider"></ion-item>
+    <ion-item detailIcon="none" routerDirection="root" detailIcon="none" class="log-item"
+    (click)="logout($event)" menuClose="" lines="none">
+        <ion-icon src="assets/images/logout.svg" slot="start" class="icon">
+        </ion-icon>
+        <ion-label>
+            Log out
+        </ion-label>
+    </ion-item>
+    <div class="version">v{{authService.getAppVersion()}}</div>
+    <ion-modal trigger="iframeModalmobile" class="iframemodal">
+        <ng-template>
+            <ion-content>
+                <ion-button class="support-iframe-button-mobile" (click)="modalDismiss()"> 
+                    <ion-icon src="assets/icon/close.svg">
+                    </ion-icon>
+                </ion-button>
+                <iframe [src]="supportLink"></iframe>
+            </ion-content>
+        </ng-template>
+      </ion-modal>
+      <ion-modal trigger="iframeModalupgrademobile" class="iframemodal">
+        <ng-template>
+            <ion-content>
+                <ion-button class="upgrade-iframe-button-mobile" (click)="modalDismiss()">
+                    <ion-icon src="assets/icon/close.svg">
+                    </ion-icon>
+                </ion-button>
+                <iframe [src]="upgradeLink"></iframe>
+            </ion-content>
+        </ng-template>
+      </ion-modal>
+</ion-content>

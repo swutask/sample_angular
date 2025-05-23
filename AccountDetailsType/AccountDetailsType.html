@@ -1,0 +1,259 @@
+<ion-content class="account-details-content">
+    <ion-header class="ion-no-border header-top"> 
+        <ion-toolbar mode="md" color="pure-white">
+            <ion-buttons slot="start">
+                <ion-button color="success" routerDirection="back" (click)="goBack()">
+                    <ion-icon src="assets/icon/close.svg" class="ion-hide-sm-down">
+                    </ion-icon>
+                    <ion-icon src="assets/icon/arrowbackmobile.svg" class="ion-hide-sm-up">
+                    </ion-icon>
+                </ion-button>
+            </ion-buttons>
+            <ion-title color="dark" class="freedomtitle" *ngIf="type=='Asset' && id =='new'">
+                Select a type of asset
+            </ion-title>
+            <ion-title color="dark" class="freedomtitle" *ngIf="type=='Liability' && id =='new'">
+                Select a type of liability
+            </ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-item class="divider ion-hide-sm-up"></ion-item>
+    <ion-grid class="accountgrid assets" *ngIf="type=='Asset' && id =='new'">
+        <ion-row>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Asset')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountcash.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Cash/CDs</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Asset')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountgold.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Gold / Silver</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Asset')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountcrypto.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Crypto</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Asset')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountcar.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Vehicle</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Asset')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountboat.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Boat</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Asset')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccounthouse.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Real Estate</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Asset')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountbarter.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Barter item</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Asset')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountplan.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">529 Plan</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Asset')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountbusiness.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Business</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Asset')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountinvest.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Investment</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Asset')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountfurniture.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Furniture</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Asset')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountrv.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">RV</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Asset')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountring.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Jewerly</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Asset')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountcollect.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Collectibles</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Asset')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountira.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">401k/IRA</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="12" size-md="12" size-sm="12" size-xl="12" size-xs="12">
+                <div class="gridCard scratch cursor-pointer" (click)="createNewAccount('Asset')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/increase-income.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Create from scratch</div>
+                      </div>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-grid class="accountgrid" *ngIf="type=='Liability' && id =='new'">
+        <ion-row>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Liability')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountcredit.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Credit Card</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Liability')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountvehicle.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Vehicle Loan</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Liability')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountmort.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Mortgage</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Liability')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountmort.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Student Loan</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Liability')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountpersonal.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Personal Loan</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+                <div class="gridCard cursor-pointer" (click)="createNewAccount('Liability')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/newaccountmedicine.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Medical Debt</div>
+                      </div>
+                </div>
+            </ion-col>
+            <ion-col size-lg="12" size-md="12" size-sm="12" size-xl="12" size-xs="12">
+                <div class="gridCard scratchl cursor-pointer" (click)="createNewAccount('Liability')">
+                    <div class="cardheading">
+                      <ion-img src="assets/images/increase-income.png"></ion-img>
+                      </div>
+                      <div>
+                        <div class="textheading">Create from scratch</div>
+                      </div>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

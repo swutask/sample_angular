@@ -1,0 +1,92 @@
+<ion-header class="ion-no-border header-top ion-hide-sm-up">
+    <ion-toolbar mode="md" color="pure-white">
+        <ion-buttons slot="start">
+            <ion-button routerDirection="back" (click)="navigateToProfile()">
+                <ion-icon class="titleicon" src="assets/images/Union.svg" color="dark"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="dark" class="freedomtitle">
+            Learn
+        </ion-title>
+        <ion-avatar class="avatar-icon" (click)="navigateToProfile()" slot="end">
+            <ion-img [src]="userAvatar || this.userSvc.defaultAvatar" alt="Image error" alt="image"
+                (ionError)="img.src='assets/images/no_avatar.png';" #img>
+            </ion-img>
+        </ion-avatar>
+    </ion-toolbar>
+</ion-header>
+<ion-content color="cardbackground" class="resource-content">
+    <div class="resources-background">
+        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" spiner="spiral">
+            <ion-refresher-content>
+            </ion-refresher-content>
+        </ion-refresher>
+        <ion-segment class="balancepills" mode="ios" (ionChange)="segmentChanged($event)" [value]="activeTab">
+            <ion-segment-button value="courses" checked>
+                <ion-label>
+                    {{ "courses" | titlecase }}
+                </ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="coaching" *ngIf="hasAccessTo()">
+                <ion-label>
+                    {{ "coaching" | titlecase }}
+                </ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="articles">
+                <ion-label>
+                    {{ "articles" | titlecase }}
+                </ion-label>
+            </ion-segment-button>
+        </ion-segment>
+        <ng-container *ngFor="let r of resourceList">
+            <ion-card color="pure-white" *ngIf="r.page === activeTab">
+                <ion-grid class="ion-padding-vertical">
+                    <ion-row class="resources-row" (click)="openResource(r.id)" [attr.data-resource-id]="r.id">
+                        <ion-col class="ion-text-center" size="2" size-xs="3">
+                            <div class="image-wrapper" padd="">
+                                <ion-img [src]="r.image.url" alt="Image error" class="resource-image">
+                                </ion-img>
+                            </div>
+                        </ion-col>
+                        <ion-col class="ion-padding-start">
+                            <ion-card-title class="resources-title">
+                                {{r.title}}
+                            </ion-card-title>
+                            <ion-card-subtitle class="resources-subtitle">
+                                {{r.subTitle}}
+                            </ion-card-subtitle>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card>
+        </ng-container>
+        <ng-container *ngFor="let r of articleList">
+            <ion-card color="pure-white" *ngIf="'articles' === activeTab">
+                <ion-grid class="ion-padding-vertical">
+                    <ion-row class="resources-row" (click)="openArticle(r.id)" [attr.data-resource-id]="r.id">
+                        <ion-col class="ion-text-center" size="2" size-xs="3">
+                            <div class="image-wrapper" padd="">
+                                <ion-img [src]="r?.coverImage?.url" alt="Image error" class="resource-image">
+                                </ion-img>
+                            </div>
+                        </ion-col>
+                        <ion-col class="ion-padding-start">
+                            <ion-card-title class="resources-title">
+                                {{r.title}}
+                            </ion-card-title>
+                            <!-- <ion-card-subtitle class="resources-subtitle">
+                            {{r.subTitle}}
+                        </ion-card-subtitle> -->
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card>
+        </ng-container>
+    </div>
+</ion-content>
+<ion-footer>
+    <div>
+        <bottom-menu>
+        </bottom-menu>
+    </div>
+</ion-footer>

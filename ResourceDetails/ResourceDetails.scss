@@ -1,0 +1,280 @@
+// $video_height: 200px;
+$video_height: 100vw / 16 * 9;
+$video_height_wide_screen: 50vw / 16 * 9;
+$content_margin_top: $video_height + 4;
+$content_margin_top_wide_screen: $video_height_wide_screen + 4;
+
+.cover-image {
+    height: $video_height;
+    object-fit: cover;
+}
+
+.content-block{
+    margin-top: $content_margin_top;
+}
+
+.media-wrapper{
+    z-index: 11;
+}
+
+.resource-details-content {
+    z-index: 10;
+}
+
+resource-details-tabs {
+    max-width: $video_height;
+}
+:host {
+    ion-header {
+        background-color: black;
+        --safe-area-inset-top: env(safe-area-inset-top);
+        padding-top: var(--safe-area-inset-top,0);
+        z-index: 12;
+    }
+    ion-toolbar {
+        position: absolute;
+        z-index: 12;
+        padding-top: 0 !important;
+        width: unset;
+        display: inline;
+        ion-buttons {
+            color: white;
+        }
+    }
+    ::ng-deep {
+        .audio-frame, .video-content, video-frame {
+            z-index: 11;
+        }
+
+        video-frame {
+            background-color: black;
+            max-height: $video_height !important;
+            height: $video_height !important;
+        }
+        
+        .embed-container{
+            max-height: $video_height !important;
+            height: $video_height !important;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;;
+        }        
+
+        .video-content {
+            width: 100% !important;
+            max-height: $video_height !important;
+            height: $video_height !important;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .audio-frame {
+            width: 100%;
+            max-height: $video_height;
+            height: $video_height;
+            background-size: cover;
+            position: relative;
+            background-position: center;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+
+            .document-wrapper {
+                display:flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(44, 62, 80, 0.2);
+                color: white;
+                text-align: center;
+
+                h2,h3 {
+                    margin-bottom: 5px;
+                }
+
+                h3 {
+                    margin-top: 0;
+                }
+            }
+
+            .audio-frame-content{
+                display: flex;
+                background-color: rgba(44, 62, 80, 0.2);
+                height:100%;
+                width: 100%;
+                flex-direction: column;
+
+                .document-wrapper{
+                    background-color: transparent;
+                }
+
+                audio{
+                    align-self: flex-end;
+                    flex-grow: 1;
+                }
+                
+                
+            }
+        }
+
+        audio {
+            margin-bottom: 10px;
+            width: 100%;
+        }
+    }
+
+    ion-slide {
+        justify-content: flex-start;
+        padding: 0 20px;
+    }
+
+    ion-segment {
+        position: sticky;
+        top: 0px;
+        z-index: 2;
+        background-color: #fff;
+    }
+
+    .resource-details-header,
+    .resource-details-authors,
+    .resource-details-subtitle {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .a-detail-header {
+        font-size: 25px !important;
+        color: #333333;
+        font-weight: normal !important;
+        font-style: normal;
+        line-height: 110%;
+        margin: 10px 10px 25px 10px;
+    }
+    
+    .resource-details-header {
+        font-size: 25px !important;
+        color: #333333;
+        font-weight: normal !important;
+        font-style: normal;
+        line-height: 110%;
+    }
+
+    .resource-details-subtitle {
+        display: block;
+        font-size: 15px;
+        font-weight: normal;
+        font-style: normal;
+        color: #666;
+        text-transform: none;
+    }
+
+    .resource-details-authors {
+        display: block;
+        margin-top: 2px;
+        margin-bottom: 5px;
+        font-weight: bold;
+        font-variant: petite-caps;
+        color: #666666;
+        font-size: small !important;
+        line-height: 17px;
+        font-weight: normal;
+        font-style: normal;
+    }
+}
+@media (min-width: 1000px) {
+    .content-block{
+        margin-top: $content_margin_top_wide_screen;
+    }
+
+    resource-details-tabs {
+        max-width: $video_height_wide_screen;
+    }
+
+    :host {
+        ::ng-deep {
+            video-frame {
+                background-color: black;
+                max-height: $video_height_wide_screen !important;
+                height: $video_height_wide_screen !important;
+            }
+
+            .embed-container {
+                max-height: $video_height_wide_screen !important;
+                height: $video_height_wide_screen !important;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;;
+            }
+
+            .video-content {
+                width: 100% !important;
+                max-height: $video_height_wide_screen !important;
+                height: $video_height_wide_screen !important;
+                text-align: center;
+                overflow: hidden;
+            }
+
+            .audio-frame {
+                width: 100%;
+                max-height: $video_height_wide_screen;
+                height: $video_height_wide_screen;
+                background-size: cover;
+                position: relative;
+                background-position: center;
+                height: 100%;
+                display: flex;
+                align-items: flex-end;
+            }
+
+        }
+    }
+}
+/*
+@media screen and (orientation:landscape) {
+    :host {
+        ::ng-deep {
+            .audio-frame, video-frame, video {
+                height: 100% !important;
+                width: auto;
+            }
+    
+            video-frame {
+                background-color: black;
+                max-height: $video_height !important;
+            }
+    
+            video {
+                width: 100% !important;
+                max-height: $video_height !important;
+                height: $video_height !important;
+                text-align: center;
+                overflow: hidden;
+            }
+            .audio-frame {
+                width: 100%;
+                max-height: $video_height;
+                height: $video_height;
+                background-size: cover;
+                position: relative;
+                background-position: center;
+                height: 100%;
+                display: flex;
+                align-items: flex-end;
+            }
+        }
+    }
+}
+*/
+
+.ios :host ::ng-deep .video-content {
+    .controls-bar.top-left {
+        left: unset;
+        right: calc(var(--inline-controls-inside-margin) + var(--inline-controls-bar-height) + 30px);
+    }
+    .media-controls {
+        
+    }
+    
+}

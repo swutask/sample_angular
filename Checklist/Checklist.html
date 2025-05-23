@@ -1,0 +1,76 @@
+<ion-header>
+    <ion-toolbar #j_1416 color="primary">
+        <ion-avatar slot="start" class="avatar-icon" (click)="navigateToProfile()">
+            <ion-img #j_1364 [src]="userAvatar || this.userSvc.defaultAvatar" alt="Image error" alt="image">
+            </ion-img>
+        </ion-avatar>
+        <ion-title #j_1418 color="dark">
+            System
+        </ion-title>
+        <ion-button #j_1419 slot="end" class="add-icon" (click)="createNewAccount()">
+            <ion-icon #j_1419__icon name="add-circle" slot="icon-only" color="dark">
+            </ion-icon>
+        </ion-button>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="accounts-content" color="cardbackground">
+    <ion-card #j_1392>
+        <ion-grid #j_1393>
+            <ion-row #j_1394 class="calculator-row">
+                <ion-col #j_1395 size="1" size-xs="2">
+                    <ion-icon #j_1396 name="checkmark-circle-outline" color="dark" size="large">
+                    </ion-icon>
+                </ion-col>
+                <ion-col #j_1397>
+                    <ion-card-title #j_1398 class="checklist-title">
+                        Strategy Overview &amp; Key Concepts
+                    </ion-card-title>
+                    <ion-card-subtitle #j_1399 class="checklist-subtitle">
+                        Identify #1 key to wealth and the 3 common denominators of Wealth Builders
+                    </ion-card-subtitle>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card>
+    <ion-card #j_1400>
+        <ion-grid #j_1401>
+            <ion-row #j_1402 class="calculator-row">
+                <ion-col #j_1403 size="1" size-xs="2">
+                    <ion-icon #j_1404 name="checkmark-circle-outline" color="dark" size="large">
+                    </ion-icon>
+                </ion-col>
+                <ion-col #j_1405>
+                    <ion-card-title #j_1406 class="checklist-title">
+                        Define your Why, Freedom and Lifestyle Numbers
+                    </ion-card-title>
+                    <ion-card-subtitle #j_1407 class="checklist-subtitle">
+                        Get clear on your legacy statement and specific initial target numbers
+                    </ion-card-subtitle>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card>
+    <ion-list #j_1408>
+        <ion-item #j_1409 detail="true">
+            <ion-label #j_1410>
+                Glossary
+            </ion-label>
+        </ion-item>
+        <ion-item #j_1411 detail="true">
+            <ion-label #j_1412>
+                Tutorials
+            </ion-label>
+        </ion-item>
+        <ion-item #j_1413 detail="true">
+            <ion-label #j_1414>
+                Checklist
+            </ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>
+<ion-footer>
+    <div #j_1421>
+        <bottom-menu>
+        </bottom-menu>
+    </div>
+</ion-footer>

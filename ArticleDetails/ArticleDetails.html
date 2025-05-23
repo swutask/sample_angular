@@ -1,0 +1,45 @@
+<ion-header>
+    <ion-toolbar #j_249 color="primary">
+        <ion-buttons #j_250 slot="start">
+            <ion-button #j_251 color="dark" routerDirection="back" [routerLink]="['/resources']">
+                <ion-icon #j_251__icon name="arrow-back">
+                </ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-button #j_252 color="secondary" slot="end" class="ion-hide-important" (click)="presentActionSheet()"
+        [disabled]="!canShare()">
+            <ion-icon #j_252__icon name="share">
+            </ion-icon>
+        </ion-button>
+        <ion-title #j_253 color="dark">
+            Article
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-img #j_242 [src]="article?.coverImage?.url" alt="Image error" class="article-image"
+    (ionError)="imgError">
+    </ion-img>
+    <h3 #j_243 class="a-detail-header">
+        {{article?.title}}
+    </h3>
+    <p #j_244 class="a-detail-date">
+        By {{article?.author?.name}} on {{article?.dateAndTime | date:'M/d/yyyy'}}
+    </p>
+    <p #j_245 class="a-detail-content" inAppBrowserLink="" appMarked="" [md]="article.content"
+    *ngIf="article && article.content">
+        article.content
+    </p>
+    <p #j_246 class="a-detail-content a-detail-learn-more" (click)="learnMore()">
+        Click to learn more.
+    </p>
+    <p #j_247 class="a-detail-content a-detail-footer" appMarked="" *ngIf="article && article.footerCta && article.footerCta.globalPostFooter">
+        {{article.footerCta.globalPostFooter}}
+    </p>
+</ion-content>
+<ion-footer>
+    <div #j_255>
+        <bottom-menu>
+        </bottom-menu>
+    </div>
+</ion-footer>

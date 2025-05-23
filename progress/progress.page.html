@@ -1,0 +1,369 @@
+<ion-content>
+  <div class="heading">
+    <ion-icon src="assets/icon/close.svg" class="closeout cursor-pointer ion-hide-sm-down" (click)="openDashboard()"></ion-icon>
+    <ion-icon src="assets/icon/arrowback.svg" (click)="openDashboard()" class="back ion-hide-sm-up">
+    </ion-icon>
+    <h2>Complete your onboarding and TWF Implementation progress <span class="percent">{{getCompPercentage(isProfileDone, isGoalsDone, isFreedomDone, isLifestyleDone, isLegacyDone, isAssetDone, isLiabilityDone, isBudgetingDone, isCapitalDone, isCompoundDone, isIncomeDone, isPorfolioDone, isRiskDone, isTaxDone, isAssetPDone, isDebtDone, isDebtFree)}}%</span></h2>
+    <circle-progress
+    class="progress"
+    [percent]="getCompPercentage(isProfileDone, isGoalsDone, isFreedomDone, isLifestyleDone, isLegacyDone, isAssetDone, isLiabilityDone, isBudgetingDone, isCapitalDone, isCompoundDone, isIncomeDone, isPorfolioDone, isRiskDone, isTaxDone, isAssetPDone, isDebtDone, isDebtFree)"
+    [radius]="12"
+    [outerStrokeWidth]="2"
+    [innerStrokeWidth]="2"
+    [space]="-2"
+    [outerStrokeColor]="'#FFFFFF'"
+    [innerStrokeColor]="'#ffffff61'"
+    [showTitle]="false"
+    [showSubtitle]="false"
+    [showUnits]="false"
+    [animation]="true"
+    [animationDuration]="300"
+    ></circle-progress>
+  </div>
+  <p class="subheading">Small consistent steps compound into big results. Use the checklist below to ensure forward progress towards mastering ratio based money management, increasing your income, restructuring your balance sheet for cash flow and creating your legacy. Each step is covered in detail in the True Wealth Formula Implementation Program material.</p>
+  <ion-grid class="progressgrid">
+    <ion-row>
+      <ion-col size-lg="3" size-md="3" size-sm="12" size-xl="3" size-xs="12">
+        <div class="gridCard cursor-pointer" (click)="openMyProfile()" [ngClass]="isProfileDone?'done':''">
+          <div class="cardheading">
+            <ion-img src="assets/images/onboard-profile.png"></ion-img>
+            <ion-note *ngIf="!isProfileDone" class="ion-float-right slide-edit-note ion-margin-end ion-hide-sm-down">
+            </ion-note>
+            <ion-note *ngIf="isProfileDone" class="ion-float-right slide-edit-note-done ion-margin-end ion-hide-sm-down">
+              <ion-icon  name="checkmark" color="pure-white">
+              </ion-icon>
+            </ion-note>
+            </div>
+            <div>
+              <div class="textheading">Profile & Settings</div>
+              <div class="textdescription">Complete your profile and settings setup</div>
+            </div>
+            <div class="ion-hide-sm-up checks" *ngIf="isProfileDone">
+              <ion-icon name="checkmark" color="main-theme">
+              </ion-icon>
+            </div>
+        </div>
+      </ion-col>
+      <ion-col size-lg="3" size-md="3" size-sm="12" size-xl="3" size-xs="12">
+        <div class="gridCard cursor-pointer" (click)="openGoals()" [ngClass]="isGoalsDone?'done':''">
+          <div class="cardheading">
+            <ion-img src="assets/images/onboard-goals.png"></ion-img>
+            <ion-note *ngIf="!isGoalsDone" class="ion-float-right slide-edit-note ion-margin-end ion-hide-sm-down">
+            </ion-note>
+            <ion-note *ngIf="isGoalsDone" class="ion-float-right slide-edit-note-done ion-margin-end ion-hide-sm-down">
+              <ion-icon  name="checkmark" color="pure-white">
+              </ion-icon>
+            </ion-note>
+            </div>
+            <div>
+              <div class="textheading">Goals & Preferences</div>
+              <div class="textdescription">Set income and other key goals and preferences
+              </div>
+            </div>
+            <div class="ion-hide-sm-up checks" *ngIf="isGoalsDone">
+              <ion-icon name="checkmark" color="main-theme">
+              </ion-icon>
+            </div>
+        </div>
+      </ion-col>
+      <ion-col size-lg="3" size-md="3" size-sm="12" size-xl="3" size-xs="12">
+        <div class="gridCard cursor-pointer" (click)="openFreedom()" [ngClass]="isFreedomDone?'done':''">
+          <div class="cardheading">
+            <ion-img src="assets/images/onboard-freedom.png"></ion-img>
+            <ion-note *ngIf="!isFreedomDone" class="ion-float-right slide-edit-note ion-margin-end ion-hide-sm-down">
+            </ion-note>
+            <ion-note *ngIf="isFreedomDone" class="ion-float-right slide-edit-note-done ion-margin-end ion-hide-sm-down">
+              <ion-icon  name="checkmark" color="pure-white">
+              </ion-icon>
+            </ion-note>
+            </div>
+            <div>
+              <div class="textheading">Freedom Number</div>
+              <div class="textdescription">Identify the “unearned” income needed monthly to cover your minimum overhead</div>
+            </div>
+            <div class="ion-hide-sm-up checks" *ngIf="isFreedomDone">
+              <ion-icon name="checkmark" color="main-theme">
+              </ion-icon>
+            </div>
+        </div>
+      </ion-col>
+      <ion-col size-lg="3" size-md="3" size-sm="12" size-xl="3" size-xs="12">
+        <div class="gridCard cursor-pointer" (click)="openLifestyle()" [ngClass]="isLifestyleDone?'done':''">
+          <div class="cardheading">
+            <ion-img src="assets/images/onboard-lifestyle.png"></ion-img>
+            <ion-note *ngIf="!isLifestyleDone" class="ion-float-right slide-edit-note ion-margin-end ion-hide-sm-down">
+            </ion-note>
+            <ion-note *ngIf="isLifestyleDone" class="ion-float-right slide-edit-note-done ion-margin-end ion-hide-sm-down">
+              <ion-icon  name="checkmark" color="pure-white">
+              </ion-icon>
+            </ion-note>
+            </div>
+            <div>
+              <div class="textheading">Lifestyle Number</div>
+              <div class="textdescription">Identify the “unearned” income needed monthly to fund your lifestyle overhead (luxuries)</div>
+            </div>
+            <div class="ion-hide-sm-up checks" *ngIf="isLifestyleDone">
+              <ion-icon name="checkmark" color="main-theme">
+              </ion-icon>
+            </div>
+        </div>
+      </ion-col>
+      <ion-col size-lg="3" size-md="3" size-sm="12" size-xl="3" size-xs="12">
+        <div class="gridCard cursor-pointer" (click)="openLegacy()" [ngClass]="isLegacyDone?'done':''">
+          <div class="cardheading">
+            <ion-img src="assets/images/onboard-legacy.png"></ion-img>
+            <ion-note *ngIf="!isLegacyDone" class="ion-float-right slide-edit-note ion-margin-end ion-hide-sm-down">
+            </ion-note>
+            <ion-note *ngIf="isLegacyDone" class="ion-float-right slide-edit-note-done ion-margin-end ion-hide-sm-down">
+              <ion-icon  name="checkmark" color="pure-white">
+              </ion-icon>
+            </ion-note>
+            </div>
+            <div>
+              <div class="textheading">Legacy Statement</div>
+              <div class="textdescription">Write your purpose or legacy statement to get clear on why you want to create true wealth</div>
+            </div>
+            <div class="ion-hide-sm-up checks" *ngIf="isLegacyDone">
+              <ion-icon name="checkmark" color="main-theme">
+              </ion-icon>
+            </div>
+        </div>
+      </ion-col>
+      <ion-col size-lg="3" size-md="3" size-sm="12" size-xl="3" size-xs="12">
+        <div class="gridCard cursor-pointer" (click)="toBalanceSheet('asset')" [ngClass]="isAssetDone?'done':''">
+          <div class="cardheading">
+            <ion-img src="assets/images/onboard-assets.png"></ion-img>
+            <ion-note *ngIf="!isAssetDone" class="ion-float-right slide-edit-note ion-margin-end ion-hide-sm-down">
+            </ion-note>
+            <ion-note *ngIf="isAssetDone" class="ion-float-right slide-edit-note-done ion-margin-end ion-hide-sm-down">
+              <ion-icon  name="checkmark" color="pure-white">
+              </ion-icon>
+            </ion-note>
+            </div>
+            <div>
+              <div class="textheading">Assets</div>
+              <div class="textdescription">Add all asset accounts to your balance sheet, categorize correctly
+              </div>
+            </div>
+            <div class="ion-hide-sm-up checks" *ngIf="isAssetDone">
+              <ion-icon name="checkmark" color="main-theme">
+              </ion-icon>
+            </div>
+        </div>
+      </ion-col>
+      <ion-col size-lg="3" size-md="3" size-sm="12" size-xl="3" size-xs="12">
+        <div class="gridCard cursor-pointer" (click)="toBalanceSheet('liablility')" [ngClass]="isLiabilityDone?'done':''">
+          <div class="cardheading">
+            <ion-img src="assets/images/onboard-liabilities.png"></ion-img>
+            <ion-note *ngIf="!isLiabilityDone" class="ion-float-right slide-edit-note ion-margin-end ion-hide-sm-down">
+            </ion-note>
+            <ion-note *ngIf="isLiabilityDone" class="ion-float-right slide-edit-note-done ion-margin-end ion-hide-sm-down">
+              <ion-icon  name="checkmark" color="pure-white">
+              </ion-icon>
+            </ion-note>
+            </div>
+            <div>
+              <div class="textheading">Liabilities</div>
+              <div class="textdescription">Add all liability accounts to your balance sheet, associate with appropriate asset account</div>
+            </div>
+            <div class="ion-hide-sm-up checks" *ngIf="isLiabilityDone">
+              <ion-icon name="checkmark" color="main-theme">
+              </ion-icon>
+            </div>
+        </div>
+      </ion-col>
+      <ion-col size-lg="3" size-md="3" size-sm="12" size-xl="3" size-xs="12">
+        <div class="gridCard cursor-pointer" (click)="openBudgeting()" [ngClass]="isBudgetingDone?'done':''">
+          <div class="cardheading">
+            <ion-img src="assets/images/onboard-budgeting.png"></ion-img>
+            <ion-note *ngIf="!isBudgetingDone" class="ion-float-right slide-edit-note ion-margin-end ion-hide-sm-down">
+            </ion-note>
+            <ion-note *ngIf="isBudgetingDone" class="ion-float-right slide-edit-note-done ion-margin-end ion-hide-sm-down">
+              <ion-icon  name="checkmark" color="pure-white">
+              </ion-icon>
+            </ion-note>
+            </div>
+            <div>
+              <div class="textheading">Budgeting</div>
+              <div class="textdescription">Setup a rules-based budgeting system to start building wealth
+              </div>
+            </div>
+            <div class="ion-hide-sm-up checks" *ngIf="isBudgetingDone">
+              <ion-icon name="checkmark" color="main-theme">
+              </ion-icon>
+            </div>
+        </div>
+      </ion-col>
+      <ion-col size-lg="3" size-md="3" size-sm="12" size-xl="3" size-xs="12">
+        <div class="gridCard cursor-pointer" (click)="openDebt()" [ngClass]="(isDebtDone || isDebtFree)?'done':''">
+          <div class="cardheading">
+            <ion-img src="assets/images/onboard-debt.png"></ion-img>
+            <ion-note *ngIf="!isDebtDone && !isDebtFree" class="ion-float-right slide-edit-note ion-margin-end ion-hide-sm-down">
+            </ion-note>
+            <ion-note *ngIf="isDebtDone || isDebtFree" class="ion-float-right slide-edit-note-done ion-margin-end ion-hide-sm-down">
+              <ion-icon  name="checkmark" color="pure-white">
+              </ion-icon>
+            </ion-note>
+            </div>
+            <div>
+              <div class="textheading">Debt Payoff</div>
+              <div class="textdescription">Begin restructuring your balance sheet for cash flow via accelerated debt elimination</div>
+            </div>
+            <div class="ion-hide-sm-up checks" *ngIf="isDebtDone">
+              <ion-icon name="checkmark" color="main-theme">
+              </ion-icon>
+            </div>
+        </div>
+      </ion-col>
+      <ion-col size-lg="3" size-md="3" size-sm="12" size-xl="3" size-xs="12">
+        <div class="gridCard cursor-pointer" (click)="openGoals()" [ngClass]="isIncomeDone?'done':''">
+          <div class="cardheading">
+            <ion-img src="assets/images/onboard-earned.png"></ion-img>
+            <ion-note *ngIf="!isIncomeDone" class="ion-float-right slide-edit-note ion-margin-end ion-hide-sm-down">
+            </ion-note>
+            <ion-note *ngIf="isIncomeDone" class="ion-float-right slide-edit-note-done ion-margin-end ion-hide-sm-down">
+              <ion-icon  name="checkmark" color="pure-white">
+              </ion-icon>
+            </ion-note>
+            </div>
+            <div>
+              <div class="textheading">Earned Income Optimization</div>
+              <div class="textdescription">Identify growth areas, trends, opportunities and implement an action plan to increase income</div>
+            </div>
+            <div class="ion-hide-sm-up checks" *ngIf="isIncomeDone">
+              <ion-icon name="checkmark" color="main-theme">
+              </ion-icon>
+            </div>
+        </div>
+      </ion-col>
+      <ion-col size-lg="3" size-md="3" size-sm="12" size-xl="3" size-xs="12">
+        <div class="gridCard cursor-pointer" (click)="openCapital()" [ngClass]="(assetList.length>0 && isCapitalDone)?'done':''">
+          <div class="cardheading">
+            <ion-img src="assets/images/onboard-capital.png"></ion-img>
+            <ion-note *ngIf="assetList.length==0 || !isCapitalDone" class="ion-float-right slide-edit-note ion-margin-end ion-hide-sm-down">
+            </ion-note>
+            <ion-note *ngIf="assetList.length>0 && isCapitalDone" class="ion-float-right slide-edit-note-done ion-margin-end ion-hide-sm-down">
+              <ion-icon  name="checkmark" color="pure-white">
+              </ion-icon>
+            </ion-note>
+            </div>
+            <div>
+              <div class="textheading">Capital Allocation</div>
+              <div class="textdescription">Setup a rules based asset allocation model to begin building a fortress balance sheet</div>
+            </div>
+            <div class="ion-hide-sm-up checks" *ngIf="isCapitalDone">
+              <ion-icon name="checkmark" color="main-theme">
+              </ion-icon>
+            </div>
+        </div>
+      </ion-col>
+      <ion-col size-lg="3" size-md="3" size-sm="12" size-xl="3" size-xs="12">
+        <div class="gridCard cursor-pointer" (click)="openCompound()" [ngClass]="(nonExcludedAssets.length>0 && isCompoundDone)?'done':''">
+          <div class="cardheading">
+            <ion-img src="assets/images/onboard-compound.png"></ion-img>
+            <ion-note *ngIf="nonExcludedAssets.length==0 || !isCompoundDone" class="ion-float-right slide-edit-note ion-margin-end ion-hide-sm-down">
+            </ion-note>
+            <ion-note *ngIf="nonExcludedAssets.length>0 && isCompoundDone" class="ion-float-right slide-edit-note-done ion-margin-end ion-hide-sm-down">
+              <ion-icon  name="checkmark" color="pure-white">
+              </ion-icon>
+            </ion-note>
+            </div>
+            <div>
+              <div class="textheading">Compound Return</div>
+              <div class="textdescription">Forecast and visualize future asset growth and cash flows
+              </div>
+            </div>
+            <div class="ion-hide-sm-up checks" *ngIf="isCompoundDone">
+              <ion-icon name="checkmark" color="main-theme">
+              </ion-icon>
+            </div>
+        </div>
+      </ion-col>
+      <ion-col size-lg="3" size-md="3" size-sm="12" size-xl="3" size-xs="12">
+        <div class="gridCard cursor-pointer" (click)="openPortfolio()" [ngClass]="isPorfolioDone?'done':''">
+          <div class="cardheading">
+            <ion-img src="assets/images/onboard-portfolio.png"></ion-img>
+            <ion-note *ngIf="!isPorfolioDone" (click)="$event.stopPropagation();updateProgress('isPorfolioDone')" class="ion-float-right slide-edit-note ion-margin-end ion-hide-sm-down">
+            </ion-note>
+            <ion-note *ngIf="isPorfolioDone" (click)="$event.stopPropagation();updateProgress('isPorfolioDone')" class="ion-float-right slide-edit-note-done manual ion-margin-end ion-hide-sm-down">
+              <ion-icon  name="checkmark" color="pure-white">
+              </ion-icon>
+            </ion-note>
+            </div>
+            <div (click)="$event.stopPropagation();updateProgress('isPorfolioDone')">
+              <div class="textheading">10% Portfolio</div>
+              <div class="textdescription">Get in the game and start generating passive compound monthly cash flow</div>
+            </div>
+            <div class="ion-hide-sm-up checks" (click)="$event.stopPropagation();updateProgress('isPorfolioDone')" *ngIf="isPorfolioDone">
+              <ion-icon name="checkmark" color="main-theme">
+              </ion-icon>
+            </div>
+        </div>
+      </ion-col>
+      <ion-col size-lg="3" size-md="3" size-sm="12" size-xl="3" size-xs="12">
+        <div class="gridCard cursor-pointer" (click)="mobileUpdateProgress('isRiskDone')" [ngClass]="isRiskDone?'done':''">
+          <div class="cardheading">
+            <ion-img src="assets/images/onboard-risk.png"></ion-img>
+            <ion-note *ngIf="!isRiskDone" (click)="updateProgress('isRiskDone')" class="ion-float-right slide-edit-note ion-margin-end ion-hide-sm-down">
+            </ion-note>
+            <ion-note *ngIf="isRiskDone" (click)="updateProgress('isRiskDone')" class="ion-float-right slide-edit-note-done manual ion-margin-end ion-hide-sm-down">
+              <ion-icon  name="checkmark" color="pure-white">
+              </ion-icon>
+            </ion-note>
+            </div>
+            <div>
+              <div class="textheading">Risk Management</div>
+              <div class="textdescription">Identify specific rules to follow for individual investments, portfolios or trading strategies</div>
+            </div>
+            <div class="ion-hide-sm-up checks" *ngIf="isRiskDone">
+              <ion-icon name="checkmark" color="main-theme">
+              </ion-icon>
+            </div>
+        </div>
+      </ion-col>
+      <ion-col size-lg="3" size-md="3" size-sm="12" size-xl="3" size-xs="12">
+        <div class="gridCard cursor-pointer" (click)="mobileUpdateProgress('isTaxDone')" [ngClass]="isTaxDone?'done':''">
+          <div class="cardheading">
+            <ion-img src="assets/images/onboard-tax.png"></ion-img>
+            <ion-note *ngIf="!isTaxDone" (click)="updateProgress('isTaxDone')" class="ion-float-right slide-edit-note ion-margin-end ion-hide-sm-down">
+            </ion-note>
+            <ion-note *ngIf="isTaxDone" (click)="updateProgress('isTaxDone')" class="ion-float-right slide-edit-note-done manual ion-margin-end ion-hide-sm-down">
+              <ion-icon  name="checkmark" color="pure-white">
+              </ion-icon>
+            </ion-note>
+            </div>
+            <div>
+              <div class="textheading">Tax Efficiency</div>
+              <div class="textdescription">Improve your tax situation through planning and optimization</div>
+            </div>
+            <div class="ion-hide-sm-up checks" *ngIf="isTaxDone">
+              <ion-icon name="checkmark" color="main-theme">
+              </ion-icon>
+            </div>
+        </div>
+      </ion-col>
+      <ion-col size-lg="3" size-md="3" size-sm="12" size-xl="3" size-xs="12">
+        <div class="gridCard cursor-pointer" (click)="mobileUpdateProgress('isAssetPDone')" [ngClass]="isAssetPDone?'done':''">
+          <div class="cardheading">
+            <ion-img src="assets/images/onboard-asset-protection.png"></ion-img>
+            <ion-note *ngIf="!isAssetPDone" (click)="updateProgress('isAssetPDone')" class="ion-float-right slide-edit-note ion-margin-end ion-hide-sm-down">
+            </ion-note>
+            <ion-note *ngIf="isAssetPDone" (click)="updateProgress('isAssetPDone')" class="ion-float-right slide-edit-note-done manual ion-margin-end ion-hide-sm-down">
+              <ion-icon  name="checkmark" color="pure-white">
+              </ion-icon>
+            </ion-note>
+            </div>
+            <div>
+              <div class="textheading">Asset Protection</div>
+              <div class="textdescription">Develop your legacy estate plan and protect your assets</div>
+            </div>
+            <div class="ion-hide-sm-up checks" *ngIf="isAssetPDone">
+              <ion-icon name="checkmark" color="main-theme">
+              </ion-icon>
+            </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

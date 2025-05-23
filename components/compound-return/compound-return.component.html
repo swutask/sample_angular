@@ -1,0 +1,345 @@
+<ion-content>
+  <ion-icon class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon>
+  <ion-header class="ion-no-border header-top ion-hide-sm-up"> 
+    <ion-toolbar mode="md" color="pure-white">
+        <ion-buttons slot="start">
+            <ion-button color="success" routerDirection="back" (click)="goBack()">
+                <ion-icon src="assets/icon/arrowback.svg" class="ion-hide-sm-down">
+                </ion-icon>
+                <ion-icon src="assets/icon/arrowbackmobile.svg" class="ion-hide-sm-up">
+                </ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="dark" class="freedomtitle">
+          Compound Asset Growth System
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-item class="divider ion-hide-sm-up"></ion-item>
+  <div class="mobile-align">
+    <h2 class="ion-hide-sm-down">
+      Compound Return Global Settings
+    </h2>
+    <p>
+      Customize the values below to optimize MOAC results
+    </p>
+  </div>
+  <form #j_513="ngForm" class="ion-form mobile-align">
+  <ion-item mode="ios" (click)="openFreedomCalculator()" lines="full" class="cursor-pointer otherLinks">
+    <ion-label>
+      Freedom Number
+    </ion-label>
+    <ion-text>
+      {{freedomNumber | currency : 'USD' : 'symbol' : '1.0-0'}}
+    </ion-text>
+    <ion-icon src="assets/icon/edit.svg" slot="end">
+    </ion-icon>
+  </ion-item>
+  <ion-item mode="ios" (click)="openLifestyleCalculator()" lines="full" class="cursor-pointer otherLinks">
+    <ion-label>
+      Lifestyle Number
+    </ion-label>
+    <ion-text>
+      {{lifestyleNumber | currency : 'USD' : 'symbol' : '1.0-0'}}
+    </ion-text>
+    <ion-icon src="assets/icon/edit.svg" slot="end">
+    </ion-icon>
+  </ion-item>
+  <ion-item class="toogleItems" lines="none" *ngIf="hasAccessToPro()">
+    <ion-label class="ion-text-right ion-padding-end">
+        Annually
+    </ion-label>
+    <ion-toggle name="showMonthly" value="" [(ngModel)]="data.showMonthly" mode="ios" class="toggle-form">
+    </ion-toggle>
+    <ion-label>
+      Monthly
+    </ion-label>
+  </ion-item>
+  <div class="labelform">
+    <ion-label>
+      <span *ngIf="!data.showMonthly">Years</span> <span *ngIf="data.showMonthly">Months</span> Invested
+    </ion-label>
+    <ion-icon *ngIf="!data.showMonthly" name="help-circle-outline" color="main-theme" ngClass="ion-icon-small" src="assets/icon/info.svg"
+    helpText="The number of years results should be calculated.">
+    </ion-icon>
+    <ion-icon *ngIf="data.showMonthly" name="help-circle-outline" color="main-theme" ngClass="ion-icon-small" src="assets/icon/info.svg"
+    helpText="The number of months results should be calculated.">
+    </ion-icon>
+  </div>
+  <ion-item lines="none">
+    <ion-input mask="separator.2" type="tel" inputmode="decimal" class="item-with-help-icon"
+    name="yearsInvested" required="" [(ngModel)]="data.yearsInvested" 
+    #yearsInvested="ngModel" min="0" max="100" maxlength="3">
+    </ion-input>
+</ion-item>
+<ion-grid class="ion-no-padding">
+  <ion-row class="ion-align-items-center">
+    <ion-col class="ion-no-padding" size-lg="5.85" size-md="5.85" size-sm="12" size-xl="5.85" size-xs="12">
+      <ion-item class="toogleItems slider-toggles" lines="none">
+        <ion-label class="ion-text-wrap">
+            Use ND1 Wealth Account?
+        </ion-label>
+        <ion-toggle #UseWealthAccountValueCheckbox="ngModel" #UseWealthAccountValueCheckbox_el
+        name="UseWealthAccountValueCheckbox" value="" [(ngModel)]="data.useND1WealthValue"
+        (ionChange)="changeEarnedIncome()" slot="start" mode="ios" class="toggle-form ion-hide-sm-down">
+        </ion-toggle>
+        <ion-toggle #UseWealthAccountValueCheckbox="ngModel" #UseWealthAccountValueCheckbox_el
+        name="UseWealthAccountValueCheckbox" value="" [(ngModel)]="data.useND1WealthValue"
+        (ionChange)="changeEarnedIncome()" slot="end" mode="ios" class="toggle-form ion-hide-sm-up">
+        </ion-toggle>
+      </ion-item>
+    </ion-col>
+    <ion-col class="ion-no-padding" size-lg="5.85" size-md="5.85" size-sm="12" size-xl="5.85" size-xs="12" offset-lg="0.3" offset-md="0.3" offset-sm="0" offset-xl="0.3" offset-xs="0">
+      <div class="labelform">
+        <ion-label>
+          Earned Income
+        </ion-label>
+        <ion-icon name="help-circle-outline" color="main-theme" ngClass="ion-icon-small" src="assets/icon/info.svg"
+        helpText="The amount of monthly Earned Income or Wealth Account money from your ND1 budgeting ratios, to be applied towards compound asset acquisition, growth and income.">
+        </ion-icon>
+      </div>
+      <ion-item lines="none">
+        <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+        </ion-icon>
+        <ion-input mask="separator.2" [dynamicDecimal]="true" [decimalPlaces]="2" type="tel" inputmode="decimal" class="dollar-input" name="monthlyEarnedIncome" (click)="goToNd1()"
+        [(ngModel)]="data.monthlyEarnedIncome" #monthlyEarnedIncome="ngModel" [attr.readonly]="data.useND1WealthValue">
+        </ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col class="ion-no-padding" size-lg="5.85" size-md="5.85" size-sm="12" size-xl="5.85" size-xs="12">
+      <ion-item class="toogleItems slider-toggles" lines="none">
+        <ion-label class="ion-text-wrap">
+            Use non DRIP Account income?
+        </ion-label>
+        <ion-toggle #UseUnearnedIncomeValuesCheckbox="ngModel" #UseUnearnedIncomeValuesCheckbox_el
+        name="UseUnearnedIncomeValuesCheckbox" value="" [(ngModel)]="data.useUnearnedIncomeValues"
+        (ionChange)="changeUnearnedIncome()" slot="start" mode="ios" class="toggle-form ion-hide-sm-down">
+        </ion-toggle>
+        <ion-toggle #UseUnearnedIncomeValuesCheckbox="ngModel" #UseUnearnedIncomeValuesCheckbox_el
+        name="UseUnearnedIncomeValuesCheckbox" value="" [(ngModel)]="data.useUnearnedIncomeValues"
+        (ionChange)="changeUnearnedIncome()" slot="end" mode="ios" class="toggle-form ion-hide-sm-up">
+        </ion-toggle>
+      </ion-item>
+    </ion-col>
+    <ion-col class="ion-no-padding" size-lg="5.85" size-md="5.85" size-sm="12" size-xl="5.85" size-xs="12" offset-lg="0.3" offset-md="0.3" offset-sm="0" offset-xl="0.3" offset-xs="0">
+      <div class="labelform">
+        <ion-label>
+          Unearned Income
+        </ion-label>
+        <ion-icon name="help-circle-outline" color="main-theme" ngClass="ion-icon-small" src="assets/icon/info.svg"
+        helpText="Total monthly income from Assets that are not automatically reinvested (ie; rental property) to be applied towards assets that can be (ie; stocks).">
+        </ion-icon>
+      </div>
+      <ion-item lines="none">
+        <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+        </ion-icon>
+        <ion-input mask="separator.2" [dynamicDecimal]="true" [decimalPlaces]="2" type="tel" inputmode="decimal" class="dollar-input" name="monthlyUnearnedIncome"
+        [(ngModel)]="data.monthlyUnearnedIncome" [attr.readonly]="data.useUnearnedIncomeValues"
+        #monthlyUnearnedIncome="ngModel">
+        </ion-input>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+  <div class="resultgroup" *ngIf="data.useUnearnedIncomeValues">
+    <div class="tresult">
+          <ion-item #toogleItem button (click)="toggleList(toogleItem)" lines="none" class="toogleItems">
+              <ion-label color="dark">Non DRIP Accounts List
+              </ion-label>
+              <ion-icon class="toggleslot" slot="end" [name]="toggleIconAccount?'chevron-up':'chevron-down'"></ion-icon>
+          </ion-item>
+          <div class="tcontent">
+            <div *ngFor="let account of accountsWithReinvestIntoOtherAssets">
+                <ion-card class="accounts-list ion-padding-bottom ion-hide-sm-down">
+                    <div class="accountarea" (click)="platform.width()>640?editAccount(account?.id,account?.accountType):true" detail="false">
+                        <div class="accountName">
+                          <span *ngIf="account.parentHoldingId">{{account?.parent?.name}}: </span>{{account.name}}
+                        </div>
+                        <div class="accountDescription">
+                            {{account.description}}
+                        </div>
+                        <ion-item class="divider"></ion-item>
+                        <div class="accountBalanceBox">
+                            <div class="accountBalance">
+                              <div>{{account?.assetType}}</div>
+                              <div>{{account?.investmentType | investmentType}}</div>
+                              <div>{{getAssetTypeIndicatorLabel(account)}}</div>
+                              <div>Yield {{account?.currentYield || 0}}%</div>
+                              <div class="subunit" *ngIf="account.investmentType === &quot;stock&quot;">Qty {{account?.sharesOwned | number:'1.0-2'}}</div>
+                              <div class="subunit" *ngIf="account.investmentType=== &quot;stock&quot;">Price {{account?.sharePrice | currency : 'USD' : 'symbol' : '1.0-2'}}</div>
+                            </div>
+                            <div class="balance">{{account.currentBalance | currency : 'USD'}}</div>
+                        </div>
+                    </div>
+                </ion-card>
+                <ion-grid class="ion-hide-sm-up ion-no-padding" (click)="editAccount(account?.id,account?.accountType)">
+                  <ion-row>
+                      <ion-col size="8.5" class="mobile-account-card-name cursor-pointer">
+                          {{account?.name}}
+                      </ion-col>
+                      <ion-col size="3.5" class="mobile-asset-card-balance">{{account?.currentBalance | currency : 'USD' : 'symbol' : '1.0-0'}}</ion-col>
+                  </ion-row>
+                  <ion-row>
+                      <ion-col class="mobile-account-card-description">
+                          {{account?.description}}
+                      </ion-col>
+                  </ion-row>
+                  <ion-row>
+                      <ion-col class="mobile-account-card-description">
+                          {{account?.assetType | assetType}}
+                      </ion-col>
+                  </ion-row>
+                  <ion-row>
+                      <ion-col class="mobile-account-card-description">
+                          {{account?.investmentType | investmentType}}
+                      </ion-col>
+                  </ion-row>
+                  <ion-row *ngIf="account.investmentType === &quot;stock&quot;">
+                      <ion-col class="mobile-account-card-description">
+                          Qty {{account?.sharesOwned}}
+                      </ion-col>
+                  </ion-row>
+                  <ion-row *ngIf="account.investmentType === &quot;stock&quot;">
+                      <ion-col class="mobile-account-card-description">
+                          Price {{account?.sharePrice | currency : 'USD' : 'symbol' : '1.0-0'}}
+                      </ion-col>
+                  </ion-row>
+                </ion-grid>
+            </div>
+          </div>
+    </div>
+  </div>
+
+  <ion-item class="divider"></ion-item>
+
+  <ion-grid class="ion-no-padding ion-margin-top">
+    <ion-row>
+      <ion-col class="ion-no-padding" size-lg="5.85" size-md="5.85" size-sm="12" size-xl="5.85" size-xs="12">
+        <div class="labelform">
+          <ion-label>
+            {{data.showMonthly ? "Monthly" : "Annual" }} Contribution
+          </ion-label>
+          <ion-icon *ngIf="!data.showMonthly" name="help-circle-outline" color="main-theme" ngClass="ion-icon-small" src="assets/icon/info.svg"
+          helpText="An additional lump sum added each year to purchase new assets (will be calculated at the end of the year cycle).">
+          </ion-icon>
+          <ion-icon *ngIf="data.showMonthly" name="help-circle-outline" color="main-theme" ngClass="ion-icon-small" src="assets/icon/info.svg"
+          helpText="An additional lump sum added each month to purchase new assets.">
+          </ion-icon>
+        </div>
+        <ion-item lines="none">
+          <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+          </ion-icon>
+          <ion-input mask="separator.2" [dynamicDecimal]="true" [decimalPlaces]="2" type="tel" inputmode="decimal" class="dollar-input" name="annualContribution"
+          [(ngModel)]="data.annualContribution" #annualContribution="ngModel">
+          </ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col class="ion-no-padding" size-lg="5.85" size-md="5.85" size-sm="12" size-xl="5.85" size-xs="12" offset-lg="0.3" offset-md="0.3" offset-sm="0" offset-xl="0.3" offset-xs="0">
+        <div class="labelform" *ngIf="data.annualContribution">
+          <ion-label>
+            {{data.showMonthly ? "Monthly" : "Annual" }} Increase
+          </ion-label>
+          <ion-icon *ngIf="!data.showMonthly" name="help-circle-outline" color="main-theme" ngClass="ion-icon-small" src="assets/icon/info.svg"
+          helpText="Annual Increase is the percent yearly increase of the annual contribution.">
+          </ion-icon>
+          <ion-icon *ngIf="data.showMonthly" name="help-circle-outline" color="main-theme" ngClass="ion-icon-small" src="assets/icon/info.svg"
+          helpText="Monthly Increase is the percent monthly increase of the monthly contribution.">
+          </ion-icon>
+        </div>
+        <ion-item lines="none" *ngIf="data.annualContribution">
+          <ion-icon src="assets/icon/percent.svg" class="percent" slot="end">
+          </ion-icon>
+          <ion-input mask="separator.10" [dynamicDecimal]="true" [decimalPlaces]="2" type="tel" inputmode="decimal" class="percent-input" name="annualIncreaseContribution"
+          [(ngModel)]="data.annualIncreaseContribution"
+          #annualIncreaseContribution="ngModel">
+          </ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col class="ion-no-padding" size-lg="5.85" size-md="5.85" size-sm="12" size-xl="5.85" size-xs="12">
+        <div class="labelform">
+          <ion-label>
+            {{data.showMonthly ? "Monthly" : "Annual" }} Withdrawal
+          </ion-label>
+          <ion-icon name="help-circle-outline" color="main-theme" ngClass="ion-icon-small" src="assets/icon/info.svg"
+          helpText="To account for annual income received, this amount will be withdrawn and deducted from the income and balance of the asset(s). If Portfolio, this amount will be subtracted first from the income generated by the asset. If the amount is larger than the income, the remainder will be deducted from the year-end-balance. If Securities or Unit, the amount will first be subtracted from the income generated by the asset. If the amount is larger than the income, assets will be sold and share or unit count reduced in order to pay out the withdrawal. If the MOAC is run with multiple assets, the amount withdrawn from each asset will be weighted according to the initial starting balance of each individual asset.">
+          </ion-icon>
+        </div>
+        <ion-item lines="none">
+          <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+          </ion-icon>
+          <ion-input mask="separator.2" [dynamicDecimal]="true" [decimalPlaces]="2" type="tel" inputmode="decimal" class="dollar-input" name="annualWithdrawal"
+          #annualWithdrawal="ngModel" [(ngModel)]="data.annualWithdrawal"
+          (ionChange)="withdrawalAmountChange()">
+          </ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col class="ion-no-padding" size-lg="5.85" size-md="5.85" size-sm="12" size-xl="5.85" size-xs="12" offset-lg="0.3" offset-md="0.3" offset-sm="0" offset-xl="0.3" offset-xs="0">
+        <div class="labelform" *ngIf="data.annualWithdrawal">
+          <ion-label>
+            Starting {{data.showMonthly ? "Month" : "Year" }}
+          </ion-label>
+          <ion-icon *ngIf="!data.showMonthly" name="help-circle-outline" color="main-theme" ngClass="ion-icon-small" src="assets/icon/info.svg"
+          helpText="The year the withdrawal will begin.">
+          </ion-icon>
+          <ion-icon *ngIf="data.showMonthly" name="help-circle-outline" color="main-theme" ngClass="ion-icon-small" src="assets/icon/info.svg"
+          helpText="The month the withdrawal will begin.">
+          </ion-icon>
+        </div>
+        <ion-item lines="none" *ngIf="data.annualWithdrawal">
+            <ion-input mask="separator.2" type="tel" inputmode="decimal" name="withdrawalStartingYear" class="height48"
+            [(ngModel)]="data.withdrawalStartingYear"
+            #withdrawalStartingYear="ngModel">
+            </ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col class="ion-no-padding" size-lg="5.85" size-md="5.85" size-sm="12" size-xl="5.85" size-xs="12">
+        <div class="labelform">
+          <ion-label>
+            Drawdown or Inflation
+          </ion-label>
+          <ion-icon name="help-circle-outline" color="main-theme" ngClass="ion-icon-small" src="assets/icon/info.svg"
+          helpText="The percentage decrease the asset(s) are expected to encounter in a severe market correction. Currently, the decrease is calculated at the end of the year (based on time frame selected) and its affect is rather dramatic as a permanent drawdown similar to a withdrawal since there is no further time in the given year for assets to recover. Alternatively, you can use this field to calculate an expected Inflation rate (long term average 2.9%). If using inflation, use 1 year for How Often? field.">
+          </ion-icon>
+        </div>
+        <ion-item lines="none">
+          <ion-icon src="assets/icon/percent.svg" class="percent" slot="end">
+          </ion-icon>
+          <ion-input #j_530="ngModel" clearInput="true" min="0"
+          mask="separator.10" [dynamicDecimal]="true" [decimalPlaces]="2" type="tel" inputmode="decimal" class="percent-input" name="volatilityDrawdown" [(ngModel)]="data.volatilityDrawdown">
+          </ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col class="ion-no-padding" size-lg="5.85" size-md="5.85" size-sm="12" size-xl="5.85" size-xs="12" offset-lg="0.3" offset-md="0.3" offset-sm="0" offset-xl="0.3" offset-xs="0">
+        <div class="labelform" *ngIf="data.volatilityDrawdown">
+          <ion-label>
+            How Often?
+          </ion-label>
+          <ion-icon name="help-circle-outline" color="main-theme" ngClass="ion-icon-small" src="assets/icon/info.svg"
+          helpText="How often (in years) the volatility/drawdown or Inflation decrease is applied.">
+          </ion-icon>
+        </div>
+        <ion-item lines="none" *ngIf="data.volatilityDrawdown">
+            <ion-input mask="separator.2" type="tel" inputmode="decimal" name="everyNumberYears" #everyNumberYears="ngModel" class="height48"
+            [(ngModel)]="data.everyNumberYears">
+            </ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</form>
+<ion-button [disabled]="isInValid()" mode="ios" shape="round" type="button" class="save ion-margin contentalignbutton fullbtn ion-hide-sm-up" (click)="update(false)">
+  Save changes
+</ion-button>
+<ion-button mode="ios" shape="round" type="button" class="cancel ion-margin fullbtn ion-hide-sm-up" (click)="goBack()">
+  Cancel
+</ion-button>
+</ion-content>
+<ion-footer class="ion-hide-sm-down">
+  <ion-button [disabled]="isInValid()" mode="ios" shape="round" type="button" class="save" (click)="update(false)">
+    Save changes
+  </ion-button>
+  <ion-button mode="ios" shape="round" type="button" class="cancel" (click)="goBack()">
+      Cancel
+  </ion-button>
+</ion-footer>

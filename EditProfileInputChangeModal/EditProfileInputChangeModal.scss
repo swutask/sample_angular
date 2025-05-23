@@ -1,0 +1,33 @@
+ion-footer {
+    display: flex;
+    justify-content: flex-end;
+
+    ion-button {
+        --color: black;
+    }
+}
+
+.phone-number {
+	display: flex;
+    align-items: flex-end;
+    width: 90%;
+    margin: auto;
+}
+
+.phone-number ion-item:first-child {
+	flex-basis: 74px;
+}
+
+.phone-number ion-item:last-child {
+	flex: 1;
+    --padding-start: 0;
+}
+
+.heading-text {
+    text-align: center;
+}
+
+.email-item {
+    margin: auto;
+    --padding-start:0;
+}

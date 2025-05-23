@@ -1,0 +1,108 @@
+ion-content{
+    --ion-font-family:var(--font-family);
+    --padding-bottom: 32px;
+    ion-toolbar ion-buttons{
+        margin-inline-start:0px;
+    }
+    ion-toolbar{
+        padding-right: calc(var(--ion-safe-area-right));
+        padding-left: calc(var(--ion-safe-area-left) + 10px);
+        margin-top: 16px;
+    }
+    .header-top{
+        ion-button{
+            --background-focused-opacity: 0;
+            --background-hover-opacity: 0;
+        }
+    }
+    .mobilehandle{
+        font-size: 32px;
+        transform: none;
+    }
+    .overall{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        .overalltext{
+            font-size: 16px;
+        }
+        .balance{
+            font-size: 24px;
+        }
+    }
+    h2{
+        font-size: 28px;
+        font-weight: 400;
+    }
+    p{
+        font-size: 16px;
+        font-weight: 400;
+        margin: 0px;
+    }
+
+    ul li, ol li { 
+        
+        &::marker {
+            color: #179966;
+        }
+        &:not(:first-child) {
+            padding-top: 8px;
+        }
+    }
+    
+    .subTitle {
+        font-size: 22px;
+        padding: 5px 5px 0px 0px;
+        line-height: 32px;
+        margin: 0px;
+    }
+
+    @media (max-width: 39.9375em) {
+        .overall{
+            &:first-of-type{
+                margin-top: 10px;
+            }
+            margin-top: 20px;
+            .overalltext, .balance{
+                font-size: 16px;
+            }
+        }
+        .mobile-align{
+            margin-right: 16px;
+            margin-left: 16px;
+        }
+        p{
+            font-size: 14px;
+        }
+        ul li {
+            font-size: 14px;
+            &:not(:first-child) {
+                padding-top: 4px;
+            }
+        }
+        .subTitle {
+            font-size: 18px;
+         }
+    }
+
+    @media (min-width: 40em) {
+        --padding-start: 32px;
+        --padding-end: 32px;
+        ion-title.freedomtitle{
+            font-size: 28px;
+            padding-left: 0px;
+        }
+        .subtitle{
+            margin-top: 0px;
+            margin-left: 46px;
+            font-size: 18px;
+        }
+        .header-top{
+            ion-button{
+                transform: translateX(-11px);
+            }
+        }
+    }
+}

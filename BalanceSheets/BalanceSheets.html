@@ -1,0 +1,91 @@
+<ion-header>
+    <ion-toolbar #j_145 color="primary">
+        <ion-buttons #j_146 slot="start">
+            <ion-button #j_147 color="dark" routerDirection="back" (click)="goBack()">
+                <ion-icon #j_147__icon name="arrow-back">
+                </ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title #j_148 color="dark">
+            Balance Sheet
+        </ion-title>
+        <ion-button #j_149 slot="end" class="add-icon" (click)="createNew()" *ngIf="false">
+            <ion-icon #j_149__icon name="add-circle" slot="icon-only" color="dark">
+            </ion-icon>
+        </ion-button>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="accounts-content" color="cardbackground">
+    <ion-refresher [disabled]="false" slot="fixed" (ionRefresh)="doRefresh($event)"
+    spiner="spiral">
+        <ion-refresher-content>
+        </ion-refresher-content>
+    </ion-refresher>
+    <ion-card #j_135>
+        <ion-card-content #j_136>
+            <ion-card-title #j_137>
+                Balance Sheet Simulator
+            </ion-card-title>
+            <component-text-with-help-icon [text]="'Create a new Balance Sheet experiment or select from an existing one below'"
+            [helpText]="'Use the simulator to test different hypothetical scenarios, run projections and forecasts!'">
+            </component-text-with-help-icon>
+        </ion-card-content>
+        <ion-grid #j_139>
+            <ion-row #j_140>
+                <ion-col #j_141 class="margin">
+                    <ion-button #j_142 expand="block" (click)="createNew()">
+                        Create New Balance Sheet
+                    </ion-button>
+                    <div #j_143>
+                        <ion-list #bsList class="accounts-list">
+                            <ng-container *ngFor="let bs of balanceSheetsList">
+                                <ion-item-sliding [attr.data-id]="bs.id">
+                                    <ion-item button (click)="select(bs.id)" detail="false">
+                                        <ion-label class="ion-no-margin">
+                                            <ion-text class="ion-float-left">
+                                                {{bs.name}}
+                                            </ion-text>
+                                            <ion-badge class="ion-float-right default-label" *ngIf="bs.default" color="medium">
+                                                default
+                                            </ion-badge>
+                                            <br>
+                                            <ion-note class="ion-float-left description-label" *ngIf="bs.description">
+                                                {{bs.description}}
+                                            </ion-note>
+                                            <ion-note class="ion-float-right default-label" *ngIf="bs.createdAt" color="medium">
+                                                {{bs.createdAt.$date | date:'M/d/yyyy'}}
+                                            </ion-note>
+                                        </ion-label>
+                                    </ion-item>
+                                    <ion-item-options side="end" (ionSwipe)="openDeleteAlert(bs.id)">
+                                        <ion-item-option color="success" (click)="openCloneAlert(bs.id)">
+                                            <ion-icon name="copy" slot="end">
+                                            </ion-icon>
+                                            Clone
+                                        </ion-item-option>
+                                        <ion-item-option color="tertiary" (click)="openEditAlert(bs.id)">
+                                            <ion-icon name="create" slot="end">
+                                            </ion-icon>
+                                            Edit
+                                        </ion-item-option>
+                                        <ion-item-option color="danger" (click)="openDeleteAlert(bs.id)" *ngIf="!bs.default">
+                                            <ion-icon name="trash" slot="end">
+                                            </ion-icon>
+                                            Delete
+                                        </ion-item-option>
+                                    </ion-item-options>
+                                </ion-item-sliding>
+                            </ng-container>
+                        </ion-list>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card>
+</ion-content>
+<ion-footer>
+    <div #j_151>
+        <bottom-menu>
+        </bottom-menu>
+    </div>
+</ion-footer>

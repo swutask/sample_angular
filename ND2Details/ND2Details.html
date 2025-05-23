@@ -1,0 +1,533 @@
+<ion-header class="ion-no-border header-top ion-hide-sm-up"> 
+    <ion-toolbar mode="md" color="pure-white">
+        <ion-buttons slot="start">
+            <ion-button color="success" routerDirection="back" (click)="goBack()">
+                <ion-icon src="assets/icon/arrowback.svg" class="ion-hide-sm-down">
+                </ion-icon>
+                <ion-icon src="assets/icon/arrowbackmobile.svg" class="ion-hide-sm-up">
+                </ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="dark" class="freedomtitle">
+            Capital Allocation <ion-text color="medium">(ND2)</ion-text>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content #nd2content class="freedom-number-details-content" scroll-events="true" (ionScrollEnd)="scrollEnd()">
+    <div class="freedom-background">
+        <ion-header class="ion-no-border header-top ion-hide-sm-down"> 
+            <ion-toolbar mode="md" color="pure-white">
+                <ion-buttons slot="start">
+                    <ion-button color="success" routerDirection="back" (click)="goBack()">
+                        <ion-icon src="assets/icon/arrowback.svg" class="ion-hide-sm-down">
+                        </ion-icon>
+                        <ion-icon src="assets/icon/arrowbackmobile.svg" class="ion-hide-sm-up">
+                        </ion-icon>
+                    </ion-button>
+                </ion-buttons>
+                <ion-title color="dark" class="freedomtitle">
+                    Capital Allocation <ion-text color="medium">(ND2)</ion-text>
+                </ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <ion-item class="divider ion-hide-sm-up ion-margin-bottom"></ion-item>
+        <ion-grid>
+            <ion-row>
+                <ion-col class="no-padding-bottom" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                    <ion-card-title class="contentalign subheading">
+                        Wealth Account Rules Based System
+                    </ion-card-title>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col class="no-padding-top" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                    <ion-card-subtitle class="contentalign">
+                        Set your ND2 target ratios
+                    </ion-card-subtitle>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <ion-grid>
+            <ion-row class="ion-wrap">
+                <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                    <form #j_808="ngForm" class="contentalign labeltop">
+                    <ion-label class="formlabel" position="stacked">
+                        T1 Liquidity
+                    </ion-label>
+                    <ion-item lines="none">
+                        <ion-icon src="assets/icon/percent.svg" slot="end">
+                        </ion-icon>
+                        <ion-input #j_812="ngModel" mask="separator.10" thousandSeparator="" type="tel" inputmode="decimal" class="dollar-input"
+                        name="T1 Target" [(ngModel)]="data.t1Target" (ngModelChange)="calculate($event)" debounce="50">
+                        </ion-input>
+                    </ion-item>
+                    <ion-item class="range" lines="none">
+                        <ion-range [pin]="true" mode="md" snaps="true" ticks="false" min="0" max="100" color="dark" [(ngModel)]="data.t1Target" name="t1Target" (ngModelChange)="calculate($event)" debounce="50">
+                        </ion-range>
+                    </ion-item>
+                    <ion-label  class="formlabel" position="stacked">
+                        T2 Cash Flow Assets
+                    </ion-label>
+                    <ion-item lines="none">
+                        <ion-icon src="assets/icon/percent.svg" slot="end">
+                        </ion-icon>
+                        <ion-input #j_815="ngModel" mask="separator.10" type="tel" inputmode="decimal" class="dollar-input" name="T2 Target"
+                        [(ngModel)]="data.t2Target" (ngModelChange)="calculate($event)" debounce="50">
+                        </ion-input>
+                    </ion-item>
+                    <ion-item class="range" lines="none">
+                        <ion-range [pin]="true" mode="md" snaps="true" ticks="false" min="0" max="100" color="dark" [(ngModel)]="data.t2Target" name="t2Target" (ngModelChange)="calculate($event)" debounce="50">
+                        </ion-range>
+                    </ion-item>
+                    <ion-label class="formlabel" position="stacked">
+                        T3 Speculations
+                    </ion-label>
+                    <ion-item lines="none">
+                        <ion-icon src="assets/icon/percent.svg" slot="end">
+                        </ion-icon>
+                        <ion-input #j_818="ngModel" mask="separator.10" thousandSeparator="" type="tel" inputmode="decimal" class="dollar-input" name="T3 Target"
+                        [(ngModel)]="data.t3Target" (ngModelChange)="calculate($event)" debounce="50">
+                        </ion-input>
+                    </ion-item>
+                    <ion-item class="range" lines="none">
+                        <ion-range [pin]="true" mode="md" snaps="true" ticks="false" min="0" max="100" color="dark" [(ngModel)]="data.t3Target" name="t3Target" (ngModelChange)="calculate($event)" debounce="50">
+                        </ion-range>
+                    </ion-item>
+                    <ion-button [disabled]="sumPercent==100?false:true" mode="ios" shape="round" type="button" class="save ion-margin contentalignbutton actionBtn ion-hide-sm-down" (click)="saveToAccount()">
+                        Save changes
+                    </ion-button>
+                    <ion-button mode="ios" shape="round" type="button" class="cancel ion-margin actionBtn ion-hide-sm-down" (click)="goBack()">
+                        Cancel
+                    </ion-button>
+                    <div class="warning fullwidth" *ngIf="sumPercent!==100">
+                        <ion-icon name="information-circle-outline"></ion-icon>
+                        Please make sure the target percentages add up to 100%
+                    </div>
+                    </form>
+                </ion-col>
+                <ion-item class="divider contentchartalign fullwidth ion-hide-sm-up"></ion-item>
+                <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                    <ion-row class="ion-hide-sm-up">
+                        <ion-item disabled="false" lines="none" class="overall contentchartalign fullwidth">
+                            <ion-label>
+                                Total Wealth Account
+                            </ion-label>
+                            <ion-text>{{accountsSummary.totalWealthAccount | currency : 'USD' : 'symbol' : '1.0-0'}}</ion-text>
+                        </ion-item>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size-lg="12" size-md="12" size-sm="4" size-xl="12" size-xs="4">
+                            <ion-item lines="none" class="contentchartalign chartalign">
+                                <canvas baseChart [datasets]="nd2ChartMeta.datasets" [labels]="nd2ChartMeta.labels" [options]="nd2ChartMeta.options"
+                    [chartType]="barChartType" #myCanvas></canvas>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col size-lg="12" size-md="12" size-sm="8" size-xl="12" size-xs="8">
+                            <ion-item disabled="false" lines="none" class="overall contentchartalign ion-hide-sm-down">
+                                <div>
+                                    <ion-label>
+                                        Total Wealth Account
+                                    </ion-label>
+                                    <ion-text>{{accountsSummary.totalWealthAccount | currency : 'USD' : 'symbol' : '1.0-0'}}</ion-text>
+                                </div>
+                            </ion-item>
+                            <ion-item class="divider contentchartalign ion-hide-sm-down"></ion-item>
+                            <ion-item *ngIf="legendData?.length>0" lines="none" class="contentchartalign">
+                                <div class="my-legend fullwidth" #legendsItems>
+                                    <div class="legend-item fullwidth" *ngFor="let legendItem of legendData;let i=index;">
+                                        <div class="box" [style.background-color]="legendItem.fillStyle"></div>
+                                        <div class="boxText">{{legendItem.text}}</div>
+                                        <div class="boxValue">{{nd2ChartMeta.datasets[0].data[i].toFixed(1)}}%</div>
+                                    </div>
+                                </div>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item class="divider contentchartalign ion-hide-sm-down"></ion-item>
+                            <ion-item lines="none" class="contentchartalign">
+                                <div class="fullwidth">
+                                    <div class="legend-item total fullwidth">
+                                        <div>Total sum:</div>
+                                        <!-- Because of rounding that is applied for each tier percentage there is a small chance
+                                        that the sum of the percentages could be 99.9% or 100.1%
+                                        Because of this we dediced to force 100% display.
+                                        If there are no accounts at all, 0% will be displayed -->
+                                        <div class="boxValue">{{(t1AccountsList.length!==0 && t2AccountsList.length!==0 && t3AccountsList.length!==0)?"100%":"0%"}}</div>
+                                    </div>
+                                </div>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
+                <ion-col size-lg="1" size-xl="1" class="ion-hide-lg-down"></ion-col>
+            </ion-row>
+        </ion-grid>
+    <ion-item class="divider"></ion-item>
+    <div class="section-title contentalignresult">
+        Results
+    </div>
+    <div class="section-sub-title">
+        Total Wealth Account: <ion-text color="success">{{accountsSummary.totalWealthAccount | currency : 'USD' : 'symbol' : '1.0-0'}}</ion-text>
+    </div>
+    <div class="resultgroup">
+        <div class="tresult">
+            <ion-item #toogleItem1 button (click)="toggleList(toogleItem1, toggleIconT1)" lines="none">
+                <ion-grid class="ion-no-padding">
+                    <ion-row>
+                        <ion-col class="ion-no-padding resultheading" size-lg="4" size-md="4" size-sm="12" size-xl="4" size-xs="12">
+                            T1 Liquidity / Chaos Hedges
+                        </ion-col>
+                        <ion-col class="ion-no-padding" size-lg="4" size-md="4" size-sm="12" size-xl="4" size-xs="12">
+                            <div class="resultsubheading">Current T1 Liquidity / Chaos Hedges</div>
+                            <div class="resulttext">{{ accountsSummary.totalWealthAccount ? ((100 * (accountsSummary.tier1 / accountsSummary.totalWealthAccount)).toFixed(1))
+                                : 0 }}% or {{accountsSummary.tier1 | currency : 'USD' : 'symbol' : '1.0-0'}}</div>
+                            <div></div>
+                        </ion-col>
+                        <ion-col class="ion-no-padding" size-lg="4" size-md="4" size-sm="12" size-xl="4" size-xs="12">
+                            <div class="resultsubheading">Difference:</div>
+                            <div class="resulttext">{{ accountsSummary.totalWealthAccount ? (((100 * (accountsSummary.tier1 / accountsSummary.totalWealthAccount))
+                                - data.t1Target).toFixed(1)) :0 }}% or {{accountsSummary.tier1 - (data.t1Target)/100*
+                                accountsSummary.totalWealthAccount | currency : 'USD' : 'symbol' : '1.0-0'}} {{ (accountsSummary.tier1
+                                - (data.t1Target)/100* accountsSummary.totalWealthAccount &gt; 0) ? 'above' : 'below'}}
+                                target</div>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+                <ion-icon class="toggleslot" [ngClass]="t1AccountsList.length==0?'disabled':''" slot="end" [name]="toggleIconT1&&t1AccountsList.length!=0?'chevron-up':'chevron-down'"></ion-icon>
+            </ion-item>
+            <div class="tcontent">
+                <div *ngFor="let account of t1AccountsList">
+                <ion-card class="accounts-list ion-padding-bottom cursor-pointer" (click)="editAccount(account.id,account.accountType)">
+                        <div class="accountarea" detail="false">
+                            <div class="accountBox">
+                                <div class="accountName">
+                                    <span *ngIf="account.parentHoldingId">{{account.parent.name}}: </span>{{account.name}}
+                                    <ion-icon src="assets/icon/arrowback.svg" class="ion-hide-sm-down"
+                                        [ngClass]="account.accountType == 'Liability'?'nextLiability':'next'" 
+                                        detail="false"></ion-icon>
+                                </div>
+                                <div class="accountDescription">
+                                    {{account.description}}
+                                </div>
+                                <div class="accountDescription ion-hide-sm-up">
+                                    {{account?.assetType | assetType}}
+                                </div>
+                                <div class="accountDescription ion-hide-sm-up">
+                                    {{account?.investmentType | investmentType}}
+                                </div>
+                                <div *ngIf="account.investmentType === &quot;stock&quot;" class="accountDescription ion-hide-sm-up">
+                                    Qty {{account?.sharesOwned | number:'1.0-2'}}
+                                </div>
+                                <div *ngIf="account.investmentType === &quot;stock&quot;" class="accountDescription ion-hide-sm-up">
+                                    Price {{account?.sharePrice | currency : 'USD' : 'symbol' : '1.0-2'}}
+                                </div>
+                            </div>
+                            <div class="accountBalanceBox ion-hide-sm-up">
+                                <div class="balance">{{account.currentBalance | currency : 'USD'}}</div>
+                            </div>
+                        </div>
+                        <ion-item class="divider ion-hide-sm-down"></ion-item>
+                        <div class="accountBalanceBox sub ion-hide-sm-down">
+                            <div class="accountBalance">
+                            <div>{{account?.assetType | assetType}}</div>
+                            <div>{{account?.investmentType | investmentType}}</div>
+                            <div>{{getAssetTypeIndicatorLabel(account)}}</div>
+                            <div>Yield {{account?.currentYield || 0}}%</div>
+                            <div class="subunit" *ngIf="account.investmentType === &quot;stock&quot;">Qty {{account?.sharesOwned | number:'1.0-2'}}</div>
+                            <div class="subunit" *ngIf="account.investmentType=== &quot;stock&quot;">Price {{account?.sharePrice | currency : 'USD' : 'symbol' : '1.0-2'}}</div>
+                            </div>
+                            <div class="balance">
+                                <div class="units"> {{account?.currentBalance | currency : 'USD' : 'symbol' : '1.0-0'}}</div>
+                            </div>
+                        </div>
+                </ion-card>
+                </div>
+            </div>
+        </div>
+        <ion-item class="divider ion-margin-top contentalignresult"></ion-item>
+        <div class="tresult">
+            <ion-item class="otheritem" #toogleItem2 button (click)="toggleList(toogleItem2, toggleIconT2)" lines="none">
+                <ion-grid class="ion-no-padding">
+                    <ion-row>
+                        <ion-col class="ion-no-padding resultheading" size-lg="4" size-md="4" size-sm="12" size-xl="4" size-xs="12">
+                            T2 Cash Flow Assets
+                        </ion-col>
+                        <ion-col class="ion-no-padding" size-lg="4" size-md="4" size-sm="12" size-xl="4" size-xs="12">
+                            <div class="resultsubheading">Current T2 Cash Flow Assets</div>
+                            <div class="resulttext">{{ accountsSummary.totalWealthAccount ? ((100 * (accountsSummary.tier2 / accountsSummary.totalWealthAccount)).toFixed(1))
+                                : 0 }}% or {{accountsSummary.tier2 | currency : 'USD' : 'symbol' : '1.0-0'}}</div>
+                            <div></div>
+                        </ion-col>
+                        <ion-col class="ion-no-padding" size-lg="4" size-md="4" size-sm="12" size-xl="4" size-xs="12">
+                            <div class="resultsubheading">Difference:</div>
+                            <div class="resulttext">
+                                {{ accountsSummary.totalWealthAccount ? (((100 * (accountsSummary.tier2 / accountsSummary.totalWealthAccount))
+                                    - data.t2Target).toFixed(1)) : 0 }}% or {{accountsSummary.tier2 - (data.t2Target)/100*
+                                    accountsSummary.totalWealthAccount | currency : 'USD' : 'symbol' : '1.0-0'}} {{ (accountsSummary.tier2
+                                    - (data.t2Target)/100* accountsSummary.totalWealthAccount &gt; 0) ? 'above' : 'below'}}
+                                    target
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+                <ion-icon class="toggleslot" [ngClass]="t2AccountsList.length==0?'disabled':''" slot="end" [name]="toggleIconT2&&t2AccountsList.length!=0?'chevron-up':'chevron-down'"></ion-icon>
+            </ion-item>
+            <div class="tcontent">
+                <div *ngFor="let account of t2AccountsList">
+                    <ion-card class="accounts-list ion-padding-bottom cursor-pointer" (click)="editAccount(account.id,account.accountType)">
+                            <div class="accountarea" detail="false">
+                                <div class="accountBox">
+                                    <div class="accountName">
+                                        <span *ngIf="account.parentHoldingId">{{account.parent.name}}: </span>{{account.name}}
+                                        <ion-icon src="assets/icon/arrowback.svg" class="ion-hide-sm-down"
+                                        [ngClass]="account.accountType == 'Liability'?'nextLiability':'next'" 
+                                        detail="false"></ion-icon>
+                                    </div>
+                                    <div class="accountDescription">
+                                        {{account.description}}
+                                    </div>
+                                    <div class="accountDescription ion-hide-sm-up">
+                                        {{account?.assetType | assetType}}
+                                    </div>
+                                    <div class="accountDescription ion-hide-sm-up">
+                                        {{account?.investmentType | investmentType}}
+                                    </div>
+                                    <div *ngIf="account.investmentType === &quot;stock&quot;" class="accountDescription ion-hide-sm-up">
+                                        Qty {{account?.sharesOwned | number:'1.0-2'}}
+                                    </div>
+                                    <div *ngIf="account.investmentType === &quot;stock&quot;" class="accountDescription ion-hide-sm-up">
+                                        Price {{account?.sharePrice | currency : 'USD' : 'symbol' : '1.0-2'}}
+                                    </div>
+                                </div>
+                                <div class="accountBalanceBox ion-hide-sm-up">
+                                    <div class="balance">{{account.currentBalance | currency : 'USD'}}</div>
+                                </div>
+                            </div>
+                            <ion-item class="divider ion-hide-sm-down"></ion-item>
+                            <div class="accountBalanceBox sub ion-hide-sm-down">
+                                <div class="accountBalance">
+                                <div>{{account?.assetType | assetType}}</div>
+                                <div>{{account?.investmentType | investmentType}}</div>
+                                <div>{{getAssetTypeIndicatorLabel(account)}}</div>
+                                <div>Yield {{account?.currentYield || 0}}%</div>
+                                <div class="subunit" *ngIf="account.investmentType === &quot;stock&quot;">Qty {{account?.sharesOwned | number:'1.0-2'}}</div>
+                                <div class="subunit" *ngIf="account.investmentType=== &quot;stock&quot;">Price {{account?.sharePrice | currency : 'USD' : 'symbol' : '1.0-2'}}</div>
+                                </div>
+                                <div class="balance">
+                                    <div class="units"> {{account?.currentBalance | currency : 'USD' : 'symbol' : '1.0-0'}}</div>
+                                </div>
+                            </div>
+                    </ion-card>
+                </div>
+            </div>
+        </div>
+        <ion-item class="divider ion-margin-top contentalignresult"></ion-item>
+        <div class="tresult">
+            <ion-item class="otheritem" #toogleItem3 button (click)="toggleList(toogleItem3, toggleIconT3)" lines="none">
+                <ion-grid class="ion-no-padding">
+                    <ion-row>
+                        <ion-col class="ion-no-padding resultheading" size-lg="4" size-md="4" size-sm="12" size-xl="4" size-xs="12">
+                            T3 Speculations
+                        </ion-col>
+                        <ion-col class="ion-no-padding" size-lg="4" size-md="4" size-sm="12" size-xl="4" size-xs="12">
+                            <div class="resultsubheading">Current T3 Speculations </div>
+                            <div class="resulttext">
+                                {{ accountsSummary.totalWealthAccount ? ((100 * (accountsSummary.tier3 / accountsSummary.totalWealthAccount)).toFixed(1))
+                                    : 0 }}% or {{accountsSummary.tier3 | currency : 'USD' : 'symbol' : '1.0-0'}}
+                            </div>
+                            <div></div>
+                        </ion-col>
+                        <ion-col class="ion-no-padding" size-lg="4" size-md="4" size-sm="12" size-xl="4" size-xs="12">
+                            <div class="resultsubheading">Difference:</div>
+                            <div class="resulttext">
+                                {{ accountsSummary.totalWealthAccount ? (((100 * (accountsSummary.tier3 / accountsSummary.totalWealthAccount))
+                                    - data.t3Target).toFixed(1)) : 0 }}% or {{accountsSummary.tier3 - (data.t3Target)/100*
+                                    accountsSummary.totalWealthAccount | currency : 'USD' : 'symbol' : '1.0-0'}} {{ (accountsSummary.tier3
+                                    - (data.t3Target)/100* accountsSummary.totalWealthAccount &gt; 0) ? 'above' : 'below'}}
+                                    target
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+                <ion-icon class="toggleslot" [ngClass]="t3AccountsList.length==0?'disabled':''" slot="end" [name]="toggleIconT3&&t3AccountsList.length!=0?'chevron-up':'chevron-down'"></ion-icon>
+            </ion-item>
+            <div class="tcontent">
+                <div *ngFor="let account of t3AccountsList">
+                    <ion-card class="accounts-list ion-padding-bottom cursor-pointer" (click)="editAccount(account.id,account.accountType)">
+                            <div class="accountarea" detail="false">
+                                <div class="accountBox">
+                                    <div class="accountName">
+                                        <span *ngIf="account.parentHoldingId">{{account.parent.name}}: </span>{{account.name}}
+                                        <ion-icon src="assets/icon/arrowback.svg" class="ion-hide-sm-down" 
+                                        [ngClass]="account.accountType == 'Liability'?'nextLiability':'next'" 
+                                        detail="false"></ion-icon>
+                                    </div>
+                                    <div class="accountDescription">
+                                        {{account.description}}
+                                    </div>
+                                    <div class="accountDescription ion-hide-sm-up">
+                                        {{account?.assetType | assetType}}
+                                    </div>
+                                    <div class="accountDescription ion-hide-sm-up">
+                                        {{account?.investmentType | investmentType}}
+                                    </div>
+                                    <div *ngIf="account.investmentType === &quot;stock&quot;" class="accountDescription ion-hide-sm-up">
+                                        Qty {{account?.sharesOwned | number:'1.0-2'}}
+                                    </div>
+                                    <div *ngIf="account.investmentType === &quot;stock&quot;" class="accountDescription ion-hide-sm-up">
+                                        Price {{account?.sharePrice | currency : 'USD' : 'symbol' : '1.0-2'}}
+                                    </div>
+                                </div>
+                                <div class="accountBalanceBox ion-hide-sm-up">
+                                    <div class="balance">{{account.currentBalance | currency : 'USD'}}</div>
+                                </div>
+                            </div>
+                            <ion-item class="divider ion-hide-sm-down"></ion-item>
+                            <div class="accountBalanceBox sub ion-hide-sm-down">
+                                <div class="accountBalance">
+                                <div>{{account?.assetType | assetType}}</div>
+                                <div>{{account?.investmentType | investmentType}}</div>
+                                <div>{{getAssetTypeIndicatorLabel(account)}}</div>
+                                <div>Yield {{account?.currentYield || 0}}%</div>
+                                <div class="subunit" *ngIf="account.investmentType === &quot;stock&quot;">Qty {{account?.sharesOwned | number:'1.0-2'}}</div>
+                                <div class="subunit" *ngIf="account.investmentType=== &quot;stock&quot;">Price {{account?.sharePrice | currency : 'USD' : 'symbol' : '1.0-2'}}</div>
+                                </div>
+                                <div class="balance">
+                                    <div class="units"> {{account?.currentBalance | currency : 'USD' : 'symbol' : '1.0-0'}}</div>
+                                </div>
+                            </div>
+                    </ion-card>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <ion-item class="divider ion-hide-sm-down"></ion-item>
+    <div class="contentaligntutorial">
+        <ion-accordion-group>
+            <ion-accordion value="tutorial" class="tutorial" toggle-icon="">
+                <ion-item slot="header" (click)="toggleIcon=!toggleIcon">
+                    <ion-label color="success">Tutorial
+                        <p>Capital Allocation (ND2) - Wealth Account Rules Based System</p>
+                    </ion-label>
+                    <ion-icon class="toggleslot" slot="end" [name]="toggleIcon?'chevron-up':'chevron-down'"></ion-icon>
+                </ion-item>
+            <ion-grid slot="content">
+                &nbsp;
+            <p>
+                ND2 is the second formula in our non discretionary rules based system. It is how
+                we manage our ND1 “Wealth Account” capital to generate Unearned Income (money that
+                works for us: ie; interest, dividends, capital gains, rents, royalties, profits)
+                and over time, build our fortress balance sheet.
+            </p>
+            &nbsp;
+            <p>
+                Assets on your balance sheet are either making you richer or poorer, adding or decreasing
+                risk, maximizing or minimizing liquidity.
+            </p>
+            &nbsp;
+            <p>
+                ND2 rules consist of T1 cash and cash-like assets (liquidity), T2 cash flow assets
+                (investments), T3 appreciating assets (speculations) -
+                <i>
+                    see TWF Money Quadrant.
+                </i>
+            </p>
+            &nbsp;
+            <p>
+                Our TWF system recommends the following
+                <i>
+                    target
+                </i>
+                Capital Allocation ND2 ratios (these are the defaults but you can customize it per
+                your needs):
+            </p>
+            <ol>
+                <li>
+                    10% - T1 Liquidity (and/or chaos hedge, safety)
+                </li>
+                <li>
+                    70% - T2 Cash Flow Assets (and/or long term core, income)
+                </li>
+                <li>
+                    20% - T3 Speculations (and/or short term trades, growth)
+                </li>
+            </ol>
+            <p>
+                Keep in mind your ND2 rules are high level “target” ratios meant to act as a key
+                “instrument” on your Wealth Dashboard, letting you know how far on or off track you
+                might be, when you might be taking on more risk than you want. You may rarely if
+                ever have a balance sheet that matches your target ratios perfectly as things will
+                always be in flux. They can also be used to help “tilt” your capital allocations
+                during certain market conditions.
+            </p>
+            &nbsp;
+            <p>
+                <strong>
+                    Why does my "Wealth Account" balance not equal my Net Worth on my balance sheet?
+                </strong>
+            </p>
+            &nbsp;
+            <p>
+                When you add Asset accounts to your Balance Sheet (via +Accounts), for each account
+                you select either Consumer, Depreciating Asset, Appreciating Asset, Cash Flow Asset
+                (ie; see TWF Money Quadrant). Only Assets marked Consumer or Depreciating with “T1
+                liquidity/chaos hedge?” checked will be included in your T1 ratios. Cash Flow Assets
+                get included in T2 and Appreciating Assets get included in T3. These are Assets identified
+                as part of the “Wealth Account” portion of your balance sheet with strategic importance
+                towards helping you achieve financial freedom. Not all “assets” on your balance sheet
+                will be included. An automobile for example will be marked as a Depreciating Asset
+                but should not be part of your T1 allocation.
+            </p>
+            &nbsp;
+            <p>
+                <strong>
+                    Note.
+                </strong>
+                If you have a primary residence valued at $250,000 (a Depreciating or Appreciating
+                Asset) and a mortgage with a $200,000 balance (a Liability or debt attached to the
+                residence), the difference of $50,000 equity can show up 3 different ways: a) part
+                of your “Wealth Account” and T3 if marked Appreciating Asset, b) part of your “Wealth
+                Account” and T1 if marked Consumer or Depreciating Asset AND “T1 liquidity/chaos
+                hedge?” is checked, or c) not at all if marked Consumer or Depreciating Asset and
+                “T1 liquidity/chaos hedge?” is NOT checked.
+            </p>
+            &nbsp;
+            <p>
+                <strong>
+                    Another example:
+                </strong>
+                If you have a primary residence but part of it is rented out and generating positive
+                cash flow income, then you can simply add 2 separate Asset accounts both representing
+                the total value of the home. Mark the first account as you would normally for a residence
+                (either Depreciating or Appreciating Asset) but mark the second account as a Cash
+                Flow Asset with its respective values (ie; yield). In this example, the same asset
+                can take on more than one characteristic and be displayed accordingly in your ND2
+                ratios. The Cash Flow Asset portion and its values will also show up in your Compound
+                Return (MOAC) projections and charts (if not marked “Exclude from compound return
+                calc?”).
+            </p>
+            </ion-grid>
+        </ion-accordion>
+        </ion-accordion-group>
+    </div> -->
+    <ion-button [disabled]="sumPercent==100?false:true" mode="ios" shape="round" type="button" class="save ion-margin contentalignbutton fullbtn ion-hide-sm-up" (click)="saveToAccount()">
+        Save changes
+    </ion-button>
+    <ion-button mode="ios" shape="round" type="button" class="cancel ion-margin fullbtn ion-hide-sm-up" (click)="goBack()">
+        Cancel
+    </ion-button>
+    </div>
+    <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+        <ion-fab-button color="new-dark" (click)="openTutorial()">
+          <ion-icon src="assets/icon/education.svg"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+</ion-content>
+<ion-footer>
+    <div>
+        <bottom-menu>
+        </bottom-menu>
+    </div>
+</ion-footer>

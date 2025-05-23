@@ -1,0 +1,226 @@
+ion-content{
+    --ion-font-family:var(--font-family);
+    --padding-bottom: 32px;
+    ion-toolbar ion-buttons{
+        margin-inline-start:0px;
+    }
+    ion-toolbar{
+        padding-right: calc(var(--ion-safe-area-right));
+    }
+    .section-title, .section-down-title{
+        font-size: 24px;
+    }
+    .section-title{
+        margin-left: 0px;
+        margin-top: 28px;
+        margin-bottom: 36px;
+    }
+    .section-down-title{
+        margin-top: 32px;
+    }
+    .mobilehandle{
+        font-size: 32px;
+        transform: none;
+    }
+    .accountgrid{
+        margin-top: 15px;
+        .gridCard{
+            border: 1px solid var(--border-four-color);
+            border-radius: 16px;
+            text-align: center;
+            &:hover{
+                background: var(--graph-grey);
+            }
+            &.scratch{
+                background: var(--main-theme);
+                .textheading{
+                    padding-top: 8px;
+                    color: var(--ion-color-pure-white);
+                }
+            }
+            &.scratchl{
+                background: var(--delete);
+                .textheading{
+                    padding-top: 8px;
+                    color: var(--ion-color-pure-white);
+                }
+            }
+        }
+        ion-img{
+            width: 100%;
+            height: 100%;
+            max-width: 136px;
+            max-height: 76px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 8px;
+        }
+    }
+    .overall{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        .overalltext{
+            font-size: 14px;
+        }
+        .balance{
+            font-size: 24px;
+        }
+    }
+    h2{
+        font-size: 28px;
+        font-weight: 400;
+    }
+    p{
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--sub-title-color);
+    }
+    .segment-scroller {
+        overflow-x: auto;
+        padding: 0 16px;
+        margin: 0 -16px;
+    }   
+
+    @media (max-width: 39.9375em) {
+        .fullbtn{
+            width: 100%;
+        }
+        .section-title, .section-down-title{
+            font-size: 20px;
+        }
+        .section-title{
+            margin-top: 24px;
+            margin-bottom: 4px;
+        }
+        .overall{
+            margin-top: 26px;
+            .overalltext, .balance{
+                font-size: 16px;
+            }
+        }
+        ion-button.save{
+            margin-bottom: 4px;
+        }
+        ion-button.cancel{
+            margin-top: 4px;
+        }
+        .mobile-align{
+            padding-right: 16px;
+            padding-left: 16px;
+        }
+        .accountgrid{
+            ion-img{
+                max-width: 73px;
+                max-height: 47px;
+            }
+            .gridCard.scratchl{
+                display: flex;
+                align-items: center;
+                .textheading{
+                    padding-top: 0px;
+                    margin-left: 10px;
+                }
+                ion-img{
+                    max-width: 56px;
+                    max-height: 36px;
+                    margin-left: 5px;
+                }
+            }
+        }
+        .accountgrid.assets{
+            .gridCard{
+                display: flex;
+                align-items: center;
+                &.scratch{
+                    .textheading{
+                        padding-top: 0px;
+                    }
+                }
+            }
+            ion-img{
+                max-width: 56px;
+                max-height: 36px;
+                margin-bottom: 6px;
+                margin-top: 6px;
+            }
+            .textheading{
+                margin-left: 10px;
+            }
+        }
+        #ifAsset {
+            ion-segment-button {
+                    margin-top: 1px;
+                    // margin-right: -4px;
+                    --border-radius: 20px;
+                    --padding-start: 11px;
+                    --padding-end: 11px;
+                    --padding-top: 4px;
+                    --padding-bottom: 4px;
+                    min-width: 50px;
+                    &.stock{
+                        min-width: 140px;
+                    }
+                ion-label {
+                    font-size: 12px;
+                }
+            }
+        }
+        #excludeFromAnnualWithdrawal {
+            margin-right: 0;
+            ion-label {
+                margin-right: 0;
+                font-size: 15px;
+            }
+            ion-toggle {
+                padding-left: 10px;
+                margin-right: -4px;
+            }
+        }
+        #excludeFromCompoundReturn {
+            margin-right: 0;
+            ion-label {
+                margin-right: 0;
+                font-size: 15px;
+            }
+            ion-toggle {
+                padding-left: 10px;
+                margin-right: -4px;
+            }
+        }
+
+        .gridCard.scratch {
+            .cardheading {
+                margin-left: 6px;
+            }
+        }
+    }
+
+    @media (min-width: 40em) {
+        --padding-start: 32px;
+        --padding-end: 32px;
+        ion-title.freedomtitle{
+            font-size: 28px;
+        }
+        .subtitle{
+            margin-top: 0px;
+            margin-left: 46px;
+        }
+        ion-button.save{
+            margin-left: 0px;
+        }
+        .header-top{
+            ion-button{
+                transform: translateX(-11px);
+            }
+        }
+    }
+}
+
+.custom-select-class{
+    // width: 100%;
+    width: 100%;
+    --box-shadow: none;
+}

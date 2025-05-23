@@ -1,0 +1,15 @@
+ion-icon {
+    margin: 0!important;
+    &.md {
+        color: rgba(0, 0, 0, 0.54);
+        vertical-align: -3px;
+    }
+    &.ios {
+        color: var(--ion-item-color,var(--ion-text-color,#000))!important;
+        vertical-align: -4px;
+    }
+}
+ion-item {
+    --padding-start: 0;
+}
+

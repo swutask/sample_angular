@@ -1,0 +1,79 @@
+<ion-content>
+    <ion-progress-bar class="barprogress" color="main-theme ion-hide-sm-down" value="0.75"></ion-progress-bar>
+    <ion-chip class="mainprogress ion-hide-sm-down">75%</ion-chip>
+    <ion-img src="assets/images/logo_placeholder.svg" alt="Image error" class="logo_placeholder ion-hide-sm-down">
+    </ion-img>
+    <ion-item class="itemHeader ion-hide-sm-up" lines="none">
+    <ion-buttons slot="start" class="backbox">
+        <ion-button color="light" routerDirection="back" (click)="back()">
+        <ion-icon src="assets/icon/arrowback.svg">
+        </ion-icon>
+        </ion-button>
+    </ion-buttons>
+    <ion-progress-bar class="barprogress" color="main-theme" value="0.75"></ion-progress-bar>
+    </ion-item>
+    <h2 class="ion-hide-sm-up">Sign Up</h2>
+    <ion-img src="assets/images/stairs.png" class="login-logo"></ion-img>
+    <div class="backBtn cursor-pointer ion-hide-sm-down" (click)="back()">
+    <ion-icon src="assets/icon/arrowback.svg" color="light"></ion-icon>
+    </div>
+    <div class="logincontent">
+    <!-- <ion-img src="assets/images/stairs.png" alt="Image error" class="login-logo"> -->
+    <!-- </ion-img> -->
+    <p class="login-slogan">
+        Register your account!
+    </p>
+    <!-- <div class="backBtn cursor-pointer ion-hide-sm-down" (click)="navigateTo('login')">
+        <ion-icon name="arrow-back" color="light"></ion-icon>
+    </div> -->
+    <form class="wb-form" novalidate="" [formGroup]="fm">
+        <ion-item [ngClass]="showPhoneCode?'ion-hide':''" lines="none">
+            <ion-intl-tel-input
+            (keyup.enter)="signup()"
+            formControlName="phoneNumber"
+            [preferredCountries]="preferredCountries"
+            defaultCountryiso="us"
+            inputPlaceholder=" ">
+            </ion-intl-tel-input>
+        </ion-item>
+
+        <div style="margin-bottom: 10px;" [ngClass]="showPhoneCode?'ion-hide':''" *ngIf="phoneNumber.invalid && phoneNumber.touched">
+            <ion-text color="danger" *ngIf="phoneNumber.errors.required">
+                <p class="ion-no-margin"><sub>Phone is required.</sub></p>
+            </ion-text>
+            <ion-text color="danger" *ngIf="!phoneNumber.errors.required && phoneNumber.errors.phone">
+                <p class="ion-no-margin"><sub>Phone number is not valid.</sub></p>
+            </ion-text>
+        </div>
+        <div style="margin-bottom: 10px;" [ngClass]="showPhoneCode?'ion-hide':''" *ngIf="phoneNumber.valid && phoneNumber.touched">
+            <ion-text color="success">
+                <p class="ion-no-margin"><sub>Phone number is valid.</sub></p>
+            </ion-text>
+        </div>
+
+        <ion-item class="securecode" *ngIf="showPhoneCode">
+            <ion-input placeholder="Secure code from SMS" type="tel" inputmode="numeric" (keyup.enter)="confirmCode()" formControlName="phoneCode" name="phoneCode">
+            </ion-input>
+        </ion-item>
+
+        <div class="resendcode cursor-pointer" (click)="sendOTP()" *ngIf="showPhoneCode">
+            <ion-icon src="../../assets/images/Vector.svg" color="success"></ion-icon> 
+            Re-send the Code
+        </div>
+
+        <ion-button mode="ios" shape="round" type="button" class="save ion-margin-top ion-margin-bottom" 
+        (click)="signup()" *ngIf="!(showPhoneCode)">
+            Receive Code
+            <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+        </ion-button>
+        <ion-button mode="ios" shape="round" type="button" class="save ion-margin-top ion-margin-bottom" 
+        (click)="confirmCode()" *ngIf="showPhoneCode">
+            Submit Code
+            <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+        </ion-button>
+    </form>
+    <div class="terms">
+            By using this app you agree with the <span class="terms-link cursor-pointer" (click)="navigateTo('termsOfUse')">Terms of services</span>
+    </div>
+</div>
+</ion-content>

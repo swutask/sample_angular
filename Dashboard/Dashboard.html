@@ -1,0 +1,830 @@
+<ion-header class="ion-no-border header-top ion-hide-sm-up"> 
+    <ion-toolbar mode="md" color="pure-white">
+        <ion-buttons slot="start">
+            <ion-button routerDirection="back" (click)="navigateToProfile()">
+                <ion-icon class="titleicon" src="assets/images/Union.svg" color="dark"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="dark" class="freedomtitle">
+            Dashboard
+        </ion-title>
+        <ion-avatar class="avatar-icon" (click)="navigateToProfile()" slot="end">
+            <ion-img [src]="userAvatar || this.userSvc.defaultAvatar" alt="Image error" alt="image" (ionError)="img.src='assets/images/no_avatar.png';" #img>
+            </ion-img>
+          </ion-avatar>
+    </ion-toolbar>
+</ion-header>
+<ion-content color="cardbackground" class="account-content">
+    <ion-refresher [disabled]="false" slot="fixed" (ionRefresh)="doRefresh($event)"
+    spiner="spiral">
+        <ion-refresher-content>
+        </ion-refresher-content>
+    </ion-refresher>
+    <div class="mb-10 dash-main">
+        <!-- <div class="onboard-process-container">
+        <ion-grid>
+            <ion-row>
+              <ion-col >
+                <div class="onboard-process" (click)="openProgress()">
+                    <div class="onboard-text">
+                        <div class="board-head">
+                            <h2>Welcome {{this.userSvc.firstName}}! {{dashboardBannerMessage}} ({{getCompPercentage(isProfileDone, isGoalsDone, isFreedomDone, isLifestyleDone, isLegacyDone, isAssetDone, isLiabilityDone, isBudgetingDone, isCapitalDone, isCompoundDone, isIncomeDone, isPorfolioDone, isRiskDone, isTaxDone, isAssetPDone, isDebtDone, isDebtFree)}}%)<span></span>
+                            </h2>
+                            <circle-progress
+                                class="progress"
+                                [percent]="getCompPercentage(isProfileDone, isGoalsDone, isFreedomDone, isLifestyleDone, isLegacyDone, isAssetDone, isLiabilityDone, isBudgetingDone, isCapitalDone, isCompoundDone, isIncomeDone, isPorfolioDone, isRiskDone, isTaxDone, isAssetPDone, isDebtDone, isDebtFree)"
+                                [radius]="12"
+                                [outerStrokeWidth]="2"
+                                [innerStrokeWidth]="2"
+                                [space]="-2"
+                                [outerStrokeColor]="'#FFFFFF'"
+                                [innerStrokeColor]="'#ffffff61'"
+                                [showTitle]="false"
+                                [showSubtitle]="false"
+                                [showUnits]="false"
+                                [animation]="true"
+                                [animationDuration]="300"
+                                ></circle-progress>
+                        </div>
+                        <p class="ion-hide-sm-down">Your primary goal is: {{getPersonalGoal(primaryGoal)?.label}}. Small consistent steps compound into big rewards. Use the TWF Implementation checklist to ensure forward progress towards mastering ratio based money management, increasing your income, restructuring your balance sheet for cash flow and creating your legacy.</p>
+                        <p class="ion-hide-sm-up mobile-goal">Your primary goal is: {{getPersonalGoal(primaryGoal)?.label}}.</p>
+                    </div>
+                    <div class="onboard-process-img">
+                        <img src="../../assets/images/onboard.png"/>
+                    </div>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          </div> -->
+
+          <!-- <ion-grid>
+            <ion-row>
+              <ion-col >
+                <div class="goal-main cursor-pointer" (click)="openGoals()">
+                    <ion-grid class="g-img ">
+                        <ion-row class="ion-align-items-center" [ngClass]="this.isMobile?'ion-hide-sm-up':'ion-hide-sm-down'">
+                            <ion-col size="1"><img src="../../assets/images/book.png"></ion-col>
+                            <ion-col class="primary-goal" size="11">My primary goal — {{getPersonalGoal(primaryGoal)?.label}}</ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid> -->
+
+        
+
+        <div class="balance-sheet pointer ion-hide-sm-up">
+            <h2 class="ion-no-margin" (click)="networth_textClick($event, currentItem)">Balance Sheets</h2>    
+              <!-- Segment with a value that checks the last button -->
+              <ion-grid>
+                  <ion-row class="ion-justify-content-between ion-align-items-center bs-arw">
+                      <ion-col size="12" size-md="11">
+                          <ion-grid>
+                              <ion-row class="segment-btn">
+                                  <ng-Container *ngFor="let s of balanceSheets;let i=index">
+                                    <ion-button class="no-ripple" (click)="toggleSheet(s.id)" [ngClass]="{'ion-no-padding ion-no-margin': true, 'active': sheet == s.id}"
+                                    [ngxTippy]="(s.description==null||s.description=='')&&i!=0?'Missing description':s.description" 
+                                    *ngIf="s?.name.toLowerCase()=='default' || hasAccessTo()" [tippyName]="s.id" [tippyProps]="{
+                                        theme: 'main',
+                                        delay: 1000,
+                                        touch: false
+                                    }" id="segmentdash-{{s.id}}">{{s.name}}</ion-button>
+                                  </ng-Container>
+                            </ion-row>
+                          </ion-grid>
+                      </ion-col>
+                      <ion-col size="12" size-md="1" class="arw">
+                        <ion-note class="ion-float-right slide-edit-note ion-hide-sm-down" (click)="navigateToAccountsPage()">
+                            <ion-icon  src="../../assets/icon/black-right-arw.svg" class="arrow-icon">
+                            </ion-icon>
+                            <ion-icon  src="../../assets/icon/white-right-arw.svg" class="arrow-icon white-arw">
+                            </ion-icon>
+                        </ion-note>
+                    </ion-col>
+                  </ion-row>
+              </ion-grid>
+        </div>
+
+        <div class="net-worth-conatiner">
+            <ion-card-title color="primary" class="cursor-pointer" (click)="networth_textClick($event, currentItem)">
+                Net Worth <span [ngClass]="accountList.length>0?accountsSummary.netWorth>0?'account-color':'red-netWorth':'no-account-color'"> {{accountsSummary.netWorth | currency : 'USD' : 'symbol' : '1.0-0' }}</span>
+            </ion-card-title>
+            <ion-grid>
+                <ion-row>
+                    <ion-col class="networth-assets">
+                        Assets {{this.accountsSummary.assetWorth | currency : 'USD' : 'symbol' : '1.0-0' }}
+                    </ion-col>
+                    <ion-col class="networth-liabilities">
+                        Liabilities -{{this.accountsSummary.liabilityWorth | currency : 'USD' : 'symbol' : '1.0-0' }}
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <div class="netWorth-bar">
+                <ion-grid>
+                    <ion-row>
+                        <span *ngIf="accountList.length>0" class="green" [style]="{'width': ((this.accountsSummary.assetWorth / (this.accountsSummary.assetWorth + this.accountsSummary.liabilityWorth))*100)+'%'}"></span>
+                        <span *ngIf="accountList.length>0" class="red" [style]="{'width': ((this.accountsSummary.liabilityWorth / (this.accountsSummary.assetWorth + this.accountsSummary.liabilityWorth))*100)+'%'}"></span>
+                        <span *ngIf="accountList.length==0" class="gray" [style]="{'width':'100%'}"></span>
+                    </ion-row>
+                </ion-grid>
+            </div>  
+        </div>
+
+        <div class="graph-container">
+            <ion-grid>
+                <ion-row>
+                    <ion-col size="12" size-md="6" class="nd1">
+                        <div (click)="openND1()" class="graph-main cursor-pointer" [ngClass]="nd1CalculatorData?.living==null && nd1CalculatorData?.giving==null && nd1CalculatorData?.wealth==null && nd1CalculatorData?.debt==null?'nd1Blur-70':''">
+                            <div class="g-h" id="ND1Card"> 
+                                <p class="ion-no-margin pointer"> Budgeting <span>(ND1)</span></p>
+                                <ion-note class="ion-float-right slide-edit-note"
+                                *ngIf="nd1CalculatorData?.living!=null && nd1CalculatorData?.giving!=null && nd1CalculatorData?.wealth!=null && nd1CalculatorData?.debt!=null">
+                                    <ion-icon  src="../../assets/icon/arrowright.svg" color="main-theme" class="arrow-icon">
+                                    </ion-icon>
+                                    <ion-icon  src="../../assets/icon/white-right-arw.svg" class="arrow-icon white-arw">
+                                    </ion-icon>
+                                </ion-note>
+                            </div>
+                            <div class="chart">
+                                <!-- NO ACCOUNT DATA SCENARIO // START-->
+                                <div class="chart-text" *ngIf="nd1CalculatorData?.living==null && nd1CalculatorData?.giving==null && nd1CalculatorData?.wealth==null && nd1CalculatorData?.debt==null">
+                                    <h1 class="ion-no-margin">
+                                        <label class="notFound">Click edit and enter ND1 budgeting values to see this chart.</label>
+                                    </h1>
+                                </div>
+                                <ion-button *ngIf="nd1CalculatorData?.living==null && nd1CalculatorData?.giving==null && nd1CalculatorData?.wealth==null && nd1CalculatorData?.debt==null"
+                                mode="ios" shape="round" type="button" class="save add-missing ion-margin actionBtn ion-hide-sm-down" (click)="openND1()">
+                                Set the Budget &nbsp;&nbsp;
+                                    <ion-icon  src="../../assets/icon/white-right-arw.svg" class="up-arrow-icon pointer">
+                                    </ion-icon>
+                                </ion-button>
+                                <ion-button *ngIf="nd1CalculatorData?.living==null && nd1CalculatorData?.giving==null && nd1CalculatorData?.wealth==null && nd1CalculatorData?.debt==null" 
+                                mode="ios" shape="round" type="button" class="save add-missing ion-margin fullbtn ion-hide-sm-up" (click)="openND1()">
+                                Set the Budget &nbsp;&nbsp;
+                                    <ion-icon  src="../../assets/icon/white-right-arw.svg" class="up-arrow-icon pointer">
+                                    </ion-icon>
+                                </ion-button>
+                                <!-- NO ACCOUNT DATA SCENARIO // END-->
+
+                                <!-- MOBILE -->
+                                <ion-grid class="ion-hide-sm-up" *ngIf="nd1CalculatorData?.living">
+                                    <ion-row class="nd-card-sub-title">
+                                        Earned Income
+                                    </ion-row>
+                                    <ion-row class="nd-account-totals">
+                                        $ {{this.nd1CalculatorData.earnedIncome | number:'1.0-0'}}
+                                    </ion-row>
+                                </ion-grid>
+                                <ion-grid *ngIf="nd1CalculatorData?.living!=null && nd1CalculatorData?.giving!=null && nd1CalculatorData?.wealth!=null && nd1CalculatorData?.debt!=null">
+                                    <ion-row class="chartSpace">
+                                        <ion-col size-xl="7" size-lg="7" size-md="7" size-sm="4" size-xs="4" class="chart-canv">
+                                            <canvas baseChart
+                                            [labels]="nd1ChartMeta.labels"
+                                            chartType="doughnut"
+                                            [options]="nd1ChartMeta.options"
+                                            [datasets]="nd1ChartMeta.datasets"
+                                            id="nd1Canvas"
+                                            #nd1Canvas
+                                            >
+                                            </canvas>
+                                        </ion-col>
+                                        <ion-col size-xl="5" size-lg="5" size-md="5" size-sm="8" size-xs="8">
+                                            <div class="chart-text">
+                                                <h1 class="ion-no-margin ion-hide-sm-down">
+                                                    <label>Earned Income</label>
+                                                    $ {{this.nd1CalculatorData.earnedIncome | number:'1.0-0'}}
+                                                </h1>
+                                                <ul class="ion-no-margin ion-no-padding" id="nd1legendsItems" #nd1legendsItems>
+                                                    <li>
+                                                        <p class="ion-no-margin"><span class="color-box blue"></span>Bills</p>
+                                                        <span>{{this.nd1CalculatorData?.living}}%</span>
+                                                    </li>
+                                                    <li>
+                                                        <p class="ion-no-margin"><span class="color-box yellow"></span>Giving</p>
+                                                        <span>{{this.nd1CalculatorData.giving}}%</span>
+                                                    </li>
+                                                    <li>
+                                                        <p class="ion-no-margin"><span class="color-box green"></span>Wealth</p>
+                                                        <span>{{this.nd1CalculatorData.wealth}}%</span>
+                                                    </li>
+                                                    <li>
+                                                        <p class="ion-no-margin"><span class="color-box red"></span>Debt Accelerator</p>
+                                                        <span>{{this.nd1CalculatorData.debt}}%</span>
+                                                    </li>
+                                                    <li *ngIf="this.nd1CalculatorData?.customAccounts?.length > 0">
+                                                        <p class="ion-no-margin"></p>
+                                                        <span (click)="openND1()" class="more-styles">more</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </div>
+                        </div>
+                    </ion-col>
+                    <ion-col size="12" size-md="6" *ngIf="hasAccessTo()" class="nd2">
+                        <div class="graph-main cursor-pointer" (click)="navCtrl.navigateForward('nd2details')" [ngClass]="assetList.length==0?'nd2Blur-70':''">
+                            <div class="g-h" id="ND2Card">
+                                <p class="ion-no-margin pointer">Capital Allocation <span>(ND2)</span></p>
+                                <ion-note class="ion-float-right slide-edit-note"
+                                *ngIf="assetList.length>0">
+                                    <ion-icon src="../../assets/icon/arrowright.svg" color="main-theme" class="arrow-icon">
+                                    </ion-icon>
+                                    <ion-icon  src="../../assets/icon/white-right-arw.svg" class="arrow-icon white-arw">
+                                    </ion-icon>
+                                </ion-note>
+                            </div>
+                            <div class="chart">
+                                <!-- NO ACCOUNT DATA SCENARIO // START-->
+                                <div class="chart-text" *ngIf="assetList.length==0">
+                                    <h1 class="ion-no-margin">
+                                        <label class="notFound">Add at least one Asset account then edit ND2 values to see
+                                            this chart.</label>
+                                    </h1>
+                                </div>
+                                <ion-button *ngIf="assetList.length==0" mode="ios" shape="round" type="button" class="save add-missing ion-margin actionBtn ion-hide-sm-down" (click)="assets_liabilities_gridClick('asset')">
+                                    Add assets &nbsp;&nbsp;
+                                    <ion-icon  src="../../assets/icon/white-right-arw.svg" class="up-arrow-icon pointer">
+                                    </ion-icon>
+                                </ion-button>
+                                <ion-button *ngIf="assetList.length==0" mode="ios" shape="round" type="button" class="save add-missing ion-margin fullbtn ion-hide-sm-up" (click)="assets_liabilities_gridClick('asset')">
+                                    Add assets &nbsp;&nbsp;
+                                    <ion-icon  src="../../assets/icon/white-right-arw.svg" class="up-arrow-icon pointer">
+                                    </ion-icon>
+                                </ion-button>
+                                 <!-- NO ACCOUNT DATA SCENARIO // END-->
+
+                                 <!-- MOBILE -->
+                                 <ion-grid *ngIf="assetList.length>0">
+                                    <ion-row class="nd-card-sub-title ion-hide-sm-up">
+                                        Total Wealth Account
+                                    </ion-row>
+                                    <ion-row class="nd-account-totals ion-hide-sm-up">
+                                        $ {{accountsSummary.totalWealthAccount | number:'1.0-0'}}
+                                    </ion-row>
+                                </ion-grid>
+
+                                <!-- BOTH MOBILE AND DESKTOP -->
+                                <ion-grid *ngIf="assetList.length>0">
+                                    <ion-row class="chartSpace">
+                                        <ion-col size-xl="7" size-lg="7" size-md="7" size-sm="4" size-xs="4" class="chart-canv">
+                                            <canvas baseChart
+                                            [labels]="nd2ChartMeta.labels"
+                                            chartType="doughnut"
+                                            [options]="nd2ChartMeta.options"
+                                            [datasets]="nd2ChartMeta.datasets"
+                                            id="nd2Canvas"
+                                            #nd2Canvas
+                                            ></canvas>
+                                        </ion-col>
+                                        <ion-col size-xl="5" size-lg="5" size-md="5" size-sm="8" size-xs="8">
+                                            <div class="chart-text" id="nd2ChartLegend" #nd2ChartLegend>
+                                                <h1 class="ion-no-margin ion-hide-sm-down">
+                                                    <label>Total Wealth Account</label>
+                                                    $ {{accountsSummary.totalWealthAccount | number:'1.0-0'}}
+                                                </h1>
+                                                <ul class="ion-no-margin ion-no-padding">
+                                                    <li *ngFor = "let legendItem of nd2legends;let i=index;">
+                                                        <p class="ion-no-margin"><span class="color-box" [style.background-color]="legendItem.fillStyle"></span>{{legendItem.text}}</p>
+                                                        <span>{{nd2ChartMeta.datasets[0].data[i].toFixed(1)}}%</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </div>
+                        </div>
+                    </ion-col>
+                    <ion-col size="12" size-md="6" *ngIf="hasAccessTo()" class="debtpayoff">
+                        <div class="graph-main cursor-pointer" (click)="openDebtPayoff()" [ngClass]="!(this.debtPayoffBurnDownChartData && this.debtPayoffBurnDownChartData.yearlySnapshots && this.debtPayoffBurnDownChartData.yearlySnapshots.length > 0)||isDebtFree?'debtPayoffBlur-70':''">
+                            <div class="g-h">
+                                <p class="ion-no-margin pointer debt-header">Debt Payoff <span>(CDE)</span></p>
+                                <ion-checkbox mode="md" [(ngModel)]="isDebtFree" (click)="$event.stopPropagation()" (ngModelChange)="updateDebt()" class="debt-checkbox"></ion-checkbox>
+                                <ion-label class="debt-check">I am debt free </ion-label>
+                                <ion-note class="ion-float-right slide-edit-note"
+                                *ngIf="(this.debtPayoffBurnDownChartData && this.debtPayoffBurnDownChartData.yearlySnapshots && this.debtPayoffBurnDownChartData.yearlySnapshots.length > 0) && !isDebtFree">
+                                    <ion-icon src="../../assets/icon/arrowright.svg" color="main-theme" class="arrow-icon">
+                                    </ion-icon>
+                                    <ion-icon  src="../../assets/icon/white-right-arw.svg" class="arrow-icon white-arw">
+                                    </ion-icon>
+                                </ion-note>
+                            </div>
+                            <div class="chart">
+                                <!-- NO ACCOUNT DATA SCENARIO // START-->
+                                <div class="chart-text">
+                                    <h1 class="ion-no-margin" *ngIf="(this.debtPayoffBurnDownChartData && this.debtPayoffBurnDownChartData.yearlySnapshots && this.debtPayoffBurnDownChartData.yearlySnapshots.length > 0) && !isDebtFree">
+                                        <label>Current debt</label>
+                                        $ {{accountsSummary.excludedLiabilityWorth | number:'1.0-0'}}
+                                    </h1>
+                                    <h1 class="ion-no-margin" *ngIf="!(this.debtPayoffBurnDownChartData && this.debtPayoffBurnDownChartData.yearlySnapshots && this.debtPayoffBurnDownChartData.yearlySnapshots.length > 0) && !isDebtFree">
+                                        <label class="notFound">Add at least one Liability account then edit Debt Payoff values to see this chart.</label>
+                                    </h1>
+                                    <h1 class="ion-no-margin" *ngIf="isDebtFree">
+                                        <label class="notFound">Congratulations on being debt free {{this.userSvc.firstName}}! Your next step is to reallocate payments from prior debt service into compound return cash flow assets! Don't forget to update your Budgeting Ratios too (ie; set Wealth account to 20%, Debt Accelerator to 0%)!</label>
+                                    </h1>
+                                    <!-- <ion-img class="debtfree ion-no-margin" *ngIf="isDebtFree" src="assets/images/cup.png"></ion-img> -->
+                                </div>
+                                <ion-button *ngIf="!(this.debtPayoffBurnDownChartData && this.debtPayoffBurnDownChartData.yearlySnapshots && this.debtPayoffBurnDownChartData.yearlySnapshots.length > 0) && !isDebtFree"
+                                mode="ios" shape="round" type="button" class="save add-missing ion-margin actionBtn ion-hide-sm-down" (click)="assets_liabilities_gridClick('liability')">
+                                    Add Liabilities &nbsp;&nbsp;
+                                    <ion-icon  src="../../assets/icon/white-right-arw.svg" class="up-arrow-icon pointer">
+                                    </ion-icon>
+                                </ion-button>
+                                <ion-button *ngIf="!(this.debtPayoffBurnDownChartData && this.debtPayoffBurnDownChartData.yearlySnapshots && this.debtPayoffBurnDownChartData.yearlySnapshots.length > 0) && !isDebtFree"
+                                mode="ios" shape="round" type="button" class="save add-missing ion-margin fullbtn ion-hide-sm-up" (click)="assets_liabilities_gridClick('liability')">
+                                    Add Liabilities &nbsp;&nbsp;
+                                    <ion-icon  src="../../assets/icon/white-right-arw.svg" class="up-arrow-icon pointer">
+                                    </ion-icon>
+                                </ion-button>
+                                 <!-- NO ACCOUNT DATA SCENARIO // END-->
+                                <canvas 
+                                    #myDebtCanvas 
+                                    id="myDebtCanvas" 
+                                    baseChart 
+                                    chartType="line" 
+                                    [datasets]="debtPayOffChartMeta.dataSets" 
+                                    [labels]="debtPayOffChartMeta.labels" 
+                                    [options]="debtPayOffChartMeta.options"
+                                    *ngIf="(this.debtPayoffBurnDownChartData && this.debtPayoffBurnDownChartData.yearlySnapshots && this.debtPayoffBurnDownChartData.yearlySnapshots.length > 0) && !isDebtFree"
+                                    ></canvas>
+                                     <div class="chart-text" *ngIf="(this.debtPayoffBurnDownChartData && this.debtPayoffBurnDownChartData.yearlySnapshots && this.debtPayoffBurnDownChartData.yearlySnapshots.length > 0) && !isDebtFree">
+                                        <ul class="ion-no-margin ion-no-padding line-chart-text">
+                                            <li *ngFor="let legendItem of debtLegendData;let i=index;">
+                                                <p class="ion-no-margin"><span class="color-box" [style.background-color]="legendItem.fillStyle"></span>{{legendItem.text}}</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                            </div>
+                        </div>
+                    </ion-col>
+                    <ion-col size="12" size-md="6" *ngIf="hasAccessTo()" class="compoundreturn">
+                        <div class="graph-main cursor-pointer" (click)="openCompoundReturn()" [ngClass]="nonExcludedAssets.length===0?'moacBlur-70':''">
+                            <div class="g-h">
+                                <p class="ion-no-margin pointer">Compound Return  <span>(MOAC)</span></p>
+                                <ion-note class="ion-float-right slide-edit-note" 
+                                *ngIf="nonExcludedAssets.length>0">
+                                    <ion-icon src="../../assets/icon/arrowright.svg" color="main-theme" class="arrow-icon">
+                                    </ion-icon>
+                                    <ion-icon  src="../../assets/icon/white-right-arw.svg" class="arrow-icon white-arw">
+                                    </ion-icon>
+                                </ion-note>
+                            </div>
+                            <div class="chart">
+                                <div class="chart-text">
+                                    <ion-grid class="moac-fln-grid" *ngIf="nonExcludedAssets.length>0">
+                                        <ion-row>
+                                            <ion-col class="moac-chart-fln">Unearned Income <span>${{(compoundReturnBurnUpChartData?.yearlySnapshots?.length>1?
+                                                ((this.showMonthly ? compoundReturnBurnUpChartData?.yearlySnapshots[0]?.yearlyIncome : compoundReturnBurnUpChartData?.yearlySnapshots[0]?.income)| number:'1.0-0'):
+                                                ('0'))}}</span></ion-col>
+                                            <ion-col class="moac-chart-fln">Freedom Number <span>${{(freedomNumber | number:'1.0-0')}}</span></ion-col>
+                                            <ion-col class="moac-chart-fln">Lifestyle Number <span>${{(lifestyleNumber| number:'1.0-0')}}</span></ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                    <h1 class="ion-no-margin" *ngIf="nonExcludedAssets.length==0">
+                                        <label class="notFound">Add at least one Asset account that does not have “Exclude From Compound Return (MOAC)” checked.</label>
+                                    </h1>
+                                </div>
+                                <ion-button *ngIf="nonExcludedAssets.length==0" mode="ios" shape="round" type="button" class="save add-missing ion-margin actionBtn ion-hide-sm-down" (click)="assets_liabilities_gridClick('asset')">
+                                    Add assets &nbsp;&nbsp;
+                                    <ion-icon  src="../../assets/icon/white-right-arw.svg" class="up-arrow-icon pointer">
+                                    </ion-icon>
+                                </ion-button>
+                                <ion-button *ngIf="nonExcludedAssets.length==0" mode="ios" shape="round" type="button" class="save add-missing ion-margin fullbtn ion-hide-sm-up" (click)="assets_liabilities_gridClick('asset')">
+                                    Add assets &nbsp;&nbsp;
+                                    <ion-icon  src="../../assets/icon/white-right-arw.svg" class="up-arrow-icon pointer">
+                                    </ion-icon>
+                                </ion-button>
+                                <canvas 
+                                    #myCompoundCanvas 
+                                    id="myCompoundCanvas" 
+                                    baseChart 
+                                    chartType="line" 
+                                    [datasets]="compoundReturnChartMeta.dataSets" 
+                                    [labels]="compoundReturnChartMeta.labels" 
+                                    [options]="compoundReturnChartMeta.options"
+                                    *ngIf="nonExcludedAssets.length>0"
+                                    ></canvas>
+
+                                     <div class="chart-text" *ngIf="nonExcludedAssets.length>0">
+                                        <ul class="ion-no-margin ion-no-padding line-chart-text">
+                                            <li *ngFor="let legendItem of legendData;let i=index;">
+                                                <p class="ion-no-margin"><span class="color-box" [style.background-color]="legendItem.fillStyle"></span>{{legendItem.text}}</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                            </div>
+                        </div>
+                    </ion-col>
+                    <!-- netWorth chart-->
+
+                    <ion-col size="12" size-md="6" *ngIf="hasAccessToAdmin()" class="accountHistory">
+                        <div class="graph-main cursor-pointer"  [ngClass]="netWorthChartMeta.dataSets[0].data.length===0?'moacBlur-70':''">
+                            <div class="g-h">
+                                <p class="ion-no-margin pointer ion-padding-top">Net Worth</p>
+                            </div>
+                            <div class="chart">
+                                <canvas 
+                                    #netWorthCanvas 
+                                    id="netWorthCanvas" 
+                                    baseChart 
+                                    chartType="line" 
+                                    [datasets]="netWorthChartMeta.dataSets" 
+                                    [labels]="netWorthChartMeta.labels" 
+                                    [options]="netWorthChartMeta.options"
+                                    *ngIf="netWorthChartMeta.dataSets[0].data.length>0"
+                                    ></canvas>
+                            </div>
+                        </div>
+                    </ion-col>
+                    <!-- monthly Income chart -->
+                    <ion-col size="12" size-md="6" *ngIf="hasAccessToAdmin()" class="accountHistory">
+                        <div class="graph-main cursor-pointer"  [ngClass]="monthlyIncomeChartMeta.dataSets[0].data.length===0?'moacBlur-70':''">
+                            <div class="g-h">
+                                <p class="ion-no-margin pointer ion-padding-top">Monthly Income</p>
+                            </div>
+                            <div class="chart">
+                                <canvas 
+                                    #monthlyIncomeCanvas 
+                                    id="monthlyIncomeCanvas" 
+                                    baseChart 
+                                    chartType="line" 
+                                    [datasets]="monthlyIncomeChartMeta.dataSets" 
+                                    [labels]="monthlyIncomeChartMeta.labels" 
+                                    [options]="monthlyIncomeChartMeta.options"
+                                    *ngIf="monthlyIncomeChartMeta.dataSets[0].data.length>0"
+                                    ></canvas>
+                            </div>
+                        </div>
+                    </ion-col>
+
+                    <!-- totalBalance Chart -->
+                    <ion-col size="12" size-md="6" *ngIf="hasAccessToAdmin()" class="accountHistory">
+                        <div class="graph-main cursor-pointer"  [ngClass]="totalBalanceChartMeta.dataSets[0].data.length===0?'moacBlur-70':''">
+                            <div class="g-h">
+                                <p class="ion-no-margin pointer ion-padding-top">Total Balance </p>
+                            </div>
+                            <div class="chart">
+                                <canvas 
+                                    #totalBalanceCanvas 
+                                    id="totalBalanceCanvas" 
+                                    baseChart 
+                                    chartType="line" 
+                                    [datasets]="totalBalanceChartMeta.dataSets" 
+                                    [labels]="totalBalanceChartMeta.labels" 
+                                    [options]="totalBalanceChartMeta.options"
+                                    *ngIf="totalBalanceChartMeta.dataSets[0].data.length>0"
+                                    ></canvas>
+                            </div>
+                        </div>
+                    </ion-col>
+
+                    <!-- debtBalance chart -->
+                    <ion-col size="12" size-md="6" *ngIf="hasAccessToAdmin()" class="accountHistory">
+                        <div class="graph-main cursor-pointer"  [ngClass]="debtBalanceChartMeta.dataSets[0].data.length===0?'moacBlur-70':''">
+                            <div class="g-h">
+                                <p class="ion-no-margin pointer ion-padding-top">Debt Balance</p>
+                            </div>
+                            <div class="chart">
+                                <canvas 
+                                    #debtBalanceCanvas 
+                                    id="debtBalanceCanvas" 
+                                    baseChart 
+                                    chartType="line" 
+                                    [datasets]="debtBalanceChartMeta.dataSets" 
+                                    [labels]="debtBalanceChartMeta.labels" 
+                                    [options]="debtBalanceChartMeta.options"
+                                    *ngIf="debtBalanceChartMeta.dataSets[0].data.length>0"
+                                    ></canvas>
+                            </div>
+                        </div>
+                    </ion-col>
+                    <!-- debtBalanceAccel chart -->
+                    <ion-col size="12" size-md="6" *ngIf="hasAccessToAdmin()" class="accountHistory">
+                        <div class="graph-main cursor-pointer"  [ngClass]="debtBalanceAccelerationChartMeta.dataSets[0].data.length===0?'moacBlur-70':''">
+                            <div class="g-h">
+                                <p class="ion-no-margin pointer ion-padding-top">Debt Balance Acceleration</p>
+                            </div>
+                            <div class="chart">
+                                <canvas 
+                                    #debtBalanceAccelCanvas 
+                                    id="debtBalanceAccelCanvas" 
+                                    baseChart 
+                                    chartType="line" 
+                                    [datasets]="debtBalanceAccelerationChartMeta.dataSets" 
+                                    [labels]="debtBalanceAccelerationChartMeta.labels" 
+                                    [options]="debtBalanceAccelerationChartMeta.options"
+                                    *ngIf="debtBalanceAccelerationChartMeta.dataSets[0].data.length>0"
+                                    ></canvas>
+                            </div>
+                        </div>
+                    </ion-col>
+                    <!-- totalAssetWorth chart -->
+                    <ion-col size="12" size-md="6" *ngIf="hasAccessToAdmin()" class="accountHistory">
+                        <div class="graph-main cursor-pointer"  [ngClass]="totalAssetWorthChartMeta.dataSets[0].data.length===0?'moacBlur-70':''">
+                            <div class="g-h">
+                                <p class="ion-no-margin pointer ion-padding-top">Total Asset Worth </p>
+                            </div>
+                            <div class="chart">
+                                <canvas 
+                                    #totalAssetWorthCanvas
+                                    id="totalAssetWorthCanvas" 
+                                    baseChart 
+                                    chartType="line" 
+                                    [datasets]="totalAssetWorthChartMeta.dataSets" 
+                                    [labels]="totalAssetWorthChartMeta.labels" 
+                                    [options]="totalAssetWorthChartMeta.options"
+                                    *ngIf="totalAssetWorthChartMeta.dataSets[0].data.length>0"
+                                    ></canvas>
+                            </div>
+                        </div>
+                    </ion-col>
+                    <!-- totalLiabilityWorth chart -->
+                    <ion-col size="12" size-md="6" *ngIf="hasAccessToAdmin()" class="accountHistory">
+                        <div class="graph-main cursor-pointer"  [ngClass]="totalLiabilityWorthChartMeta.dataSets[0].data.length===0?'moacBlur-70':''">
+                            <div class="g-h">
+                                <p class="ion-no-margin pointer ion-padding-top">Total Liability Worth </p>
+                            </div>
+                            <div class="chart">
+                                <canvas 
+                                    #totalLiabilityWorthCanvas
+                                    id="totalLiabilityWorthCanvas" 
+                                    baseChart 
+                                    chartType="line" 
+                                    [datasets]="totalLiabilityWorthChartMeta.dataSets" 
+                                    [labels]="totalLiabilityWorthChartMeta.labels" 
+                                    [options]="totalLiabilityWorthChartMeta.options"
+                                    *ngIf="totalLiabilityWorthChartMeta.dataSets[0].data.length>0"
+                                    ></canvas>
+                            </div>
+                        </div>
+                    </ion-col>
+                    <!-- tier1 chart -->
+                    <ion-col size="12" size-md="6" *ngIf="hasAccessToAdmin()" class="accountHistory">
+                        <div class="graph-main cursor-pointer"  [ngClass]="tier1ChartMeta.dataSets[0].data.length===0?'moacBlur-70':''">
+                            <div class="g-h">
+                                <p class="ion-no-margin pointer ion-padding-top">Tier1</p>
+                            </div>
+                            <div class="chart">
+                                <canvas 
+                                    #tier1Canvas
+                                    id="tier1Canvas" 
+                                    baseChart 
+                                    chartType="line" 
+                                    [datasets]="tier1ChartMeta.dataSets" 
+                                    [labels]="tier1ChartMeta.labels" 
+                                    [options]="tier1ChartMeta.options"
+                                    *ngIf="tier1ChartMeta.dataSets[0].data.length>0"
+                                    ></canvas>
+                            </div>
+                        </div>
+                    </ion-col>
+
+                    <!-- tier2 chart -->
+                    <ion-col size="12" size-md="6" *ngIf="hasAccessToAdmin()" class="accountHistory">
+                        <div class="graph-main cursor-pointer"  [ngClass]="tier2ChartMeta.dataSets[0].data.length===0?'moacBlur-70':''">
+                            <div class="g-h">
+                                <p class="ion-no-margin pointer ion-padding-top">Tier2 </p>
+                            </div>
+                            <div class="chart">
+                                <canvas 
+                                    #tier2Canvas
+                                    id="tier2Canvas" 
+                                    baseChart 
+                                    chartType="line" 
+                                    [datasets]="tier2ChartMeta.dataSets" 
+                                    [labels]="tier2ChartMeta.labels" 
+                                    [options]="tier2ChartMeta.options"
+                                    *ngIf="tier2ChartMeta.dataSets[0].data.length>0"
+                                    ></canvas>
+                            </div>
+                        </div>
+                    </ion-col>
+
+                    <!-- tier3 chart -->
+                    <ion-col size="12" size-md="6" *ngIf="hasAccessToAdmin()" class="accountHistory">
+                        <div class="graph-main cursor-pointer"  [ngClass]="tier3ChartMeta.dataSets[0].data.length===0?'moacBlur-70':''">
+                            <div class="g-h">
+                                <p class="ion-no-margin pointer ion-padding-top">Tier3 </p>
+                            </div>
+                            <div class="chart">
+                                <canvas 
+                                    #tier3Canvas
+                                    id="tier3Canvas" 
+                                    baseChart 
+                                    chartType="line" 
+                                    [datasets]="tier3ChartMeta.dataSets" 
+                                    [labels]="tier3ChartMeta.labels" 
+                                    [options]="tier3ChartMeta.options"
+                                    *ngIf="tier3ChartMeta.dataSets[0].data.length>0"
+                                    ></canvas>
+                            </div>
+                        </div>
+                    </ion-col>
+                    <!-- totalWealth chart -->
+                    <ion-col size="12" size-md="6" *ngIf="hasAccessToAdmin()" class="accountHistory">
+                        <div class="graph-main cursor-pointer"  [ngClass]="totalWealthChartMeta.dataSets[0].data.length===0?'moacBlur-70':''">
+                            <div class="g-h">
+                                <p class="ion-no-margin pointer ion-padding-top">Total Wealth</p>
+                            </div>
+                            <div class="chart">
+                                <canvas 
+                                    #totalWealthCanvas
+                                    id="totalWealthCanvas" 
+                                    baseChart 
+                                    chartType="line" 
+                                    [datasets]="totalWealthChartMeta.dataSets" 
+                                    [labels]="totalWealthChartMeta.labels" 
+                                    [options]="totalWealthChartMeta.options"
+                                    *ngIf="totalWealthChartMeta.dataSets[0].data.length>0"
+                                    ></canvas>
+                            </div>
+                        </div>
+                    </ion-col>
+
+                    <ion-col size="12" size-md="6" *ngIf="hasAccessToAdmin()" class="accountHistory">
+                        <div class="graph-main cursor-pointer" [ngClass]="accountBalanceChartMeta.dataSets[0].data.length===0?'moacBlur-70':''">
+                            <div class="g-h">
+                                <p class="ion-no-margin pointer ion-padding-top">Account Balance</p>
+                                <ion-select mode="md" class="custom-select-class ion-padding-top" [interface]="platform.width()<640?'action-sheet':'popover'"
+                                    [interfaceOptions]="platform.width()<640?'actionSheetOptions':popoverSheetOptions" name="selectAccountId"
+                                    #selectAccount="ngModel" [(ngModel)]="selectAccountId" (ngModelChange)="toggleSelectedAccount()">
+                                    <ion-select-option value="">Select Account</ion-select-option>
+                                    <ion-select-option *ngFor="let s of accountList;let i=index" [value]="s.id">
+                                    {{s.name}}
+                                    </ion-select-option>
+                                </ion-select>
+                            </div>
+                            <div class="chart">
+                                <canvas 
+                                    #accountBalanceCanvas
+                                    id="accountBalanceCanvas" 
+                                    baseChart 
+                                    chartType="line" 
+                                    [datasets]="accountBalanceChartMeta.dataSets" 
+                                    [labels]="accountBalanceChartMeta.labels" 
+                                    [options]="accountBalanceChartMeta.options"
+                                    *ngIf="accountBalanceChartMeta.dataSets[0].data.length>0"
+                                    ></canvas>
+                            </div>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+
+        
+
+        <!-- premium subscription offer -->
+        <div class="plan-container" *ngIf="hasAccessToFree()">
+            <ion-grid>
+                <ion-row class="set-order">
+                    <ion-col class="order-2">
+                        <div class="plan-bnr">
+                            <img src="../../assets/images/plan-bnr.png" alt="img" class="desk-plan-img">
+                            <img src="../../assets/images/plan-mob.png" alt="" class="mob-plan-img">
+                        </div>
+                    </ion-col>
+                    <ion-col class="text-main order-1">
+                        <div class="plan-text">
+                            <h2 class="ion-no-margin">Upgrade to Premium!</h2>
+                            <ul  class="ion-no-margin ion-no-padding">
+                                <li>
+                                    <ion-icon name="checkmark-outline"></ion-icon>
+                                    <p class="ion-no-margin">Full access to proprietary Capital Allocation, Debt Payoff and Compound Return forecasting models</p>
+                                </li>
+                                <li>
+                                    <ion-icon name="checkmark-outline"></ion-icon>
+                                    <p class="ion-no-margin">Simulator mode - compare future cash flows and growth projections on any balance sheet or investment idea</p>
+                                </li>
+                                <li>
+                                    <ion-icon name="checkmark-outline"></ion-icon>
+                                    <p class="ion-no-margin">True Wealth Formula Implementation Program and system mastery with step-by-step videos, MP3s, PDF checklists, worksheets, cheat sheets, bonuses and more</p>
+                                   </li>
+                                <li>
+                                    <ion-icon name="checkmark-outline"></ion-icon>
+                                    <p class="ion-no-margin">Sample 10% Portfolio model to learn how to compound money at 10%</p>
+                                </li>
+                                <li>
+                                    <ion-icon name="checkmark-outline"></ion-icon>
+                                    <p class="ion-no-margin">Ongoing support via monthly live Q&A webinars</p>
+                                </li>
+                            </ul>
+                            <div class="more-info ">
+                                <ion-button class="ion-no-margin ion-no-padding">More info</ion-button>
+                                <span>$29 / per month</span>
+                            </div>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+
+        <!-- pro subscription offer -->
+        <div class="plan-container" *ngIf="hasAccessToPremium()">
+            <ion-grid>
+                <ion-row class="set-order">
+                    <ion-col class="order-2">
+                        <div class="plan-bnr">
+                            <img src="../../assets/images/plan-bnr.png" alt="img" class="desk-plan-img">
+                            <img src="../../assets/images/plan-mob.png" alt="" class="mob-plan-img">
+                        </div>
+                    </ion-col>
+                    <ion-col class="text-main order-1">
+                        <div class="plan-text">
+                            <h2 class="ion-no-margin">Upgrade to Pro!</h2>
+                            <ul  class="ion-no-margin ion-no-padding">
+                                <li>
+                                    <ion-icon name="checkmark-outline"></ion-icon>
+                                    <p class="ion-no-margin">Access live TWF Monthly Group Coaching (MGC) calls via phone or web plus immediate access to entire archive of past trainings</p>
+                                </li>
+                                <li>
+                                    <ion-icon name="checkmark-outline"></ion-icon>
+                                    <p class="ion-no-margin">"Beta" access to new ideas, tests and app features</p>
+                                </li>
+                                <li>
+                                    <ion-icon name="checkmark-outline"></ion-icon>
+                                    <p class="ion-no-margin">Very private group, investing tactics and resources shared, we flush out a lot of questions/problems together</p>
+                                   </li>
+                                <li>
+                                    <ion-icon name="checkmark-outline"></ion-icon>
+                                    <p class="ion-no-margin">MGC members only access to direct txt chat w Hans Johnson</p>
+                                </li>
+                                <li>
+                                    <ion-icon name="checkmark-outline"></ion-icon>
+                                    <p class="ion-no-margin">Strategic & Tactical Coaching for the serious not curious - requires TWF IP subscription and progress first</p>
+                                </li>
+                            </ul>
+                            <div class="more-info ">
+                                <ion-button class="ion-no-margin ion-no-padding">More info</ion-button>
+                                <span>$99 / per month</span>
+                            </div>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+
+        <!-- education-material -->
+        <!-- <div class="education-container">
+            <ion-grid>
+                <ion-row class="ion-justify-content-between heading ion-align-items-center">
+                    <h3 class="ion-no-margin e-head">Educational materials</h3>
+                    <ion-button class="ion-no-margin" (click)="explore()"> <span>Explore more </span>
+                        <ion-icon  name="chevron-forward-outline"></ion-icon>
+                    </ion-button>
+                </ion-row>
+            </ion-grid>
+            <ion-grid class="desk-education">
+                <ion-row>
+                    <ion-col *ngFor="let resource of resourceList" size="12" size-md="4">
+                        <div class="e-card-main pointer" (click)="openResource(resource.id)">
+                            <div class="e-img">
+                                <img [src]="resource.image.url" alt="">
+                            </div>
+                            <div class="e-card-text">
+                                <ion-grid>
+                                    <ion-row class="ion-justify-content-between">
+                                        <h3 class="ion-no-margin">{{resource.title}}</h3>
+                                    </ion-row>
+                                </ion-grid>
+                                <p class="ion-no-margin">{{resource.subTitle}}</p>
+                            </div>
+                        </div>
+                    </ion-col>                    
+                </ion-row>
+            </ion-grid>
+        </div> -->
+
+         <!-- education-slider -->
+
+<!-- <div class="education-container mob-slider">
+    <ion-slides pager="true" [options]="slideOpts">
+        <ion-slide  *ngFor="let resource of resourceList">
+          <div class="e-card-main pointer" (click)="openResource(resource.id)">
+            <div class="e-img">
+                <img [src]="resource.image.url" alt="">
+            </div>
+            <div class="e-card-text">
+                <ion-grid>
+                    <ion-row class="ion-justify-content-between">
+                        <h3 class="ion-no-margin">{{resource.title}}</h3>
+                    </ion-row>
+                </ion-grid>
+                <p class="ion-no-margin">{{resource.subTitle}}</p>
+            </div>
+        </div>
+        </ion-slide>
+      </ion-slides>
+    </div> -->
+    </div>
+</ion-content>
+<ion-footer>
+    <div>
+        <bottom-menu>
+        </bottom-menu>
+    </div>
+</ion-footer>

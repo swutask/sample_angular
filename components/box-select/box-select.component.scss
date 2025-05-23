@@ -1,0 +1,46 @@
+.optionbox{
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    background: var(--ion-color-pure-white);
+    border: 1px solid var(--border-four-color);
+    height:100%;
+}
+.optionbox:hover{
+    background: var(--main-theme);
+    color: var(--ion-color-pure-white);
+}
+.optionbox h2{
+    font-size: 22px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+.optionbox p{
+    flex: 1 0 auto;
+}
+.optionselected{
+    background: var(--main-theme);
+    color: var(--ion-color-pure-white);
+}
+@media (max-width: 39.9375em) {
+    .optionbox{
+        padding: 11px 16px;
+    }
+    .optionbox h2{
+        margin-top: 2px;
+        font-size: 18px;
+    }
+    ion-col{
+        padding-bottom: 8px;
+    }
+}
+@media (min-width: 40em) {
+    .optionbox{
+        margin-right: 16px;
+    }
+    ion-col{
+        padding-bottom: 16px;
+    }
+}

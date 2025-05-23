@@ -1,0 +1,1264 @@
+<ion-header class="ion-no-border header-top"> 
+    <ion-toolbar mode="md" color="pure-white">
+        <ion-buttons slot="start">
+            <ion-button color="success" routerDirection="back" (click)="goBack()">
+                <ion-icon src="assets/icon/arrowback.svg" class="ion-hide-sm-down">
+                </ion-icon>
+                <ion-icon src="assets/icon/arrowbackmobile.svg" class="ion-hide-sm-up">
+                </ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="dark" class="freedomtitle" *ngIf="type=='Asset' && id =='new' && !childHolding">
+            Add an Asset
+        </ion-title>
+        <ion-title color="dark" class="freedomtitle" *ngIf="type=='Asset' && id =='new' && childHolding">
+            Add a Holding
+        </ion-title>
+        <ion-title color="dark" class="freedomtitle" *ngIf="type=='Liability' && id =='new'">
+            Add a Liability
+        </ion-title>
+        <ion-title color="dark" class="freedomtitle" *ngIf="id !=='new'">
+            {{accountOrDebtText}}
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content #accountDetailsContent class="account-details-content" scroll-events="true" (ionScrollEnd)="scrollEnd()">
+    <ion-item class="divider ion-hide-sm-up"></ion-item>
+    <div class="section-title mobile-align" *ngIf="type=='Asset'">
+        Asset Details
+        <div class="last-updated" *ngIf="id !=='new'">(Created on {{ getTimeStamp(account.createdAt * 1000)}}, last updated on {{ getTimeStamp(account.updatedAt * 1000)}})</div>
+    </div>
+    <div class="section-title mobile-align" *ngIf="type=='Liability'">
+        Liability Details
+        <div class="last-updated" *ngIf="id !=='new'">(Created on {{ getTimeStamp(account.createdAt * 1000)}}, last updated on {{ getTimeStamp(account.updatedAt * 1000)}})</div>
+    </div>
+    <form class="mobile-align" #accountForm="ngForm" (ngSubmit)="submitForm()">
+        <div class="labelform">
+            <ion-label>
+                Title
+            </ion-label>
+        </div>
+        <ion-item>
+            <ion-input autocapitalize="true" autofocus="true" type="text" name="name"
+            required="" #name="ngModel" [(ngModel)]="account.name" helpText="A name for the account.">
+            </ion-input>
+        </ion-item>
+            <ion-text color="danger" class="validation-error" *ngIf="!accountForm.valid && !account.name && (name.dirty || name.touched)">
+            Title is required
+        </ion-text>
+        <div class="labelform">
+            <ion-label>
+                Description or Goal
+            </ion-label>
+        </div>
+        <ion-item>
+            <ion-input autocapitalize="on" autocomplete="off" autocorrect="on"
+            spellcheck="true" type="text" name="description" [(ngModel)]="account.description"
+            helpText="An optional description or goal for the account.">
+            </ion-input>
+        </ion-item>
+        <ion-button *ngIf="hasAccessTo() && (account.parentHolding || id =='new') && !childHolding && childAccount.length==0 && type == 'Asset'" mode="ios" shape="round" type="button" class="save" (click)="addHoldings()">
+            Add Holdings?
+        </ion-button>
+        <div #setTutorial class="resultgroup" *ngIf="childAccount.length > 0">
+                <div class="tresult">
+                    <ion-item #toogleItem button (click)="toggleList(toogleItem)" mode="md" lines="none" class="toogleItems">
+                        <ion-label color="dark">Holdings List
+                        </ion-label>
+                        <ion-icon class="toggleslot" slot="end" [name]="toggleIconAccount?'chevron-up':'chevron-down'"></ion-icon>
+                    </ion-item>
+                    <div class="tcontent">
+                        <div *ngFor="let account of childAccount; index as currentIndex">
+                            <ion-card class="accounts-list ion-hide-sm-down">
+                                <div class="accountarea" (click)="openAccount($event,account)" detail="false">
+                                    <div class="tcontainer">
+                                        <div>
+                                            <div class="accountName sub">
+                                                {{account?.name}}
+                                            </div>
+                                            <div class="accountDescription" *ngIf="account?.description">
+                                                {{account?.description}}
+                                            </div>
+                                        </div>
+                                        <ion-icon (click)="$event.stopPropagation()" [id]="account?.id + 'btn' + currentIndex" src="assets/icon/customButton.svg" class="cursor-pointer ellipsis ion-hide-sm-down"></ion-icon>
+                                        <ion-popover [trigger]="account?.id + 'btn' + currentIndex" name="detailPop" mode="ios" class="popmenu popoverAlignment">
+                                            <ng-template>
+                                                <ion-content class="ion-padding-clone">
+                                                    <div class="clone cursor-pointer" (click)="editHoldings(account?.id,account)">
+                                                        <ion-icon src="assets/icon/edit.svg"></ion-icon>
+                                                        <div class="clonetext">Edit</div>
+                                                    </div>
+                                                    <div class="clone cursor-pointer" *ngIf="account?.id !=='new'" (click)="cloneAccount(account?.id)">
+                                                        <ion-icon src="assets/icon/clone.svg"></ion-icon>
+                                                        <div class="clonetext">Clone</div>
+                                                    </div>
+                                                    <div class="delete cursor-pointer" (click)="deleteConfirmation(account?.id,null, currentIndex)">
+                                                        <ion-icon src="assets/icon/trash.svg"></ion-icon>
+                                                        <div class="deletetext">Delete</div>
+                                                    </div>
+                                                </ion-content>
+                                            </ng-template>
+                                        </ion-popover>
+                                    </div>
+                                    <ion-item class="divider"></ion-item>
+                                    <div class="accountBalanceBox">
+                                        <div class="accountBalance">
+                                        <div>{{account?.assetType}}</div>
+                                        <div>{{account?.investmentType | investmentType}}</div>
+                                        <div>{{getAssetTypeIndicatorLabel(account)}}</div>
+                                        <div>Yield {{account?.currentYield || 0}}%</div>
+                                        <div class="subunit" *ngIf="account?.investmentType === &quot;stock&quot;">Qty {{account?.sharesOwned | number:'1.0-2'}}</div>
+                                        <div class="subunit" *ngIf="account?.investmentType=== &quot;stock&quot;">Price {{account?.sharePrice | currency : 'USD' : 'symbol' : '1.0-2'}}</div>
+                                        </div>
+                                        <div class="balance">{{account?.currentBalance | currency : 'USD' : 'symbol' : '1.0-0'}}</div>
+                                    </div>
+                                </div>
+                            </ion-card>
+                            <ion-grid class="ion-hide-sm-up ion-no-padding" [id]="platform.width()<640?(account.id + 'btnmodal' + currentIndex):(account.id + 'btnmodaldesk' + currentIndex)">
+                                <ion-row>
+                                    <ion-col size="8.5" class="mobile-account-card-name cursor-pointer">
+                                        {{account?.name}}
+                                    </ion-col>
+                                    <ion-col size="3.5" class="mobile-asset-card-balance">{{account?.currentBalance | currency : 'USD' : 'symbol' : '1.0-0'}}</ion-col>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col class="mobile-account-card-description">
+                                        {{account?.description}}
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col class="mobile-account-card-description">
+                                        {{account?.assetType | assetType}}
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col class="mobile-account-card-description">
+                                        {{account?.investmentType | investmentType}}
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row *ngIf="account?.investmentType === &quot;stock&quot;">
+                                    <ion-col class="mobile-account-card-description">
+                                        Qty {{account?.sharesOwned}}
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row *ngIf="account?.investmentType === &quot;stock&quot;">
+                                    <ion-col class="mobile-account-card-description">
+                                        Price {{account?.sharePrice | currency : 'USD' : 'symbol' : '1.0-0'}}
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col class="mobile-account-card-description mb-10">
+                                        As of {{ getLastUpdated(account?.updatedAt * 1000)}}
+                                    </ion-col>
+                                </ion-row>
+                                <ion-modal [breakpoints]="[0.17, 0.23]" name="detailModal"
+                                        [initialBreakpoint]="(account?.plaidAccountId || account?.plaidHoldingId)?0.23: 0.17" [trigger]="account?.id + 'btnmodal' + currentIndex" mode="ios" class="popmenu popupheight">
+                                    <ng-template>
+                                        <ion-content class="ion-padding-clone">
+                                            <div class="clone cursor-pointer" (click)="editHoldings(account?.id,account)">
+                                                <ion-icon src="assets/icon/edit.svg"></ion-icon> 
+                                                <div class="clonetext">Edit</div>
+                                            </div>
+                                            <div *ngIf="account?.id !=='new'" class="clone cursor-pointer" (click)="cloneAccount(account?.id)">
+                                                <ion-icon src="assets/icon/clone.svg"></ion-icon> 
+                                                <div class="clonetext">Clone</div>
+                                            </div>
+                                            <div class="delete cursor-pointer" (click)="deleteConfirmation(account?.id,null, currentIndex)">
+                                                <ion-icon src="assets/icon/trash.svg"></ion-icon> 
+                                                <div class="deletetext">Delete</div>
+                                            </div>
+                                        </ion-content>
+                                    </ng-template>
+                                </ion-modal>
+                            </ion-grid>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <ion-button *ngIf="hasAccessTo() && childAccount.length > 0" mode="ios" shape="round" type="button" class="save" (click)="addHoldings()">
+            Add Another Holding?
+        </ion-button>
+        <div *ngIf="isAsset() && childAccount.length == 0 && !account.parentHolding" id="ifAsset">
+            <div>
+                <div class="labelform">
+                    <ion-label>
+                        Asset Type
+                    </ion-label>
+                    <ion-icon name="help-circle-outline" helpText="Select the Asset Type either Consumer or Depreciating (possible Tier 1), Appreciating (Tier 3) or Cash Flow (Tier 2). See TWF Money Quadrant. Affects Capital Allocation (ND2 ratios) and Debt Payoff modules. Does not affect Compound Return module or Balance Sheet."
+                    color="main-theme" class="ion-icon-small" src="assets/icon/info.svg">
+                    </ion-icon>
+                </div>
+                <div class="segment-scroller">
+                    <ion-segment [ngClass]="(assetType.invalid && (assetType.dirty || assetType.touched))?'error':''" class="segment-options" value="C" name="assetType" required=""
+                #assetType="ngModel" [(ngModel)]="account.assetType" mode="ios" (ionChange)="onChangeAssetType()" scrollable>
+                    <ion-segment-button value="C">
+                        <ion-label>Consumer</ion-label>
+                    </ion-segment-button>
+                    <ion-segment-button value="DA">
+                        <ion-label>Depreciating</ion-label>
+                    </ion-segment-button>
+                    <ion-segment-button value="AA">
+                        <ion-label>Appreciating</ion-label>
+                    </ion-segment-button>
+                    <ion-segment-button value="CFA">
+                        <ion-label>Cash Flow</ion-label>
+                    </ion-segment-button>
+                    </ion-segment>
+                </div>
+
+            </div>
+            <ion-text color="danger" class="validation-error" [ngClass]="(assetType.invalid && (assetType.dirty || assetType.touched))?'':'hidden'" *ngIf="account.currentBalance && !account.assetType || (!accountForm.valid && !account.assetType)">
+                Asset Type is required
+            </ion-text>
+            <ion-text color="danger" class="validation-error" *ngIf="account.currentBalance && !account.assetType">
+                Asset Type is required
+            </ion-text>
+            <ion-item class="toogleItems" lines="none" *ngIf="isShowLiquidityChaos()">
+                <ion-label>
+                    T1 liquidity/chaos hedge?
+                    <ion-icon name="help-circle-outline" helpText="Select only if a T1 asset (primary purpose is liquidity, chaos hedge or safety). Affects Capital Allocation (ND2 ratios) module."
+                    color="main-theme" class="ion-icon-small" src="assets/icon/info.svg"></ion-icon>
+                </ion-label>
+                <ion-toggle #liquidityChaosHedge="ngModel"
+                name="liquidityChaosHedge" value="" [(ngModel)]="account.liquidityChaosHedge"
+                slot="start" mode="ios" class="toggle-form ion-hide-sm-down">
+                </ion-toggle>
+                <ion-toggle #liquidityChaosHedge="ngModel"
+                name="liquidityChaosHedge" value="" [(ngModel)]="account.liquidityChaosHedge"
+                slot="end" mode="ios" class="toggle-form ion-hide-sm-up">
+                </ion-toggle>
+            </ion-item>
+            <div *ngIf="account.assetType">
+                <div class="labelform">
+                    <ion-label>
+                        Asset Sub-type
+                    </ion-label>
+                    <ion-icon name="help-circle-outline" helpText="Select the Asset Sub-type. Use Portfolio as default or for any asset that does not fit other options. Securities can be used for individual stocks, bonds, options or derivatives contracts. Units can be used for real estate rentals, private money lending notes or virtually any asset type you can think of. Zero Value Asset can be used for social security, disability, pension or annuity income (ie; income sources with no underlying sellable asset). Affects Compound Return module."
+                    color="main-theme" class="ion-icon-small" src="assets/icon/info.svg">
+                    </ion-icon>
+                </div>
+                <div class="segment-scroller">
+                    <ion-segment [ngClass]="(investmentType.invalid && (investmentType.dirty || investmentType.touched))?'error':''" class="segment-options" value="portfolio" name="investmentType" required="" scrollable
+                    #investmentType="ngModel" [(ngModel)]="account.investmentType" mode="ios" (ionChange)="onChangeInvestmentType()">
+                        <ion-segment-button value="portfolio">
+                          <ion-label>Portfolio</ion-label>
+                        </ion-segment-button>
+                        <ion-segment-button value="stock" class="stock">
+                          <ion-label>Securities</ion-label>
+                        </ion-segment-button>
+                        <ion-segment-button value="units">
+                            <ion-label>Units</ion-label>
+                        </ion-segment-button>
+                        <ion-segment-button value="zeroValue">
+                            <ion-label>Zero Value</ion-label>
+                        </ion-segment-button>
+                      </ion-segment>
+                </div>
+                <ion-text color="danger" class="validation-error" [ngClass]="(investmentType.invalid && (investmentType.dirty || investmentType.touched))?'':'hidden'">
+                    Asset Sub-type is required
+                </ion-text>
+            </div>
+        </div>
+        <ion-item class="divider" *ngIf="isAsset() && childAccount.length == 0"></ion-item>
+        <div *ngIf="(account?.investmentType === 'portfolio' || account?.investmentType === 'stock' || account?.investmentType === 'units' || account?.investmentType === 'zeroValue') && account.assetType && !account.parentHolding">
+            <div class="section-down-title" *ngIf="type=='Asset'">Asset Value</div>
+            <div class="labelform" *ngIf="account?.investmentType === &quot;stock&quot;">
+                <ion-label>
+                    Quantity
+                </ion-label>
+                <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                helpText="The number shares, bonds or contracts owned at the start.">
+                </ion-icon>
+            </div>
+            <ion-item *ngIf="account?.investmentType === &quot;stock&quot;" lines="none">
+                <ion-input mask="separator.8"
+                type="tel" inputmode="decimal" class="dollar-input"
+                name="sharesOwned" required="" [(ngModel)]="account.sharesOwned"
+                (ionChange)="onChangeStockOrUnitsInputs()" [disabled]="account.plaid">
+                </ion-input>
+            </ion-item>
+            <div class="labelform" *ngIf="account?.investmentType === &quot;units&quot;">
+                <ion-label>
+                    Units Owned
+                </ion-label>
+                <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                helpText="The number of Units owned at the start.">
+                </ion-icon>
+            </div>
+            <ion-item *ngIf="account?.investmentType === &quot;units&quot;">
+                <ion-input mask="separator.8"
+                type="tel" inputmode="decimal" class="dollar-input"
+                name="unitsOwned" required="" [(ngModel)]="account.unitsOwned" 
+                (ionChange)="onChangeStockOrUnitsInputs()">
+                </ion-input>
+            </ion-item>
+            <div class="labelform" *ngIf="account?.investmentType === &quot;stock&quot;">
+                <ion-label>
+                    Price
+                </ion-label>
+                <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                helpText="The current price of each share, bond or contract.">
+                </ion-icon>
+            </div>
+            <ion-item *ngIf="account?.investmentType === &quot;stock&quot;">
+                <ion-input mask="separator.8"
+                type="tel" inputmode="decimal" class="dollar-input"
+                name="sharePrice" required="" [(ngModel)]="account.sharePrice" 
+                (ionChange)="onChangeStockOrUnitsInputs()" [disabled]="account.plaid">
+                </ion-input>
+            </ion-item>
+            <div class="labelform" *ngIf="account?.investmentType === &quot;units&quot;">
+                <ion-label>
+                    Average Unit Price
+                </ion-label>
+                <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                helpText="The average current price of the units.">
+                </ion-icon>
+            </div>
+            <ion-item *ngIf="account?.investmentType === &quot;units&quot;">
+                <ion-input mask="separator.8"
+                type="tel" inputmode="decimal" class="dollar-input"
+                name="unitPrice" required="" [(ngModel)]="account.unitPrice" 
+                (ionChange)="onChangeStockOrUnitsInputs()">
+                </ion-input>
+            </ion-item>
+            <div class="labelform">
+                <ion-label>
+                    Current Value
+                </ion-label>
+                <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                helpText="The current balance or fair market value of the Asset. Auto calculated when Security or Unit selected as Investment Type. Note: If asset is an options contract, multiple by 100 to calculate correct value. Short positions will be reflected as negative balance values until closed.">
+                </ion-icon>
+            </div>
+            <ion-item>
+                <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+                </ion-icon>
+                <ion-input mask="separator.8"
+                type="tel" inputmode="decimal" class="dollar-input item-with-help-icon"
+                name="currentBalance" required="" [(ngModel)]="account.currentBalance" 
+                [disabled]="(account.plaid ? true: false) || account?.investmentType === 'stock' || account?.investmentType === 'units' || account?.investmentType === 'zeroValue'"
+                #currentBalance="ngModel">
+                </ion-input>
+            </ion-item>
+            <ion-text color="danger" class="validation-error" *ngIf="currentBalance.invalid && (currentBalance.dirty || currentBalance.touched)">
+                Current Value is required
+            </ion-text>
+            <div class="labelform" *ngIf="account?.investmentType !== 'zeroValue'">
+                <ion-label>
+                    Annual Appreciation
+                </ion-label>
+                <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                helpText="Annual Appreciation is the expected percentage increase GROWTH in the base price or balance of the asset.">
+                </ion-icon>
+            </div>
+            <ion-item *ngIf="account?.investmentType !== 'zeroValue'">
+                <ion-icon src="assets/icon/percent.svg" class="percent" slot="end">
+                </ion-icon>
+                <ion-input mask="separator.10"  min="0" [dynamicDecimal]="true" [decimalPlaces]="2" type="tel" inputmode="decimal" class="percent-input item-with-help-icon"
+                name="annualAppreciation" [(ngModel)]="account.annualAppreciation">
+                </ion-input>
+            </ion-item>
+            <div class="labelform" *ngIf="account?.investmentType !== 'zeroValue'">
+                <ion-label>
+                    Additional Contribution
+                </ion-label>
+                <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                helpText="Additional Contribution is a lump sum added (based on period selected) to this specific asset only.">
+                </ion-icon>
+            </div>
+            <ion-item *ngIf="account?.investmentType !== 'zeroValue'">
+                <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+                </ion-icon>
+                <ion-input  min="0" mask="separator.2" [dynamicDecimal]="true" [decimalPlaces]="2"
+                type="tel" inputmode="decimal" class="percent-input item-with-help-icon"
+                name="additionalContribution" [(ngModel)]="account.additionalContribution">
+                </ion-input>
+            </ion-item>
+            <div>
+                <div class="labelform" *ngIf="isAsset() && account?.investmentType !== 'zeroValue' && account.additionalContribution">
+                    <ion-label>
+                        How Often?
+                    </ion-label>
+                    <ion-icon name="help-circle-outline" helpText="How often should the lump sum be added to this specific asset?"
+                    color="main-theme" class="ion-icon-small" src="assets/icon/info.svg">
+                    </ion-icon>
+                </div>
+                <ion-item *ngIf="isAsset() && account?.investmentType !== 'zeroValue' && account.additionalContribution"
+                class="item-with-help-icon">
+                  
+                  <ion-select mode="md" class="custom-select-class" [interface]="platform.width()<640?'action-sheet':'popover'" [interfaceOptions]="platform.width()<640?'actionSheetOptions':popoverSheetOptions" value="monthly" name="additionalContribHowOften"
+                    #additionalContribHowOften="ngModel" [(ngModel)]="account.additionalContribHowOften"
+                     >
+                        <!-- <ion-select-option value="daily">
+                            Daily
+                        </ion-select-option>
+                        <ion-select-option value="weekly">
+                            Weekly
+                        </ion-select-option> -->
+                        <ion-select-option selected="false" value="monthly">
+                            Monthly
+                        </ion-select-option>
+                        <ion-select-option value="quarterly">
+                            Quarterly
+                        </ion-select-option>
+                        <ion-select-option value="semiannually">
+                            Semi-Annually
+                        </ion-select-option>
+                        <ion-select-option value="annually">
+                            Annually
+                        </ion-select-option>
+                  </ion-select>
+                </ion-item>
+            </div>
+            <div class="labelform" *ngIf="account?.investmentType === 'zeroValue'">
+                <ion-label>
+                    Income
+                </ion-label>
+                <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                helpText="The net monthly income of the asset.">
+                </ion-icon>
+            </div>
+            <ion-item *ngIf="account?.investmentType === 'zeroValue'">
+                <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+                </ion-icon>
+                <ion-input  min="0" mask="separator.8" [dynamicDecimal]="true" [decimalPlaces]="2"
+                type="tel" inputmode="decimal" class="dollar-input"
+                name="zvaIncome" [(ngModel)]="account.zvaIncome">
+                </ion-input>
+            </ion-item>
+            <div *ngIf="account?.investmentType === 'zeroValue'">
+                <div class="labelform">
+                    <ion-label>
+                        Frequency
+                    </ion-label>
+                    <ion-icon name="help-circle-outline" helpText="How often will income from the Zero Value Asset be received?"
+                    color="main-theme" class="ion-icon-small" src="assets/icon/info.svg">
+                    </ion-icon>
+                </div>
+                <ion-item *ngIf="account?.investmentType === 'zeroValue'" class="item-with-help-icon">
+                    <ion-select mode="md" class="custom-select-class" [interface]="platform.width()<640?'action-sheet':'popover'" [interfaceOptions]="platform.width()<640?'actionSheetOptions':popoverSheetOptions" value="monthly" name="zvaFrequency" #zvaFrequency="ngModel"
+                    [(ngModel)]="account.zvaFrequency">
+                        <ion-select-option selected="false" value="monthly">
+                            Monthly
+                        </ion-select-option>
+                        <ion-select-option value="quarterly">
+                            Quarterly
+                        </ion-select-option>
+                        <ion-select-option value="semiannually">
+                            Semi-Annually
+                        </ion-select-option>
+                        <ion-select-option value="annually">
+                            Annually
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </div>
+
+            <div class="labelform" *ngIf="account?.investmentType === 'zeroValue'">
+                <ion-label>
+                    Annual Increase
+                </ion-label>
+                <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                helpText="The expected annual increase of the income">
+                </ion-icon>
+            </div>
+
+            <ion-item *ngIf="account?.investmentType === 'zeroValue'">
+                <ion-icon src="assets/icon/percent.svg" class="percent" slot="end">
+                </ion-icon>
+                <ion-input  mask="separator.10"  min="0" [dynamicDecimal]="true" [decimalPlaces]="2"
+                type="tel" inputmode="decimal" class="percent-input item-with-help-icon"
+                name="annualIncomeIncrease" [(ngModel)]="account.annualIncomeIncrease">
+                </ion-input>
+            </ion-item>
+
+
+            <ion-item class="divider"></ion-item>
+            <div class="section-down-title" *ngIf="type=='Asset'">Asset Income</div>
+            <ion-item class="toogleItems" lines="none" *ngIf="isShowNominalValues()">
+                <ion-label>
+                    Use Nominal Values
+                    <ion-icon name="help-circle-outline" helpText="Select if you want to use nominal income and expense values. Include total gross income and expenses figures which will auto calculate the Current Yield field value (ie; net income)."
+                    color="main-theme" class="ion-icon-small" src="assets/icon/info.svg"></ion-icon>
+                </ion-label>
+                <ion-toggle #useNominalValues="ngModel"
+                name="useNominalValues" value="" [(ngModel)]="account.useNominalValues"
+                slot="start" mode="ios" class="toggle-form ion-hide-sm-down">
+                </ion-toggle>
+                <ion-toggle #useNominalValues="ngModel"
+                name="useNominalValues" value="" [(ngModel)]="account.useNominalValues"
+                slot="end" mode="ios" class="toggle-form ion-hide-sm-up">
+                </ion-toggle>
+            </ion-item>
+            <div class="labelform" *ngIf="isNominalValuesChecked()">
+                <ion-label>
+                    Monthly Income 
+                </ion-label>
+                <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                helpText="The average gross monthly income of the asset.">
+                </ion-icon>
+            </div>
+            <ion-item *ngIf="isNominalValuesChecked()">
+                <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+                </ion-icon>
+                <ion-input  min="0" mask="separator.2" [dynamicDecimal]="true" [decimalPlaces]="2"
+                type="tel" inputmode="decimal" class="dollar-input"
+                name="monthlyIncome" [(ngModel)]="account.monthlyIncome">
+                </ion-input>
+            </ion-item>
+            <div class="labelform" *ngIf="isNominalValuesChecked() && account?.investmentType !== 'zeroValue'">
+                <ion-label>
+                    Monthly Expense 
+                </ion-label>
+                <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                helpText="The average total monthly expenses of the asset. Include any mortgage or debt payment in this amount.">
+                </ion-icon>
+            </div>
+            <ion-item *ngIf="isNominalValuesChecked() && account?.investmentType !== 'zeroValue'">
+                <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+                </ion-icon>
+                <ion-input  min="0" mask="separator.2" [dynamicDecimal]="true" [decimalPlaces]="2"
+                type="tel" inputmode="decimal" class="dollar-input"
+                name="monthlyExpense" [(ngModel)]="account.monthlyExpense">
+                </ion-input>
+            </ion-item>
+            <div class="labelform" *ngIf="account?.investmentType == 'stock'">
+                <ion-label>
+                    Annual Dividend
+                </ion-label>
+                <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                helpText="Annual Dividend is the current nominal $ value dividend paid by the security (enter 0 before decimals). It will affect Current Yield (dynamically updated) based on Annual Dividend divided by Price.">
+                </ion-icon>
+            </div>
+            <ion-item *ngIf="account?.investmentType == 'stock'">
+                <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+                </ion-icon>
+                <ion-input mask="separator.2" [dynamicDecimal]="true" [decimalPlaces]="2" maxlength="12"
+                type="tel" inputmode="decimal" class="dollar-input item-with-help-icon"
+                name="annualDividend" [(ngModel)]="account.annualDividend" (ngModelChange)="calculateYield()"
+                #annualDividend="ngModel">
+                </ion-input>
+            </ion-item>
+            <div class="labelform" *ngIf="account?.investmentType !== 'zeroValue'">
+                <ion-label>
+                    Current Yield
+                </ion-label>
+                <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                helpText="Current Yield is the current annual percentage yield of INCOME (distribution, dividend, rent, interest, etc) of the asset.">
+                </ion-icon>
+            </div>
+            <ion-item *ngIf="account?.investmentType !== 'zeroValue'">
+                <ion-icon src="assets/icon/percent.svg" class="percent" slot="end">
+                </ion-icon>
+                <ion-input mask="separator.2" [dynamicDecimal]="true" [decimalPlaces]="2" min="0" type="tel" inputmode="decimal" class="percent-input item-with-help-icon"
+                name="currentYield" [(ngModel)]="account.currentYield"
+                [disabled]="isNominalValuesChecked() || account?.investmentType == 'stock'"  (ionChange)='onChangeCurrentYield(account.currentYield)'>
+                </ion-input>
+            </ion-item>
+
+            <div class="labelform" *ngIf="account?.investmentType !== 'zeroValue'">
+                <ion-label>
+                    Yield Growth Rate
+                </ion-label>
+                <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                helpText="Yield Growth Rate is the expected annual percentage increase in the Current Yield. For dividend growth stocks make sure both Annual Appreciation and Yield Growth Rate are used.">
+                </ion-icon>
+            </div>
+            <ion-item *ngIf="account?.investmentType !== 'zeroValue'">
+                <ion-icon src="assets/icon/percent.svg" class="percent" slot="end">
+                </ion-icon>
+                <ion-input mask="separator.10"  min="0" type="tel" [dynamicDecimal]="true" [decimalPlaces]="2"
+                inputmode="decimal" class="percent-input item-with-help-icon"
+                name="yieldGrowthRate" [(ngModel)]="account.yieldGrowthRate">
+                </ion-input>
+            </ion-item>
+            <div *ngIf="account?.investmentType !== 'zeroValue'">
+                <div class="labelform" *ngIf="isAsset()">
+                    <ion-label>
+                        Distribution Frequency
+                    </ion-label>
+                    <ion-icon name="help-circle-outline" helpText="The Distribution Frequency option will determine how often income from existing assets will be received as well as the rate of compounding (if Compound/DRIP selected). For reinvestment, the Compound Return calculator uses a monthly computational cycle regardless of which Distribution Frequency is selected. This allows for purchase of new assets on a monthly basis by applying the amounts entered into Monthly Income fields (Wealth Account, Debt Accelerator, Debt Calculator Rollover, Monthly Unearned Income) so funds are not sitting waiting to be invested if a longer Distribution Frequency is selected."
+                    color="main-theme" class="ion-icon-small" src="assets/icon/info.svg">
+                    </ion-icon>
+                </div>
+                <ion-item *ngIf="isAsset()" class="item-with-help-icon">
+                    <ion-select class="custom-select-class" mode="md" [interface]="platform.width()<640?'action-sheet':'popover'" [interfaceOptions]="platform.width()<640?'actionSheetOptions':popoverSheetOptions" value="monthly" name="distributionFrequency"
+                    #distributionFrequency="ngModel" [(ngModel)]="account.distributionFrequency" [attr.required]="reinvestIncome === true ? '' : null">
+                        <!-- <ion-select-option value="daily">
+                            Daily
+                        </ion-select-option>
+                        <ion-select-option value="weekly">
+                            Weekly
+                        </ion-select-option> -->
+                        <ion-select-option selected="false" value="monthly">
+                            Monthly
+                        </ion-select-option>
+                        <ion-select-option value="quarterly">
+                            Quarterly
+                        </ion-select-option>
+                        <ion-select-option value="semiannually">
+                            Semi-Annually
+                        </ion-select-option>
+                        <ion-select-option value="annually">
+                            Annually
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-text color="danger" class="validation-error" *ngIf="reinvestIncome && !account.distributionFrequency">
+                    Distribution Frequency is required
+                </ion-text>
+            </div>
+            <div>
+                <ion-item class="toogleItems" lines="none">
+                    <ion-label>
+                        {{account?.investmentType=='zeroValue' ? 'Reinvest income into other assets' : 'Reinvest income'}}
+                        <ion-icon name="help-circle-outline" helpText="Select Compound/DRIP to allow income generated from this asset to be reinvested into purchase of more of the SAME asset according to the selected Distribution Frequency. The verbiage “purchase of new assets”, has a slightly different meaning depending on which Investment Type is selected. For Portfolio, the amount is simply added to the balance whereas for Securities and Units, new individual assets are purchased.<br>Select 'Into other assets' to allow income generated from this asset to be reinvested into purchase of OTHER assets on your balance sheet. Must check 'Use income from non DRIP Accounts' in MOAC Advanced Options."
+                        color="main-theme" class="ion-icon-small" src="assets/icon/info.svg">
+                        </ion-icon>
+                    </ion-label>
+                    <ion-toggle #reinvestIncomeInput="ngModel"
+                    name="reinvestIncomeInput" value="" [(ngModel)]="reinvestIncome"
+                    slot="start" mode="ios" class="toggle-form ion-hide-sm-down"
+                    (ionChange)="onChangeReInvest($event)">
+                    </ion-toggle>
+                    <ion-toggle #reinvestIncomeInput="ngModel"
+                    name="reinvestIncomeInput" value="" [(ngModel)]="reinvestIncome"
+                    slot="end" mode="ios" class="toggle-form ion-hide-sm-up"
+                    (ionChange)="onChangeReInvest($event)">
+                    </ion-toggle>
+                </ion-item>
+                <div class="segment-scroller" id="ifReinvest">
+                    <ion-segment *ngIf="reinvestIncome&&account?.investmentType!='zeroValue'" class="segment-options" scrollable
+                    mode="ios" (ionChange)="onChangeReInvest($event)" [value]="this.account.compoundDRIP?'compound':this.account.reinvestIntoOtherAssets?'into':this.account.reinvestIntoDebtPayOff?'debt':''">
+                        <ion-segment-button value="compound">
+                            <ion-label>Compound/DRIP</ion-label>
+                        </ion-segment-button>
+                        <ion-segment-button value="into">
+                            <ion-label>Into other assets</ion-label>
+                        </ion-segment-button>
+                        <ion-segment-button value="debt">
+                            <ion-label>Into debt payoff</ion-label>
+                        </ion-segment-button>
+                    </ion-segment>
+                </div>
+            </div>
+            <div *ngIf="account.compoundDRIP && account?.investmentType !== 'zeroValue'">
+                <ion-item class="toogleItems" lines="none" *ngIf="account?.investmentType==='stock' || account?.investmentType==='units'">
+                    <ion-label>
+                        Fractional Reinvestment?
+                        <ion-icon name="help-circle-outline" helpText="The Fractional Reinvestment button (available when Securities and Units are selected) will purchase new portions of the same asset on a fractional basis when Yes is selected. When No is selected, only a whole acquisition of the asset will be made. Selecting No is ideal when the price of the asset is large (like a real estate rental unit) or when fractional purchases are not possible. In this scenario, the funds received from this specific existing asset, are held temporarily until the entire purchase price of the new asset is reached. Think of it as a savings account. The software will “save” these funds until the month where the savings exceeds the cost of the asset, at which time the asset will be purchased in whole. This is all done behind the scenes in the Compound Return module. The savings amount accumulates silently and has no output field in the results table."
+                        color="main-theme" class="ion-icon-small" src="assets/icon/info.svg">
+                        </ion-icon>
+                    </ion-label>
+                    <ion-toggle #fractionalReinvestment="ngModel"
+                    name="fractionalReinvestment" value="" [(ngModel)]="account.fractionalReinvestment"
+                    slot="start" mode="ios" class="toggle-form ion-hide-sm-down">
+                    </ion-toggle>
+                    <ion-toggle #fractionalReinvestment="ngModel"
+                    name="fractionalReinvestment" value="" [(ngModel)]="account.fractionalReinvestment"
+                    slot="end" mode="ios" class="toggle-form ion-hide-sm-up">
+                    </ion-toggle>
+                </ion-item>
+            </div>
+          
+            
+            <div *ngIf="!account.compoundDRIP">
+            </div>
+            <ion-item class="divider"></ion-item>
+            <div class="section-down-title" *ngIf="isAsset()">Additional Options</div>
+            <div *ngIf="isAsset()">
+                <div class="labelform" *ngIf="account?.investmentType !== 'zeroValue'">
+                    <ion-label>
+                        Cost Basis
+                    </ion-label>
+                    <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                    helpText="The original acquisition costs of the asset. Alternatively use to track total all in costs over time. This field is currently not tied into any module.">
+                    </ion-icon>
+                </div>
+                <ion-item *ngIf="account?.investmentType !== 'zeroValue'">
+                    <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+                    </ion-icon>
+                    <ion-input  min="0" mask="separator.2" [dynamicDecimal]="true" [decimalPlaces]="2"
+                    type="tel" inputmode="decimal" class="dollar-input"
+                    [disabled]="(account.plaid ? true: false)"
+                    name="costBasis" [(ngModel)]="account.costBasis">
+                    </ion-input>
+                </ion-item>
+                <div class="labelform" *ngIf="isAsset() && account?.investmentType !== 'zeroValue'">
+                    <ion-label>
+                        Volatility Ratio
+                    </ion-label>
+                    <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                    helpText="The estimated average volatility of the asset. This field is information only and not currently not tied into any module.">
+                    </ion-icon>
+                </div>
+                <ion-row *ngIf="isAsset() && account?.investmentType !== 'zeroValue'">
+                    <ion-col class="ion-no-padding" size-lg="12" size-md="12" size-sm="12" size-xl="12" size-xs="12">
+                        <ion-item>
+                            <ion-icon src="assets/icon/percent.svg" class="percent" slot="end">
+                            </ion-icon>
+
+                            <ion-input mask="separator.10" type="tel" inputmode="decimal" class="percent-input" [dynamicDecimal]="true" [decimalPlaces]="2"
+                            name="volatilityRatio" [(ngModel)]="account.volatilityRatio" (ngModelChange)="resolveNaN($event)">
+                            </ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <!-- <ion-col class="ion-no-padding ion-hide-sm-down" size-lg="8.5" size-md="8.5" size-sm="12" size-xl="8.5" size-xs="12">
+                        <ion-item class="range" lines="none">
+                            <ion-range [pin]="true" mode="md" snaps="true" ticks="false" min="0" max="100" color="dark" [(ngModel)]="account.volatilityRatio" name="volatilityRatio" (ngModelChange)="resolveNaN($event)" debounce="500">
+                            </ion-range>
+                          </ion-item>
+                    </ion-col> -->
+                </ion-row>
+                <div class="labelform" *ngIf="isAsset()">
+                    <ion-label>
+                        Tax Rate
+                    </ion-label>
+                    <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                    helpText="Tax Rate value if entered, will calculate based on income received from the asset and will add a Tax column to the Compound Return results table showing the tax paid for the year.">
+                    </ion-icon>
+                </div>
+                <ion-row>
+                    <ion-col class="ion-no-padding" size-lg="12" size-md="12" size-sm="12" size-xl="12" size-xs="12">
+                        <ion-item *ngIf="isAsset()">
+                            <ion-icon src="assets/icon/percent.svg" class="percent" slot="end">
+                            </ion-icon>
+                            <!-- <ion-input clearInput="true" clearOnEdit="true" type="number" class="percent-input"
+                            name="taxRate" [(ngModel)]="account.taxRate">
+                            </ion-input> -->
+
+                            <ion-input mask="separator.10" [dynamicDecimal]="true" [decimalPlaces]="2" type="tel" inputmode="decimal" class="percent-input" (ngModelChange)="resolveNaN($event)"
+                            name="taxRate" [(ngModel)]="account.taxRate">
+                            </ion-input>
+                            
+                        </ion-item>
+                    </ion-col>
+                    <!-- <ion-col class="ion-no-padding ion-hide-sm-down" size-lg="8.5" size-md="8.5" size-sm="12" size-xl="8.5" size-xs="12">
+                        <ion-item class="range" lines="none">
+                            <ion-range [pin]="true" mode="md" snaps="true" ticks="false" min="0" max="100" color="dark" [(ngModel)]="account.taxRate" (ngModelChange)="resolveNaN($event)" name="taxRate" debounce="500">
+                            </ion-range>
+                          </ion-item>
+                    </ion-col> -->
+                </ion-row>
+                <div>
+                    <ion-item class="toogleItems" lines="none" *ngIf="isAsset() && account.taxRate">
+                        <ion-label>
+                            Pay tax from existing asset?
+                            <ion-icon name="help-circle-outline" helpText="If selected, the tax is deducted from the Income and the New Balance columns, so the output amounts will show a post-tax number. The number of Shares/Units will also show a reduction when applicable."
+                            color="main-theme" class="ion-icon-small" src="assets/icon/info.svg">
+                            </ion-icon>
+                        </ion-label>
+                        <ion-toggle #payTaxFromExistingAsset="ngModel"
+                        name="payTaxFromExistingAsset" value="" [(ngModel)]="account.payTaxFromExistingAsset"
+                        slot="start" mode="ios" class="toggle-form ion-hide-sm-down">
+                        </ion-toggle>
+                        <ion-toggle #payTaxFromExistingAsset="ngModel"
+                        name="payTaxFromExistingAsset" value="" [(ngModel)]="account.payTaxFromExistingAsset"
+                        slot="end" mode="ios" class="toggle-form ion-hide-sm-up">
+                        </ion-toggle>
+                    </ion-item>
+                </div>
+                <div class="labelform">
+                    <ion-label>
+                        Reference URL
+                    </ion-label>
+                    <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                    helpText="An optional reference field to store a URL or other helpful info about the asset.">
+                    </ion-icon>
+                </div>
+                <ion-item>
+                    <ion-input type="url" name="referenceURL" [(ngModel)]="account.referenceURL">
+                    </ion-input>
+                </ion-item>
+                <div>
+                    <div *ngIf="account.accountType==='Asset' && account?.investmentType !== 'zeroValue'" class="labelform">
+                        <ion-label>
+                            Liquidation priority
+                        </ion-label>
+                        <ion-icon name="help-circle-outline" helpText="An optional field to help prioritize non productive assets scheduled for liquidation. This field is currently not tied into any module."
+                        color="main-theme" class="ion-icon-small" src="assets/icon/info.svg">
+                        </ion-icon>
+                    </div>
+                    <ion-item *ngIf="account.accountType==='Asset' && account?.investmentType !== 'zeroValue'"
+                    class="item-with-help-icon">
+                        <ion-select class="custom-select-class" mode="md" [interface]="platform.width()<640?'action-sheet':'popover'" [interfaceOptions]="platform.width()<640?'actionSheetOptions':popoverSheetOptions" placeholder="0" name="liquidationPriority"
+                        [(ngModel)]="account.liquidationPriority">
+                            <ion-select-option value="0">
+                                0
+                            </ion-select-option>
+                            <ion-select-option value="1">
+                                1
+                            </ion-select-option>
+                            <ion-select-option value="2">
+                                2
+                            </ion-select-option>
+                            <ion-select-option value="3">
+                                3
+                            </ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </div>
+                <div id="excludeFromAnnualWithdrawal">
+                    <ion-item class="divider ion-hide-sm-up"></ion-item>
+                    <ion-item class="toogleItems" lines="none" *ngIf="isAsset()" [disabled]="account.reinvestIntoOtherAssets === true || account.reinvestIntoDebtPayOff === true || account.excludeFromCompoundReturnCalc === true">
+                        <ion-label>
+                            Exclude from Annual Withdrawal?
+                            <ion-icon name="help-circle-outline" helpText="Check to remove this Asset account from Compound Return module Annual Withdrawal calculations."
+                            color="main-theme" class="ion-icon-small" src="assets/icon/info.svg">
+                            </ion-icon>
+                        </ion-label>
+                        <ion-toggle #excludeFromWithdrawal="ngModel"
+                        name="excludeFromWithdrawal" value="" [(ngModel)]="account.excludeFromWithdrawal"
+                        slot="start" mode="ios" class="toggle-form ion-hide-sm-down">
+                        </ion-toggle>
+                        <ion-toggle #excludeFromWithdrawal="ngModel"
+                        name="excludeFromWithdrawal" value="" [(ngModel)]="account.excludeFromWithdrawal"
+                        slot="end" mode="ios" class="toggle-form ion-hide-sm-up">
+                        </ion-toggle>
+                    </ion-item>
+                </div>
+            </div>
+            <div id="excludeFromCompoundReturn">
+                <ion-item class="toogleItems" lines="none" *ngIf="isAsset()">
+                    <ion-label class="exclude-from">
+                        Exclude from Compound Return?
+                        <ion-icon name="help-circle-outline" helpText="Check to remove this Asset account from the Compound Return module."
+                        color="main-theme" class="ion-icon-small" src="assets/icon/info.svg">
+                        </ion-icon>
+                    </ion-label>
+                    <ion-toggle #excludeFromCompoundReturnCalc="ngModel"
+                    name="excludeFromCompoundReturnCalc" value="" [(ngModel)]="account.excludeFromCompoundReturnCalc"
+                    slot="start" mode="ios" class="toggle-form ion-hide-sm-down">
+                    </ion-toggle>
+                    <ion-toggle #excludeFromCompoundReturnCalc="ngModel"
+                    name="excludeFromCompoundReturnCalc" value="" [(ngModel)]="account.excludeFromCompoundReturnCalc"
+                    slot="end" mode="ios" class="toggle-form ion-hide-sm-up">
+                    </ion-toggle>
+                </ion-item>
+            </div>
+            <div id="excludeFromFurtherInvestment">
+                <ion-item class="toogleItems" lines="none" *ngIf="isAsset() && account?.investmentType !== 'zeroValue'"
+                [disabled]="account.excludeFromCompoundReturnCalc === true">
+                    <ion-label class="exclude-from">
+                        Exclude from further investment?
+                        <ion-icon name="help-circle-outline" helpText="Check to prevent this Asset from receiving additional funds from other assets including Earned Income or Wealth Account money from ND1 budgeting ratios in Compound Return calculations."
+                        color="main-theme" class="ion-icon-small" src="assets/icon/info.svg">
+                        </ion-icon>
+                    </ion-label>
+                    <ion-toggle #excludeFromFurtherInvestment="ngModel"
+                    name="excludeFromFurtherInvestment" value="" [(ngModel)]="account.excludeFromFurtherInvestment"
+                    slot="start" mode="ios" class="toggle-form ion-hide-sm-down">
+                    </ion-toggle>
+                    <ion-toggle #excludeFromFurtherInvestment="ngModel"
+                    name="excludeFromFurtherInvestment" value="" [(ngModel)]="account.excludeFromFurtherInvestment"
+                    slot="end" mode="ios" class="toggle-form ion-hide-sm-up">
+                    </ion-toggle>
+                </ion-item>
+            </div>
+        </div>
+        <ng-container *ngIf="isLiability() && childAccount.length == 0">
+            <div>
+                <div class="labelform">
+                    <ion-label (click)="showSnackbarForAccounts('No value exists')">
+                        Asset Association
+                    </ion-label>
+                    <ion-icon name="help-circle-outline" helpText="Select the Asset this Liability is associated with (if applicable) otherwise select none. The Liability Type field below will assume its associated Asset Type or it will default to Consumer if none selected. Affects Debt Payoff module."
+                    color="main-theme" class="ion-icon-small" src="assets/icon/info.svg">
+                    </ion-icon>
+                </div>
+                <ion-item class="asset-association item-with-help-icon">
+                    <ion-select class="custom-select-class" mode="md" [interface]="platform.width()<640?'action-sheet':'popover'" [interfaceOptions]="platform.width()<640?'actionSheetOptions':popoverSheetOptions" value="none" #assetAssociation="ngModel" name="assetAssociation"
+                    [placeholder]="assetList.length == 0 ? 'No value exists' : null" [(ngModel)]="account.assetAssociation"
+                    [disabled]="assetList.length === 0" (ionChange)="onChangeAssetAssociation()">
+                        <ion-select-option selected="true" value="none">
+                            none
+                        </ion-select-option>
+                        <ion-select-option value="{{account.id}}" *ngFor="let account of assetList">
+                            <div>
+                            <span *ngIf="account.parentHoldingId">{{account.parent?.name}}: </span>{{account.name}}
+                            </div>
+                            <div class="balance">
+                                {{account.currentBalance | currency : 'USD'}}
+                            </div>
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </div>
+            <div class="labelform">
+                <ion-label>
+                    Liability Type
+                </ion-label>
+            </div>
+            <ion-item disabled="true" disabled="true">
+                <ion-select interface="action-sheet" value="C" name="liabilityType" #liabilityType="ngModel"
+                [(ngModel)]="account.liabilityType">
+                    <ion-select-option selected="false" value="C">
+                        Consumer
+                    </ion-select-option>
+                    <ion-select-option value="DA">
+                        Depreciating Asset
+                    </ion-select-option>
+                    <ion-select-option value="AA">
+                        Appreciating Asset
+                    </ion-select-option>
+                    <ion-select-option value="CFA">
+                        Cash Flow Asset
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item class="divider"></ion-item>
+            <div class="section-down-title">Liability Cost</div>
+            <div class="labelform">
+                <ion-label>
+                    Current Balance
+                </ion-label>
+                <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                helpText="The current balance of the Liability account. Affects Balance Sheet & Net Worth,">
+                </ion-icon>
+            </div>
+            <ion-item>
+                <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+                </ion-icon>
+                <ion-input  min=".01" mask="separator.2" [dynamicDecimal]="true" [decimalPlaces]="2"
+                type="tel" inputmode="decimal" class="dollar-input item-with-help-icon"
+                name="currentBalance" required="" [(ngModel)]="account.currentBalance"
+                #currentBalance="ngModel" [disabled]="account.plaid">
+                </ion-input>
+            </ion-item>
+            <ion-text color="danger" class="validation-error" *ngIf="currentBalance.invalid && (currentBalance.dirty || currentBalance.touched)">
+                Current Balance is required
+            </ion-text>
+            <div class="labelform">
+                <ion-label>
+                    Min Monthly Payment
+                </ion-label>
+                <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                helpText="The minimum monthly payment of the Liability or debt. If none then enter 0.">
+                </ion-icon>
+            </div>
+            <ion-item>
+                <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+                </ion-icon>
+                <ion-input  min=".01" mask="separator.2" [dynamicDecimal]="true" [decimalPlaces]="2"
+                type="tel" inputmode="decimal" class="dollar-input item-with-help-icon"
+                name="minPayment" required="" #minPayment="ngModel" [(ngModel)]="account.minPayment">
+                </ion-input>
+            </ion-item>
+            <ion-text color="danger" class="validation-error" *ngIf="minPayment.invalid && (minPayment.dirty || minPayment.touched)">
+                Min Monthly Payment is required
+            </ion-text>
+            <div class="labelform">
+                <ion-label>
+                    Interest Rate (APR)
+                </ion-label>
+                <ion-icon color="main-theme" class="ion-icon-small" src="assets/icon/info.svg" name="help-circle-outline"
+                helpText="The current interest rate of the Liability or debt. If none then enter 0.">
+                </ion-icon>
+            </div>
+            <ion-row>
+                <ion-col class="ion-no-padding" size-lg="3.5" size-md="3.5" size-sm="12" size-xl="3.5" size-xs="12">
+                    <ion-item>
+                        <ion-icon src="assets/icon/percent.svg" class="percent" slot="end">
+                        </ion-icon>
+                        <ion-input type="tel" inputmode="decimal" name="interestRate" mask="separator.2" [dynamicDecimal]="true" [decimalPlaces]="2"
+                        required="" [(ngModel)]="account.interestRate" max="100" (keypress)="keyPressNumbersWithDecimal($event)"
+                        #interestRate="ngModel" min="0" (ngModelChange)="resolveNaNInterestRate($event)">
+                        </ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col class="ion-no-padding ion-hide-sm-down" size-lg="8.5" size-md="8.5" size-sm="12" size-xl="8.5" size-xs="12">
+                    <ion-item class="range" lines="none">
+                        <ion-range required="true" [pin]="true" mode="md" snaps="true" ticks="false" min="0" max="100" color="dark" [(ngModel)]="account.interestRate" name="interestRate" (ngModelChange)="resolveNaNInterestRate($event)" debounce="5">
+                        </ion-range>
+                      </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-text color="danger" class="validation-error" *ngIf="interestRate.invalid && (interestRate.dirty || interestRate.touched)">
+                Interest Rate is required
+            </ion-text>
+            <ng-container>
+                <ion-item class="toogleItems" lines="none">
+                    <ion-label>
+                        Exclude from Debt Payoff?
+                        <ion-icon name="help-circle-outline" helpText="Check to remove this Liability account from the Debt Payoff module."
+                        color="main-theme" class="ion-icon-small" src="assets/icon/info.svg">
+                        </ion-icon>
+                    </ion-label>
+                    <ion-toggle #excludeFromDebtPayoffCalc="ngModel"
+                    name="excludeFromDebtPayoffCalc" value="" [(ngModel)]="account.excludeFromDebtPayoffCalc"
+                    slot="start" mode="ios" class="toggle-form ion-hide-sm-down">
+                    </ion-toggle>
+                    <ion-toggle #excludeFromDebtPayoffCalc="ngModel"
+                    name="excludeFromDebtPayoffCalc" value="" [(ngModel)]="account.excludeFromDebtPayoffCalc"
+                    slot="end" mode="ios" class="toggle-form ion-hide-sm-up">
+                    </ion-toggle>
+                </ion-item>
+                <ion-item class="toogleItems" lines="none">
+                    <ion-label>
+                        Priority Debt Payoff
+                        <ion-icon name="help-circle-outline" helpText="Check to make this Liability account have first priority in Debt Payoff module. Note: There can only be one liability account in priority. If there is another liability account with this checked make sure to uncheck it first."
+                        color="main-theme" class="ion-icon-small" src="assets/icon/info.svg">
+                        </ion-icon>
+                    </ion-label>
+                    <ion-toggle #priorityDebtPayoff="ngModel"
+                    name="priorityDebtPayoff" value="" [(ngModel)]="account.priorityDebtPayoff"
+                    slot="start" mode="ios" class="toggle-form ion-hide-sm-down" (ionChange)="checkPreviousPriority($event)">
+                    </ion-toggle>
+                    <ion-toggle #priorityDebtPayoff="ngModel"
+                    name="priorityDebtPayoff" value="" [(ngModel)]="account.priorityDebtPayoff"
+                    slot="end" mode="ios" class="toggle-form ion-hide-sm-up" (ionChange)="checkPreviousPriority($event)">
+                    </ion-toggle>
+                </ion-item>
+            </ng-container>
+        </ng-container>
+        <ion-item *ngIf="false">
+            <ion-label>
+                Owner
+            </ion-label>
+            <ion-select interface="action-sheet" selectedText="User" value="User" #owner="ngModel"
+            name="owner" required="" [(ngModel)]="account.owner">
+                <ion-select-option value="User" selected="">
+                    User
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+        <div (click)="validateAssetType()">
+            <ion-button [disabled]="!accountForm.valid || (account.parentHolding && !isParentHoldingValid) || (reinvestIncome && !account.distributionFrequency && account.investmentType !== 'zeroValue')" mode="ios" shape="round" type="submit" class="save ion-margin-top contentalignbutton fullbtn ion-hide-sm-up">
+                {{childHolding? 'Save Holding' : isAsset()? 'Save Asset':'Save Liability'}}
+            </ion-button>
+        </div>
+        <ion-button mode="ios" shape="round" type="button" class="cancel ion-margin-top fullbtn ion-hide-sm-up" (click)="openCancelDialog()">
+            Cancel
+        </ion-button>
+    </form>
+</ion-content>
+<ion-footer class="ion-hide-sm-down" (click)="validateAssetType()">
+    <ion-button [disabled]="!accountForm.valid || (account.parentHolding && !isParentHoldingValid) || (reinvestIncome && !account.distributionFrequency && account.investmentType !== 'zeroValue')" mode="ios" shape="round" type="button" class="save" (click)="submitForm()">
+        {{childHolding? 'Save Holding' : isAsset()? 'Save Asset':'Save Liability'}}
+    </ion-button>
+    <ion-button mode="ios" shape="round" type="button" class="cancel" (click)="openCancelDialog()">
+        Cancel
+    </ion-button>
+  </ion-footer>
+
+<ion-modal mode="ios" reference="event"
+id="customaccount" class="customaccount" [isOpen]="isCancelModalOpen" (didDismiss)="popDismiss()">
+    <ng-template>
+        <ng-container *ngTemplateOutlet="deleteAccountBox">
+        </ng-container> 
+    </ng-template>
+</ion-modal>
+
+<ion-popover mode="ios" reference="event"
+id="customaccount" class="customaccount" [isOpen]="isCancelPopOpen" (didDismiss)="popDismiss()">
+    <ng-template>
+        <ng-container *ngTemplateOutlet="deleteAccountBox">
+        </ng-container> 
+    </ng-template>
+</ion-popover>
+
+
+
+
+<ng-template #deleteAccountBox>
+    <ion-content scrollY="false">
+        <ion-icon *ngIf="isCancelModalOpen" class="ion-hide-sm-up mobilehandle" 
+        src="assets/icon/Handle.svg"></ion-icon>
+        <div class="contentdiv">
+            
+            <div >
+                <h2 >Are you sure you want to quit?</h2>
+                <h3 style="font-size:14px">Any holdings you entered will not be saved unless you save the parent account. Click 'Yes' to continue and 'No' to cancel.</h3>
+            </div>
+
+
+        </div>    
+        
+        <ion-row class="buttonrow">
+            <ion-col class="savecol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                <ion-button mode="ios" class="modalsave fullwidth" (click)="popDismiss(true)" #savebtn>Yes</ion-button>
+            </ion-col>
+            <ion-col class="cancelcol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                <ion-button mode="ios" type="button" class="modalcancel fullwidth" (click)="popDismiss()">
+                    No
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-content>
+</ng-template>
+
+<ion-modal mode="ios" reference="event"
+id="customaccount" class="customaccount" [isOpen]="isUnsavedModalOpen" (didDismiss)="popDismiss()">
+    <ng-template>
+        <ng-container *ngTemplateOutlet="isUnsavedAccountBox">
+        </ng-container> 
+    </ng-template>
+</ion-modal>
+
+<ion-popover mode="ios" reference="event"
+id="customaccount" class="customaccount" [isOpen]="isUnsavedPopOpen" (didDismiss)="popDismiss()">
+    <ng-template>
+        <ng-container *ngTemplateOutlet="isUnsavedAccountBox">
+        </ng-container> 
+    </ng-template>
+</ion-popover>
+
+
+
+
+<ng-template #isUnsavedAccountBox>
+    <ion-content scrollY="false">
+        <ion-icon *ngIf="isCancelModalOpen" class="ion-hide-sm-up mobilehandle" 
+        src="assets/icon/Handle.svg"></ion-icon>
+        <div class="contentdiv">
+            <div>
+                <h2 >Are you sure you want to leave?</h2>
+                <h3 style="font-size:14px">You must click '{{childHolding? 'Save Holding' : isAsset()? 'Save Asset':'Save Liability'}}' in order to save your changes<!--{{childHolding? 'Holdings' : isAsset()? 'Holdings':'Liability'}}-->!</h3>
+            </div>
+        </div>    
+        
+        <ion-row class="buttonrow">
+            <ion-col class="savecol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                <ion-button mode="ios" class="modalsave fullwidth" (click)="popDismiss(true)" #savebtn>Yes</ion-button>
+            </ion-col>
+            <ion-col class="cancelcol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                <ion-button mode="ios" type="button" class="modalcancel fullwidth" (click)="popDismiss()">
+                    No
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-content>
+</ng-template>
+
+<ion-modal mode="ios" reference="event" id="customaccount" class="customaccount" [isOpen]="isDeleteModalOpen"
+    (didDismiss)="popDismiss()">
+    <ng-template>
+        <ng-container *ngTemplateOutlet="deleteAccountBoxHolding">
+        </ng-container>
+    </ng-template>
+</ion-modal>
+
+<ion-popover mode="ios" reference="event" id="customaccount" class="customaccount" [isOpen]="isDeletePopOpen"
+    (didDismiss)="popDismiss()">
+    <ng-template>
+        <ng-container *ngTemplateOutlet="deleteAccountBoxHolding">
+        </ng-container>
+    </ng-template>
+</ion-popover>
+
+
+
+
+<ng-template #deleteAccountBoxHolding>
+    <ion-content scrollY="false">
+        <ion-icon *ngIf="isDeleteModalOpen" class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon>
+        <div class="contentdiv">
+
+            <div>
+                <h2>{{deleteConfirmationHeader}}</h2>
+                <h3 style="font-size:14px">{{deleteConfirmationMsg}} </h3>
+            </div>
+
+
+        </div>
+
+        <ion-row class="buttonrow">
+            <ion-col class="savecol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                <ion-button mode="ios" class="modalsave fullwidth" (click)="popDismiss();deleteConfirmed();goBack()" #savebtn>Yes,
+                    delete</ion-button>
+            </ion-col>
+            <ion-col class="cancelcol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                <ion-button mode="ios" type="button" class="modalcancel fullwidth" (click)="popDismiss()">
+                    Cancel
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-content>
+</ng-template>
+
+<ion-popover mode="ios" reference="event" id="customaccount" class="customaccount" [isOpen]="isClonePopOpen"
+    (didDismiss)="popDismiss()">
+    <ng-template>
+        <ng-container *ngTemplateOutlet="cloneAccountDetail">
+        </ng-container>
+    </ng-template>
+</ion-popover>
+
+<ion-modal mode="ios" reference="event" id="customaccount" class="customaccount" [isOpen]="isCloneModalOpen"
+    (didDismiss)="popDismiss()">
+    <ng-template>
+        <ng-container *ngTemplateOutlet="cloneAccountDetail">
+        </ng-container>
+    </ng-template>
+</ion-modal>
+
+<ng-template #cloneAccountDetail>
+    <ion-content scrollY="false">
+        <ion-icon *ngIf="isCloneModalOpen" class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon>
+        <div class="contentdiv">
+
+            <div>
+                <h2>Clone Account</h2>
+
+                <h3 style="font-size:14px">{{cloneMessage}} </h3>
+
+                <div class="form-group-custom-select">
+
+                    <div class="select-container">
+                        <ion-select placeholder="Select" mode="md" class="custom-select-class"
+                            [interface]="platform.width()<640?'action-sheet':'popover'"
+                            [interfaceOptions]="platform.width()<640?'actionSheetOptions':popoverSheetOptions"
+                            value="monthly" name="additionalContribHowOften" #additionalContribHowOften="ngModel"
+                            [(ngModel)]="cloneAccountBalance">
+                            <ion-select-option *ngFor="let balance of balanceSheetsList" [value]="balance.id">
+                                {{balance.name}}
+                            </ion-select-option>
+
+                        </ion-select>
+                    </div>
+
+                    <div class="custom-select-icon">
+                        <ion-icon name="caret-down-outline" class="icon-select"></ion-icon>
+                    </div>
+                </div>
+
+                <h3 class="ion-text-center" style="font-size:14px"> OR </h3>
+
+                <h3 style="font-size:14px">{{copyMessage}}</h3>
+
+                <div class="form-group-custom-select">
+
+                    <div class="select-container">
+                        <ion-select placeholder="Select" mode="md" class="custom-select-class"
+                            [interface]="platform.width()<640?'action-sheet':'popover'"
+                            [interfaceOptions]="platform.width()<640?'actionSheetOptions':popoverSheetOptions"
+                            name="copyAccountBalance"
+                            [(ngModel)]="copyAccountBalance">
+                            <ion-select-option *ngFor="let account of parentAccountList" [value]="account.id">
+                                {{account.name}}
+                            </ion-select-option>
+
+                        </ion-select>
+                    </div>
+
+                    <div class="custom-select-icon">
+                        <ion-icon name="caret-down-outline" class="icon-select"></ion-icon>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <ion-row class="buttonrow">
+            <ion-col class="savecol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                <ion-button mode="ios" class="modalsave fullwidth" (click)="addCloneInfo()" #savebtn>Choose</ion-button>
+            </ion-col>
+            <ion-col class="cancelcol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                <ion-button mode="ios" type="button" class="modalcancel fullwidth" (click)="popDismiss()">
+                    Cancel
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-content>
+</ng-template>

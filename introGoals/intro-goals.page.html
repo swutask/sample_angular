@@ -1,0 +1,50 @@
+<ion-content>
+  <ion-progress-bar class="barprogress" color="main-theme ion-hide-sm-down" value="0"></ion-progress-bar>
+  <ion-chip class="mainprogress ion-hide-sm-down">0%</ion-chip>
+  <ion-img src="assets/images/logo_placeholder.svg" alt="Image error" class="logo_placeholder ion-hide-sm-down">
+  </ion-img>
+  <ion-item class="itemHeader ion-hide-sm-up" lines="none">
+    <ion-buttons slot="start" class="backbox">
+      <ion-button color="light" routerDirection="back" (click)="back()">
+        <ion-icon src="assets/icon/arrowback.svg" >
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-progress-bar class="barprogress" color="main-theme" value="0"></ion-progress-bar>
+  </ion-item>
+  <ion-chip class="mainprogress ion-hide-sm-up">0%</ion-chip>
+  <h2>What is your primary goal?</h2>
+  <div class="backBtn cursor-pointer ion-hide-sm-down" (click)="back()">
+    <ion-icon src="assets/icon/arrowback.svg" color="light"></ion-icon>
+  </div>
+  <ion-grid class="progressgrid">
+    <ion-row>
+      <ion-col *ngFor="let primary of goalConstants.primaryGoal" size-lg="4" size-md="4" size-sm="6" size-xl="4" size-xs="6">
+        <div class="gridCard cursor-pointer" (click)="go(primary.id)" [ngClass]="primary.id==primaryGoal?'selected':''">
+          <div class="cardheading">
+            <ion-img [src]="primary.image"></ion-img>
+            <ion-note class="ion-float-right slide-edit-note ion-margin-end ion-hide-sm-down">
+              <ion-icon  src="../../assets/icon/arrowright.svg" class="arrow-icon">
+              </ion-icon>
+            </ion-note>
+            </div>
+            <div>
+              <div class="textheading">{{primary.label}}</div>
+              <div class="textdescription ion-hide-sm-down">{{primary.description}}</div>
+            </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div class="ion-text-center">
+    <ion-button (click)="updateGoals()" [disabled]="!primaryGoal" mode="ios" shape="round" class="save ion-margin-top fullbtn ion-hide-sm-up">
+      Continue
+      <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+    </ion-button>
+  </div>
+  <!-- <div class="login-footer ion-text-center ion-hide-sm-up">
+    <div>
+      Already have an account? <strong class="registernew cursor-pointer" (click)="login()"> Sign In</strong>
+    </div>
+  </div> -->
+</ion-content>

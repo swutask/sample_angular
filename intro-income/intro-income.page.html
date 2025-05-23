@@ -1,0 +1,80 @@
+<ion-content>
+  <ion-progress-bar class="barprogress" color="main-theme ion-hide-sm-down" value="0.25"></ion-progress-bar>
+  <ion-chip class="mainprogress ion-hide-sm-down">25%</ion-chip>
+  <ion-img src="assets/images/logo_placeholder.svg" alt="Image error" class="logo_placeholder ion-hide-sm-down">
+  </ion-img>
+  <ion-item class="itemHeader ion-hide-sm-up" lines="none">
+    <ion-buttons slot="start" class="backbox">
+      <ion-button color="light" routerDirection="back" (click)="back()">
+        <ion-icon src="assets/icon/arrowback.svg" >
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-progress-bar class="barprogress" color="main-theme" value="0.25"></ion-progress-bar>
+  </ion-item>
+  <ion-chip class="mainprogress ion-hide-sm-up">25%</ion-chip>
+  <h2 class="ion-hide-sm-up">Income planing</h2>
+  <ion-img src="assets/images/earnincome.png" class="income"></ion-img>
+  <div class="backBtn cursor-pointer ion-hide-sm-down" (click)="back()">
+    <ion-icon src="assets/icon/arrowback.svg" color="light"></ion-icon>
+  </div>
+  <div class="incomeform">
+    
+    <p class="inputlabel">
+      What is your current monthly income?
+        <ion-icon name="help-circle-outline" helpText="Your current Earned Income (money you work for) is the starting point used to generate your initial money management ratios used to create Unearned Income (money that works for you)."
+        color="main-theme" class="ion-icon-small cursor-pointer" src="assets/icon/info.svg">
+        </ion-icon>
+    </p>
+
+    <div class="securecode">
+      <ion-item class="type" lines="none">
+        <ion-input placeholder="0" mask="separator.2" type="tel" inputmode="decimal" name="currentEarnedIncome" [(ngModel)]="currentEarnedIncome">
+        </ion-input>
+      </ion-item>
+      <ion-item class="currency" lines="none">
+        <ion-select mode="md" class="custom-select-class" [interface]="platform.width()<640?'action-sheet':'popover'" [interfaceOptions]="platform.width()<640?'actionSheetOptions':popoverSheetOptions" value="USD" name="currency" [(ngModel)]="preferredCurrency">
+          <ion-select-option value="USD">
+            USD ($)
+          </ion-select-option>
+          <ion-select-option value="CAD">
+            CAD ($)
+          </ion-select-option>
+          <ion-select-option value="EUR">
+            EUR (€)
+          </ion-select-option>
+          <ion-select-option value="JPY">
+            JPY (¥)
+          </ion-select-option>
+          <ion-select-option value="AUD">
+            AUD (A$)
+          </ion-select-option>
+          <ion-select-option value="NZD">
+            NZD ($)
+          </ion-select-option>
+          <ion-select-option value="GBP">
+            GBP (£)
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+    <p class="inputlabel">What is your monthly income goal?</p>
+    <ion-item lines="none">
+      <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+      </ion-icon>
+      <ion-input mask="separator.2" type="tel" inputmode="decimal" placeholder="0"
+      class="dollar-input" name="earnedIncome" [(ngModel)]="earnedIncomeGoal">
+      </ion-input>
+    </ion-item>
+    <ion-button [disabled]="!currentEarnedIncome || !earnedIncomeGoal" mode="ios" shape="round" class="save ion-hide-sm-down" (click)="updateIncome()">
+      Continue
+      <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+    </ion-button>
+    <div class="ion-text-center">
+      <ion-button [disabled]="!currentEarnedIncome || !earnedIncomeGoal" mode="ios" shape="round" class="save ion-margin-top fullbtn ion-hide-sm-up" (click)="updateIncome()">
+        Continue
+        <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

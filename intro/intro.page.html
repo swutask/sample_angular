@@ -1,0 +1,39 @@
+<ion-content>
+  <div>
+    <ion-item class="itemHeader ion-hide-sm-up" lines="none" *ngIf="userSvc.hasCompletedOnboarding">
+      <ion-buttons slot="start" class="backbox">
+        <ion-button color="light" routerDirection="back" (click)="back()">
+          <ion-icon src="assets/icon/arrowback.svg" >
+          </ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+    <ion-img src="assets/images/logo_placeholder.svg" alt="Image error" class="logo_placeholder">
+    </ion-img>
+    <div class="videoPlaceholder">
+      <!-- <ion-img src="assets/images/videoPlaceholder.png"></ion-img>
+      <ion-icon class="cursor-pointer" src="assets/icon/play.svg"></ion-icon> -->
+      <ion-img src="assets/images/fort.png"></ion-img>
+    </div>
+    <div class="backBtn cursor-pointer ion-hide-sm-down" (click)="back()" *ngIf="userSvc.hasCompletedOnboarding">
+      <ion-icon src="assets/icon/arrowback.svg" color="light"></ion-icon>
+    </div>
+    <h2>Welcome to Wealth Builder!</h2>
+    <p>The #1 key to wealth is to get your money working for you instead of you working for your money. Our mission is to help you Master Money & Live Free via simple ratio based money management formulas proven to create results!</p>
+    <div class="ion-text-center">
+      <ion-button mode="ios" shape="round" class="save ion-margin-top fullbtn ion-hide-sm-up" (click)="go()">
+        Go
+        <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+      </ion-button>
+      <ion-button mode="ios" shape="round" class="save ion-hide-sm-down" (click)="go()">
+        Go
+        <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+      </ion-button>
+      <!-- <div class="login-footer">
+        <div>
+          Already have an account? <strong class="registernew cursor-pointer" (click)="login()"> Sign In</strong>
+        </div>
+        </div> -->
+    </div>
+  </div>
+</ion-content>

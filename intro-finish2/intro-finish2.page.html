@@ -1,0 +1,30 @@
+<ion-content>
+  <ion-progress-bar class="barprogress" color="light" value="0.88"></ion-progress-bar>
+  <ion-chip class="mainprogress">88%</ion-chip>
+  <ion-img src="assets/images/logo_placeholder.svg" alt="Image error" class="logo_placeholder ion-hide-sm-down">
+  </ion-img>
+  <div class="vertical-mobile">
+  <ion-img src="assets/images/like.svg" alt="Image error" class="cup">
+  </ion-img>
+  <div class="congrats">
+    <h2> Good job!</h2>
+    <h2>Add your liabilities</h2>
+    <p>Liabilities or debt can act as a headwind to your wealth building, weighing you down as they compound negatively. List all debts and liability accounts to get a complete picture of your balance sheet and the best way to move forward!</p>
+  </div>
+  <div class="ion-text-center">
+    <ion-button mode="ios" shape="round" class="cancel ion-hide-sm-down" (click)="createNewAccount()">
+      Go to Liabilities
+      <ion-icon color="main-theme" slot="end" name="arrow-forward-outline"></ion-icon>
+    </ion-button>
+    <ion-button mode="ios" shape="round" class="cancel ion-margin-top fullbtn ion-hide-sm-up" (click)="createNewAccount()">
+      Go to Liabilities
+      <ion-icon color="main-theme" slot="end" name="arrow-forward-outline"></ion-icon>
+    </ion-button>
+  </div>
+  </div>
+  <div class="login-footer ion-text-center">
+    <div class="skip cursor-pointer" (click)="goToIntroCongrats()">
+      Skip process
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,692 @@
+<div class="nav">
+  <div class="menuHeader">
+    <ion-icon src="assets/images/Unionwhite.svg" color="white" class="logo"></ion-icon>
+    <ion-text color="white" class="menuTitle" *ngIf="isSideMenuOpen()">Wealth Builder</ion-text>
+    <div class="extramenu" [style.marginLeft.px]="getMarginLeft()">
+      Balance Sheet:
+      <ion-select mode="md" class="custom-select-class" [interface]="platform.width()<640?'action-sheet':'popover'"
+        [interfaceOptions]="platform.width()<640?'actionSheetOptions':popoverSheetOptions" name="sheet"
+        #ssheet="ngModel" [(ngModel)]="sheet" (ngModelChange)="toggleSheet()">
+        <ion-select-option *ngFor="let s of balanceSheets;let i=index" [value]="s.id">
+          {{s.name}}
+        </ion-select-option>
+      </ion-select>
+      <div class="balanceActions" *ngIf="hasAccessTo()">
+        <ion-icon id="global-balancepop" src="assets/icon/ButtonHeaderBig.svg" class="cursor-pointer ellipsis"
+        (click)="openNewBalanceAlert($event)">
+        </ion-icon>
+      </div>
+      <div class="progresstitle" (click)="openProgress()">
+        Progress ({{getCompPercentage(isProfileDone, isGoalsDone, isFreedomDone, isLifestyleDone, isLegacyDone,
+        isAssetDone, isLiabilityDone, isBudgetingDone, isCapitalDone, isCompoundDone, isIncomeDone, isPorfolioDone,
+        isRiskDone, isTaxDone, isAssetPDone, isDebtDone, isDebtFree)}}%)
+      </div>
+      <circle-progress class="progress"
+        [percent]="getCompPercentage(isProfileDone, isGoalsDone, isFreedomDone, isLifestyleDone, isLegacyDone, isAssetDone, isLiabilityDone, isBudgetingDone, isCapitalDone, isCompoundDone, isIncomeDone, isPorfolioDone, isRiskDone, isTaxDone, isAssetPDone, isDebtDone, isDebtFree)"
+        [radius]="12" [outerStrokeWidth]="2" [innerStrokeWidth]="2" [space]="-2" [outerStrokeColor]="'#FFFFFF'"
+        [innerStrokeColor]="'#ffffff61'" [showTitle]="false" [showSubtitle]="false" [showUnits]="false"
+        [animation]="true" [animationDuration]="300" (click)="openProgress()"></circle-progress>
+    </div>
+  </div>
+  <div class="profileHeader" [style.marginRight.px]="getMarginRight()">
+    <div>
+      <ion-avatar id="profilemenu" class="avatar-icon cursor-pointer">
+        <ion-img [src]="userAvatar || this.userSvc.defaultAvatar" alt="Image error" alt="image"
+          (ionError)="img.src='assets/images/no_avatar.png';" #img>
+        </ion-img>
+      </ion-avatar>
+    </div>
+  </div>
+</div>
+<ion-popover mode="ios" id="customaccount" class="profilemenu" trigger="profilemenu" trigger-action="click"
+  (didDismiss)="popDismiss()">
+  <ng-template>
+    <ion-content>
+      <div class="profilebox">
+        <ion-item lines="none" class="submenutitle">
+          {{ profile.lastName ? (profile.firstName + ' ' + profile.lastName) : profile.firstName}}
+          <ion-avatar slot="end" class="avatar-icon cursor-pointer">
+            <ion-img [src]="userAvatar || this.userSvc.defaultAvatar" alt="Image error" alt="image"
+              (ionError)="img.src='assets/images/no_avatar.png';" #img>
+            </ion-img>
+          </ion-avatar>
+        </ion-item>
+        <ion-chip class="access">{{access}}</ion-chip>
+        <div class="subMenuItem cursor-pointer" (click)="popDismiss();openEditProfile();">
+          <ion-icon title="Profile" src="assets/images/profile.svg"></ion-icon>
+          <ion-label>Profile</ion-label>
+        </div>
+        <div class="subMenuItem cursor-pointer" id="iframeModalupgrade" (click)="popDismiss();toggle();">
+          <ion-icon title="Upgrade" class="rotateicon" src="assets/icon/arrowright.svg"></ion-icon>
+          <ion-label>Upgrade</ion-label>
+        </div>
+        <div class="subMenuItem cursor-pointer" (click)="popDismiss();goToPortal()">
+          <ion-icon title="Billing" name="receipt-outline"></ion-icon>
+          <ion-label>Billing</ion-label>
+        </div>
+        <div class="subMenuItem cursor-pointer" (click)="popDismiss();openDocs()">
+          <ion-icon title="Docs" name="document-text-outline"></ion-icon>
+          <ion-label>Documentation</ion-label>
+        </div>
+        <div class="subMenuItem cursor-pointer" (click)="popDismiss();openSupport()">
+          <ion-icon title="Support" src="assets/images/support.svg"></ion-icon>
+          <ion-label>Support</ion-label>
+        </div>
+        <ion-item class="divider"></ion-item>
+        <div title="Log Out" class="logItem cursor-pointer" (click)="popDismiss();logout($event)">
+          <ion-icon class="menuiconopenlog" src="assets/images/logout.svg"></ion-icon>
+          <ion-label>Log Out</ion-label>
+        </div>
+        <div class="version">v{{authService.getAppVersion()}}</div>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-popover>
+
+<ion-modal trigger="iframeModal" class="iframemodal">
+  <ng-template>
+    <ion-button class="support-iframe-button" (click)="modalDismiss()">
+      <ion-icon src="assets/icon/close.svg">
+      </ion-icon>
+    </ion-button>
+    <iframe [src]="supportLink"></iframe>
+  </ng-template>
+</ion-modal>
+<ion-modal [isOpen]="profileOpen" class="iframemodal">
+  <ng-template>
+    <ion-button class="upgrade-iframe-button" (click)="modalDismiss()">
+      <ion-icon src="assets/icon/close.svg">
+      </ion-icon>
+    </ion-button>
+    <iframe [src]="upgradeLink"></iframe>
+  </ng-template>
+</ion-modal>
+
+<!-- <ion-popover mode="ios" reference="event"
+  id="customeditaccount" class="customaccount sideOffset"
+   [isOpen]="isAddBalanceAccountPlaidPopOpen" (didDismiss)="popDismiss()">
+    <ng-template>
+        <ng-container *ngTemplateOutlet="addBalanceAccountPlaid">
+        </ng-container> 
+    </ng-template>
+</ion-popover>
+
+<ion-modal mode="ios" reference="event"
+  id="customeditaccount" class="customaccount" [isOpen]="isAddBalanceAccountPlaidModalOpen" (didDismiss)="popDismiss()">
+    <ng-template>
+        <ng-container *ngTemplateOutlet="addBalanceAccountPlaid">
+        </ng-container> 
+    </ng-template>
+</ion-modal>
+
+<ng-template #addBalanceAccountPlaid>
+    <ion-content scrollY="false" class="ion-padding-new">
+        <ion-icon class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon>
+            <div class="contentdiv">
+                    <h2>Choose Account Type?</h2>
+                    <div class="modeldivider"></div>
+                    <ion-radio-group [(ngModel)] = "addAccountOptionPlaid">
+                        <ion-item lines="none">
+                            <ion-label>Asset</ion-label>
+                            <ion-radio mode="md" color="success" slot="start" value="Asset"></ion-radio>
+                        </ion-item>
+                        <ion-item lines="none">
+                            <ion-label>Liability</ion-label>
+                            <ion-radio mode="md"color="success" slot="start" value="Liability"></ion-radio>
+                        </ion-item>
+                    </ion-radio-group>
+            </div>
+            <ion-row class="buttonrow">
+                <ion-col class="savecol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                    <ion-button mode="ios" class="modalsave fullwidth" (click)="createAccountPlaidOption()" #savebtn>Add</ion-button>
+                </ion-col>
+                <ion-col class="cancelcol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                    <ion-button mode="ios" type="button" class="modalcancel fullwidth" (click)="popDismiss()">
+                        Cancel
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+    </ion-content>
+</ng-template> -->
+
+<ion-popover mode="ios" reference="event" id="customaccount" class="customaccount linked sideOffset"
+  [isOpen]="isManagePlaidPopOpen" (didDismiss)="popDismiss()">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="managePlaid">
+    </ng-container>
+  </ng-template>
+</ion-popover>
+
+<ion-modal mode="ios" reference="event" id="customaccount" class="customaccount linked"
+  [isOpen]="isManagePlaidModalOpen" (didDismiss)="popDismiss()">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="managePlaid">
+    </ng-container>
+  </ng-template>
+</ion-modal>
+
+<ng-template #managePlaid>
+  <ion-content scrollY="false">
+    <div class="contentdiv">
+      <ion-icon src="assets/icon/close.svg" class="closeout cursor-pointer" (click)="popDismiss()"></ion-icon>
+      <div>
+        <div class="instituteHeading">
+          <div class="heading">
+            <h2 class="format">Linked Accounts</h2>
+            <h6>All accounts related to Plaid
+            </h6>
+          </div>
+          <ion-button class="save addinstitution" size="small" (click)="openCreateAccountPlaidOption()">
+            <ion-icon name="add"></ion-icon>
+            Add Institution
+          </ion-button>
+        </div>
+        <ion-item *ngIf="plaidItems.length == 0" lines="none" class="notFound">
+          <h6>No Plaid accounts found</h6>
+        </ion-item>
+        <ion-card class="bankcard" *ngFor="let accounts of plaidItems;let i=index">
+          <ion-item class="bank" lines="none">
+            <ion-avatar class="avatar-icon" slot="start">
+              <ion-img
+                [src]="accounts.institutionLogo?'data:image/png;base64,'+accounts.institutionLogo : this.userSvc.defaultAvatar"
+                alt="Image error" alt="image" (ionError)="img.src='assets/images/no_avatar.png';">
+              </ion-img>
+            </ion-avatar>
+            <div class="institution">
+              <h6>{{accounts.institutionName}}</h6>
+            </div>
+            <ion-icon slot="end" [id]="'unlinkmenupop'+i" class="cursor-pointer ellipsis ion-hide-sm-down"
+              name="ellipsis-horizontal"></ion-icon>
+            <ion-icon slot="end" [id]="'unlinkmenumodal'+i" class="cursor-pointer ellipsis ion-hide-sm-up"
+              name="ellipsis-horizontal"></ion-icon>
+            <ion-popover [trigger]="'unlinkmenupop'+i" mode="ios" class="popmenu popoverAlignment">
+              <ng-template>
+                <ion-content class="ion-padding-clone">
+                  <div class="clone cursor-pointer" (click)="openSyncDialog(accounts.itemId, accounts.accounts)">
+                    <div class="clonetext">Force Sync</div>
+                  </div>
+                  <div class="clone cursor-pointer" (click)="openUnlinkDialog(accounts.itemId)">
+                    <div class="clonetext">Unlink</div>
+                  </div>
+                </ion-content>
+              </ng-template>
+            </ion-popover>
+            <ion-modal [breakpoints]="[0.1]" [initialBreakpoint]="0.1" [trigger]="'unlinkmenumodal'+i" mode="ios"
+              class="popmenu popoverAlignment">
+              <ng-template>
+                <ion-content class="ion-padding-clone">
+                  <div class="clone cursor-pointer" (click)="openSyncDialog(accounts.itemId, accounts.accounts)">
+                    <div class="clonetext">Force Sync</div>
+                  </div>
+                  <div class="clone cursor-pointer" (click)="openUnlinkDialog(accounts.itemId)">
+                    <div class="clonetext">Unlink</div>
+                  </div>
+                </ion-content>
+              </ng-template>
+            </ion-modal>
+
+          </ion-item>
+          <ion-item class="bankaccountitem" *ngFor="let account of accounts.accounts" lines="none">
+            <ion-toggle [(ngModel)]="account.plaid" (ngModelChange)="plaidLink(account)" slot="start" mode="ios"
+              class="toggle-form">
+            </ion-toggle>
+            <div class="bankaccount">
+              <div>{{account.name}}</div>
+              <span class="desc login" *ngIf="account.updateRequired">Login Required</span>
+              <div class="desc">{{account.description}}</div>
+            </div>
+            <ion-button *ngIf="account.updateRequired" slot="end" (click)="plaidrelink(account.plaidItemid)">Update
+            </ion-button>
+          </ion-item>
+          <ion-item class="cursor-pointer" lines="none" (click)="openCreateAccountPlaidOption(true, accounts.itemId)">
+            <ion-icon name="add" color="main-theme" class="add-account"></ion-icon>
+            <ion-text class="additem" color="main-theme">Add Account</ion-text>
+          </ion-item>
+        </ion-card>
+      </div>
+    </div>
+  </ion-content>
+</ng-template>
+
+<ion-popover mode="ios" reference="event" id="customeditaccount" class="customaccount sideOffset"
+  [isOpen]="isAddPlaidAccountPopOpen" (didDismiss)="popDismiss()" [backdropDismiss]="false">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="addPlaidAccount">
+    </ng-container>
+  </ng-template>
+</ion-popover>
+
+<ion-modal mode="ios" reference="event" id="customeditaccount" class="customaccount"
+  [isOpen]="isAddPlaidAccountModalOpen" (didDismiss)="popDismiss()" [backdropDismiss]="false">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="addPlaidAccount">
+    </ng-container>
+  </ng-template>
+</ion-modal>
+
+<ng-template #addPlaidAccount>
+  <ion-content scrollY="false" class="ion-padding-new">
+    <ion-icon class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon>
+    <div class="contentdiv">
+      <h2 class="format">Add these accounts?</h2>
+      <div class="modeldivider"></div>
+      <!-- <h6>Please review your account settings</h6> -->
+      <ion-item lines="none" *ngFor="let account of plaidAccounts">
+        <ion-checkbox slot="start" mode="md" [(ngModel)]="account.selected" class="debt-checkbox"></ion-checkbox>
+        <div>
+          {{account?.name + ' - ' + (account?.balances?.current | currency : 'USD' : 'symbol' : '1.0-0')}}
+        </div>
+      </ion-item>
+    </div>
+    <ion-row class="buttonrow">
+      <ion-col class="savecol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+        <ion-button mode="ios" class="modalsave fullwidth" (click)="addAccount()" #savebtn>Yes</ion-button>
+      </ion-col>
+      <ion-col class="cancelcol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+        <ion-button mode="ios" type="button" class="modalcancel fullwidth" (click)="popDismiss()">
+          Cancel
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-content>
+</ng-template>
+
+<ion-popover mode="ios" reference="event" id="customeditaccount" class="customaccount sideOffset"
+  [isOpen]="isReviewAccountPopOpen" (didDismiss)="popDismiss()" [backdropDismiss]="false">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="reviewAccount">
+    </ng-container>
+  </ng-template>
+</ion-popover>
+
+<ion-modal mode="ios" reference="event" id="customeditaccount" class="customaccount" [isOpen]="isReviewAccountModalOpen"
+  (didDismiss)="popDismiss()" [backdropDismiss]="false">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="reviewAccount">
+    </ng-container>
+  </ng-template>
+</ion-modal>
+
+<ng-template #reviewAccount>
+  <ion-content scrollY="false" class="ion-padding-new">
+    <ion-icon class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon>
+    <div class="contentdiv">
+      <h2 class="format">Please review your account settings in Wealth Builder for following accounts</h2>
+      <div class="modeldivider"></div>
+      <div *ngFor="let account of plaidAccounts">
+        <div *ngIf="account.selected">{{account?.name + ' - ' + (account?.balances?.current | currency : 'USD' :
+          'symbol' : '1.0-0')}}</div>
+      </div>
+    </div>
+    <ion-row class="buttonrow">
+      <ion-col class="savecol" size-lg="12" size-md="12" size-sm="12" size-xl="12" size-xs="12">
+        <ion-button mode="ios" class="modalsave fullwidth" (click)="reviewLiabilityModal()" #savebtn>Ok</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-content>
+</ng-template>
+
+<ion-popover mode="ios" reference="event" id="customeditaccount" class="customaccount sideOffset"
+  [isOpen]="isReviewLiablityAccountPopOpen" (didDismiss)="popDismiss()">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="reviewLiabilityAccount">
+    </ng-container>
+  </ng-template>
+</ion-popover>
+
+<ion-modal mode="ios" reference="event" id="customeditaccount" class="customaccount"
+  [isOpen]="isReviewLiablityAccountModalOpen" (didDismiss)="popDismiss()">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="reviewLiabilityAccount">
+    </ng-container>
+  </ng-template>
+</ion-modal>
+
+<ng-template #reviewLiabilityAccount>
+  <ion-content scrollY="false" class="ion-padding-new">
+    <ion-icon class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon>
+    <div class="contentdiv">
+      <h2 class="format">Minimum monthly payment and interest rates are required fields in Wealth Builder for following accounts</h2>
+      <div class="modeldivider"></div>
+      <div *ngFor="let account of liablityPlaidAccounts">
+        <div *ngIf="account.selected">{{account?.name + ' - ' + (account?.balances?.current | currency : 'USD' :
+          'symbol' : '1.0-0')}}</div>
+      </div>
+    </div>
+    <ion-row class="buttonrow">
+      <ion-col class="savecol" size-lg="12" size-md="12" size-sm="12" size-xl="12" size-xs="12">
+        <ion-button mode="ios" class="modalsave fullwidth" (click)="popDismiss()" #savebtn>Ok</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-content>
+</ng-template>
+<ion-popover mode="ios" id="customaccount" class="customaccount" trigger="open-mobile"
+  [isOpen]="isAddNewBalanceSheetPopOpen" (didDismiss)="popDismiss()">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="newBalanceSheet">
+    </ng-container>
+  </ng-template>
+</ion-popover>
+
+<ion-modal mode="ios" id="customaccountmodal" class="customaccount" trigger="open-mobile-modal"
+  [isOpen]="isAddNewBalanceSheetModalOpen" (didDismiss)="popDismiss()">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="newBalanceSheet">
+    </ng-container>
+  </ng-template>
+</ion-modal>
+
+<ng-template #newBalanceSheet>
+  <ion-content scrollY="false" class="ion-padding-new">
+    <ion-icon class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon>
+    <div class="contentdiv">
+      <h2>New balance sheet</h2>
+      <div class="modeldivider"></div>
+      <form>
+        <div class="enterPercent">
+          <ion-item lines="none">
+            <ion-input type="text" class="dollar-input" autofocus="true" name="accountLabel" placeholder="Name"
+              [(ngModel)]="accountLabel" #accountLabelInput>
+            </ion-input>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-input type="text" class="dollar-input" autofocus="true" name="accountDescription"
+              placeholder="Description" [(ngModel)]="accountDescription" #descriptionInput>
+            </ion-input>
+          </ion-item>
+        </div>
+      </form>
+    </div>
+    <ion-row class="buttonrow">
+      <ion-col class="savecol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+        <ion-button mode="ios" class="modalsave fullwidth" (click)="addCustomAccount()" #savebtn>Create balance sheet
+        </ion-button>
+      </ion-col>
+      <ion-col class="cancelcol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+        <ion-button mode="ios" type="button" class="modalcancel fullwidth" (click)="popDismiss()">
+          Cancel
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-content>
+</ng-template>
+
+<ion-popover [isOpen]="isGlobalBalancePopOpen" mode="ios" class="popmenu popoverBalance" reference="event"
+[event]="globalBalanceEvent" (didDismiss)="popDismiss()">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="balancemenu">
+    </ng-container>
+  </ng-template>
+</ion-popover>
+
+
+<ion-modal [isOpen]="isGlobalBalanceModalOpen" mode="ios" class="popmenu popupheight" [breakpoints]="[0.08,0.2]"
+  [initialBreakpoint]="'default' != getSelectedBalanceSheet()?.name?.toLowerCase()?0.2:0.08" reference="event"
+  (didDismiss)="popDismiss()">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="balancemenu">
+    </ng-container>
+  </ng-template>
+</ion-modal>
+
+
+
+
+<ng-template #balancemenu>
+  <ion-content scrollY="false" class="ion-padding-more">
+
+    <div>
+
+      <div class="clone cursor-pointer" id="open-mobile" (click)="openNewAlert($event)">
+        <ion-icon name="add"></ion-icon>
+        <div class="clonetext">New</div>
+      </div>
+
+      <div class="clone cursor-pointer" (click)="openEditAlert($event);">
+        <ion-icon src="assets/icon/edit.svg"></ion-icon>
+        <div class="clonetext">Edit</div>
+      </div>
+
+      <div class="clone cursor-pointer" (click)="openCloneAlert($event)">
+        <ion-icon src="assets/icon/clone.svg"></ion-icon>
+        <div class="clonetext">Clone</div>
+      </div>
+
+      <div class="delete cursor-pointer" (click)="deleteConfirmation('', $event)"
+        *ngIf="'default' != getSelectedBalanceSheet()?.name?.toLowerCase()">
+        <ion-icon src="assets/icon/trash.svg"></ion-icon>
+        <div class="deletetext">Delete</div>
+      </div>
+
+      <div class="clone cursor-pointer"
+        *ngIf="hasAccessToAdminOrPro() && 'default' === getSelectedBalanceSheet()?.name?.toLowerCase()"
+        (click)="getPlaidAccountsByUserId()">
+        <ion-icon title="Linked" class="rotateicon" name="options-outline"></ion-icon>
+        <div class="clonetext">Linked Accounts</div>
+      </div>
+    </div>
+  </ion-content>
+</ng-template>
+
+<ion-popover mode="ios" reference="event" id="customeditaccount" class="customaccount sideOffset"
+  [isOpen]="isEditPopOpen" (didDismiss)="popDismiss()">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="editBalanceAccount">
+    </ng-container>
+  </ng-template>
+</ion-popover>
+
+<ion-modal mode="ios" reference="event" id="customeditaccount" class="customaccount" [isOpen]="isEditModalOpen"
+  (didDismiss)="popDismiss()">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="editBalanceAccount">
+    </ng-container>
+  </ng-template>
+</ion-modal>
+
+<ng-template #editBalanceAccount>
+  <ion-content scrollY="false">
+    <ion-icon class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon>
+    <div class="contentdiv">
+      <h2>Edit balance sheet</h2>
+      <div class="modeldivider"></div>
+      <form>
+        <div class="enterPercent">
+          <ion-item lines="none">
+            <ion-input type="text" class="dollar-input" autofocus="true"
+              [disabled]="'default' == getSelectedBalanceSheet()?.name?.toLowerCase()" name="accountLabel"
+              placeholder="Name" [(ngModel)]="accountLabel" #accountLabelInputEdit>
+            </ion-input>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-input type="text" class="dollar-input" autofocus="true" name="accountDescription"
+              placeholder="Description" [(ngModel)]="accountDescription" #descriptionInput>
+            </ion-input>
+          </ion-item>
+        </div>
+      </form>
+    </div>
+    <ion-row class="buttonrow">
+      <ion-col class="savecol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+        <ion-button [disabled]="editProcess" mode="ios" class="modalsave fullwidth" (click)="editSheet()" #savebtn>Edit
+          balance sheet</ion-button>
+      </ion-col>
+      <ion-col class="cancelcol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+        <ion-button mode="ios" type="button" class="modalcancel fullwidth" (click)="popDismiss()">
+          Cancel
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-content>
+</ng-template>
+
+<ion-popover mode="ios" reference="event" id="customaccount" class="customaccount sideOffset"
+  [isOpen]="isCloneBalancePopOpen" (didDismiss)="popDismiss()">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="cloneBalanceAccount">
+    </ng-container>
+  </ng-template>
+</ion-popover>
+
+<ion-modal mode="ios" reference="event" id="customaccount" class="customaccount" [isOpen]="isCloneBalanceModalOpen"
+  (didDismiss)="popDismiss()">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="cloneBalanceAccount">
+    </ng-container>
+  </ng-template>
+</ion-modal>
+
+<ng-template #cloneBalanceAccount>
+  <ion-content scrollY="false">
+    <ion-icon class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon>
+    <div class="contentdiv">
+      <h2>Clone balance sheet</h2>
+
+      <div class="modeldivider"></div>
+
+      <form>
+        <div class="enterPercent">
+          <ion-item lines="none">
+            <ion-input type="text" class="dollar-input" autofocus="true" name="accountLabel" placeholder="Name"
+              [(ngModel)]="accountLabel" #accountLabelInput>
+            </ion-input>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-input type="text" class="dollar-input" autofocus="true" name="accountDescription"
+              placeholder="Description" [(ngModel)]="accountDescription" #descriptionInput>
+            </ion-input>
+          </ion-item>
+        </div>
+      </form>
+
+    </div>
+    <ion-row class="buttonrow">
+      <ion-col class="savecol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+        <ion-button [disabled]="cloneProcess" mode="ios" class="modalsave fullwidth" (click)="addCloneSheet()" #savebtn>
+          Create balance sheet</ion-button>
+      </ion-col>
+      <ion-col class="cancelcol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+        <ion-button mode="ios" type="button" class="modalcancel fullwidth" (click)="popDismiss()">
+          Cancel
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-content>
+</ng-template>
+
+<ion-modal mode="ios" reference="event" id="customaccount" class="customaccount" [isOpen]="isDeleteModalOpen"
+  (didDismiss)="popDismiss()">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="deleteAccountBox">
+    </ng-container>
+  </ng-template>
+</ion-modal>
+
+<ion-popover mode="ios" reference="event" id="customaccount" class="customaccount" [isOpen]="isDeletePopOpen"
+  (didDismiss)="popDismiss()">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="deleteAccountBox">
+    </ng-container>
+  </ng-template>
+</ion-popover>
+
+
+
+
+<ng-template #deleteAccountBox>
+  <ion-content scrollY="false">
+    <ion-icon *ngIf="isDeleteModalOpen" class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon>
+    <div class="contentdiv">
+
+      <div>
+        <h2>{{deleteConfirmationHeader}}</h2>
+        <h3 style="font-size:14px">{{deleteConfirmationMsg}} </h3>
+      </div>
+
+
+    </div>
+
+    <ion-row class="buttonrow">
+      <ion-col class="savecol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+        <ion-button mode="ios" class="modalsave fullwidth" (click)="deleteConfirmed()" #savebtn>Yes, delete</ion-button>
+      </ion-col>
+      <ion-col class="cancelcol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+        <ion-button mode="ios" type="button" class="modalcancel fullwidth" (click)="popDismiss()">
+          Cancel
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-content>
+</ng-template>
+
+<ion-popover mode="ios" reference="event" id="customeditaccount" class="customaccount sideOffset"
+  [isOpen]="isUnlinkItemPopOpen" (didDismiss)="popDismiss()">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="confirmUnlink">
+    </ng-container>
+  </ng-template>
+</ion-popover>
+
+<ion-modal mode="ios" reference="event" id="customeditaccount" class="customaccount" [isOpen]="isUnlinkItemModalOpen"
+  (didDismiss)="popDismiss()">
+  <ng-template>
+    <ng-container *ngTemplateOutlet="confirmUnlink">
+    </ng-container>
+  </ng-template>
+</ion-modal>
+
+<ng-template #confirmUnlink>
+  <ion-content scrollY="false" class="ion-padding-new">
+    <ion-icon class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon>
+    <div class="contentdiv">
+      <h2 class="format">Any synced accounts associated with the Financial Institution will be converted to manual accounts and will remain on your
+        Balance Sheet.</h2>
+    </div>
+    <ion-row class="buttonrow">
+      <ion-col class="savecol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+        <ion-button mode="ios" class="modalsave fullwidth" (click)="unlinkPlaidItem()" #savebtn>Continue</ion-button>
+      </ion-col>
+      <ion-col class="cancelcol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+        <ion-button mode="ios" type="button" class="modalcancel fullwidth" (click)="popDismiss()">
+          Cancel
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-content>
+</ng-template>
+
+<ion-popover mode="ios" reference="event"
+      id="customeditaccount" class="customaccount sideOffset"
+       [isOpen]="isSyncItemPopOpen" (didDismiss)="popDismiss()">
+    <ng-template>
+        <ng-container *ngTemplateOutlet="syncItem">
+        </ng-container> 
+    </ng-template>
+  </ion-popover>
+    
+<ion-modal mode="ios" reference="event"
+      id="customeditaccount" class="customaccount" [isOpen]="isSyncItemModalOpen" (didDismiss)="popDismiss()">
+    <ng-template>
+        <ng-container *ngTemplateOutlet="syncItem">
+        </ng-container> 
+    </ng-template>
+</ion-modal>
+
+<ng-template #syncItem>
+    <ion-content scrollY="false" class="ion-padding-new">
+        <ion-icon class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon>
+            <div class="contentdiv">
+                    <h2 class="format">Please check with your Financial Institution website for specific settings if data still not updating</h2>
+            </div>
+            <ion-row class="buttonrow">
+                <ion-col class="savecol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                    <ion-button mode="ios" class="modalsave fullwidth" (click)="syncPlaidItem()" #savebtn>Continue</ion-button>
+                </ion-col>
+                <ion-col class="cancelcol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                    <ion-button mode="ios" type="button" class="modalcancel fullwidth" (click)="popDismiss()">
+                        Cancel
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+    </ion-content>
+</ng-template>

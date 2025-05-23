@@ -1,0 +1,301 @@
+ion-content{
+    --ion-font-family:var(--font-family);
+    --padding-bottom: 32px;
+    .mobilehandle{
+        font-size: 32px;
+        transform: none;
+    }
+    h2{
+        font-size: 28px;
+        font-weight: 400;
+    }
+    p{
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--sub-title-color);
+        margin-top: 10px;
+    }
+
+    form {
+        ion-item.otherLinks{
+            --border-width: 0px;
+            --padding-start: 0px;
+            --inner-padding-end: 0px;
+            --min-height:60px;
+            border-bottom: 1px solid var(--border-two-color);
+            ion-label, ion-text{
+                font-size: 22px;
+            }
+            ion-icon{
+                transform: scale(0.6);
+            }
+        }
+        ion-item.toogleItems{
+            --border-width: 0px;
+            --padding-start: 0px;
+            --inner-padding-end: 0px;
+            ion-label{
+                font-size: 16px;
+            }
+            ion-toggle{
+                margin-top: 7px;
+                margin-bottom: 14px;
+                &.toggle-form{
+                    margin-right: 10px;
+                    padding-bottom: 2px;
+                    padding-right: 2px;
+                }
+            }
+        }
+        ion-item.divider {
+            --min-height: 5px;
+            --padding-start: 0px;
+            --border-color: var(--border-three-color);
+            margin: 0;
+            --border-width: 0;
+        }
+        ion-item {
+            margin: 12px 3px 5px 0;
+            --border-width: 1px; 
+            --border-color: var(--border-one-color);
+            --padding-start: 17px;
+            --min-height: 44px;  
+            ion-icon.dollar { 
+                transform: scale(0.80);
+            }
+            ion-icon.percent {
+                transform: scale(0.65);
+            }
+            ion-icon.dollar{
+                margin-inline-end: 12px;
+            }
+        }
+        .labelform{
+            display: flex;
+            align-items: flex-end;
+            margin-top: 27px;
+            ion-icon{
+                margin-left: 6px;
+            }
+        }
+        ion-input[readonly="true"]{
+            opacity: 0.5;
+        }
+    }
+
+    .tresult{
+        .toogleItems{
+            cursor: pointer;
+        }
+        .tcontent {
+            // padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            // background-color: #f1f1f1;
+        }
+        ion-label{
+            font-size: 22px;
+            color: var(--main-text-color);
+        }
+        ion-icon{
+            color: var(--main-theme);
+            transform: scale(0.65);
+        }
+        .accounts-list{
+            margin: 0 0 12px 0;
+            border: 1px solid var(--border-two-color);
+            background: var(--ion-color-pure-white);
+            box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+        }
+        .accountName{
+            padding-left: 32px;
+            padding-top: 32px;
+            font-size: 24px;
+            color: var(--main-text-color);
+        }
+        .accountDescription{
+            padding-top: 10px;
+            padding-left: 32px;
+            color: var(--sub-title-color);
+            margin-bottom: 8px;
+        }
+        .accountBalanceBox{
+            display: flex;
+            padding-left: 32px;
+            justify-content: space-between;
+            margin-top: 18px;
+            align-items: center;
+        }
+        .accountBalance{
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: var(--sub-title-color);
+            min-width: 60%;
+            div{
+                margin-right: 10px;
+            }
+        }
+        .balance{
+            font-size: 22px;
+            color: var(--main-theme);
+            padding-right: 32px;
+        }
+    }
+
+    .mobile-account-card-details {
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .mobile-account-card-name {
+        color: var(--main-text-color);
+        font-size: 16px;
+        padding: 0px 8px 2px 0px;
+        flex-wrap: wrap;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .mobile-asset-card-balance {
+        color: var(--ion-color-main-theme);
+        font-size: 16px;
+        padding: 0 0 2px 0;
+        flex-wrap: wrap;
+        text-align: right;
+        padding-right: 8px;
+    }
+    
+    .mobile-liability-card-balance {
+        color: var(--graph-red-crayola);
+        font-size: 16px;
+        padding: 0px 0 2px 0px;
+        flex-wrap: wrap;
+        text-align: right;
+        padding-right: 8px;
+    }
+    
+    .mobile-account-card-description {
+        color: var(--sub-title-color);
+        font-size: 12px;
+        padding-left: 0px;
+        flex-wrap: wrap;
+        font-weight: 300;
+    }
+
+    @media (max-width: 39.9375em) {
+        p{
+            margin-top: 24px;
+        }
+        form{
+            ion-item.otherLinks{
+                margin-top: 0px;
+                --min-height: 32px;
+                ion-label, ion-text{
+                    font-size: 16px;
+                }
+            }
+            ion-item.toogleItems{
+                margin: 5px 0px 5px 0;
+            }
+            ion-item.slider-toggles {
+                margin: 0;
+            }
+            .labelform {
+                margin: 0
+            }
+        }
+        .tresult{
+            ion-label{
+                font-size: 16px;
+            }
+            .accounts-list{
+                margin: 24px 16px 8px;
+            }
+            .accounts-list:not(:first-of-type){
+                margin-top: 0px;
+            }
+            .accountDescription{
+                padding-left: 24px;
+            }
+            .accountBalanceBox{
+                padding-left: 24px;
+                margin-top: 8px;
+                flex-wrap: wrap;
+            }
+            .accountName{
+                font-size: 18px;
+                padding-left: 24px;
+                padding-top: 24px;
+                padding-right: 24px;
+            }
+            .balance{
+                font-size: 16px;
+                margin-top: 8px;
+                padding-right: 200px;
+            }
+        }
+        ion-button.save{
+            margin-bottom: 4px;
+        }
+        ion-button.cancel{
+            margin-top: 4px;
+        }
+        ion-item.mobile-align{
+            margin-right: 16px;
+            margin-left: 16px;
+        }
+        .mobile-align{
+            margin-right: 16px;
+            margin-left: 16px;
+        }
+    }
+
+    @media (min-width: 40em) {
+        --padding-start: 32px;
+        --padding-end: 32px;
+        form {
+            ion-item.slider-toggles {
+                margin-top: 0;
+                top: -3px;
+            }
+        }
+    }
+
+    ion-toggle.toggle-form{
+        --background:transparent;
+        --background-checked:transparent;
+        --handle-background:var(--main-text-color);
+        --handle-background-checked:var(--main-text-color);
+        height: 28px;
+        --handle-height: 28px;
+        --handle-width: 24px;
+    
+        opacity: 0.5;
+        &::part(track){
+            border: 1px solid var(--main-text-color);
+        }
+        &.toggle-checked{
+            opacity: 1;
+        }
+    }
+}
+ion-footer{
+    --ion-font-family:var(--font-family);
+    padding-left: 32px;
+    padding-right: 32px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    ion-button{
+        font-weight:600;
+    }
+}
+
+.height48 {
+    height: 48px;
+}

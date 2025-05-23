@@ -1,0 +1,65 @@
+<div class="my-profile-container">
+   <div class="my-p-card d-flex white-bg card-padding">
+      <div class="p-img">
+         <ion-avatar class="avatar-icon">
+            <ion-img alt="Image error" alt="image" src="../../assets/images/no_avatar.png" >
+            </ion-img>
+            </ion-avatar>
+      </div>
+      <div class="profile-details">
+         <h3 class="ion-no-margin d-flex">Cameron Williamson  
+            <ion-icon  src="../../assets/icon/green-right-arw.svg" class="up-arrow-icon pointer" (click)="openProfile()">
+            </ion-icon>
+         </h3>
+         <p class="ion-no-margin ">garda.yarema@gmail.com</p>
+         <span class="ion-no-margin d-flex ion-align-items-center mob-date">Joined: September, 2021 <ion-button class="ion-no-margin">{{access}}</ion-button></span>
+      </div>
+   </div>
+   <div class="my-options">
+      <ion-grid>
+         <ion-row>
+            <ion-col size="12" size-md="6">
+               <div class="option-card white-bg card-padding">
+                  <h3 class="ion-no-margin d-flex">Notifications  
+                     <ion-icon  src="../../assets/icon/green-right-arw.svg" class="up-arrow-icon pointer">
+                     </ion-icon>
+                  </h3> 
+                  <ion-icon  src="../../assets/icon/bell-icon.svg" class="pointer card-icon budge">
+                  </ion-icon>
+               </div>
+            </ion-col>
+            <ion-col size="12" size-md="6">
+               <div class="option-card white-bg card-padding">
+                  <h3 class="ion-no-margin d-flex">Billing 
+                     <ion-icon  src="../../assets/icon/green-right-arw.svg" class="up-arrow-icon pointer">
+                     </ion-icon>
+                  </h3> 
+                  <ion-icon  src="../../assets/icon/troffy.svg" class=" pointer card-icon">
+                  </ion-icon>
+               </div>
+            </ion-col>
+            <ion-col size="12" size-md="6">
+               <div class="option-card white-bg card-padding">
+                  <h3 class="ion-no-margin d-flex">Feedback  
+                     <ion-icon  src="../../assets/icon/green-right-arw.svg" class="up-arrow-icon pointer" (click)="openSupport()">
+                     </ion-icon>
+                  </h3> 
+                  <ion-icon  src="../../assets/icon/feed-icon.svg" class="pointer card-icon">
+                  </ion-icon>
+               </div>
+            </ion-col>
+            <ion-col size="12" size-md="6">
+               <div class="option-card white-bg card-padding">
+                  <h3 class="ion-no-margin d-flex">Support
+                     <ion-icon  src="../../assets/icon/green-right-arw.svg" class="up-arrow-icon pointer" (click)="openSupport()">
+                     </ion-icon>
+                  </h3> 
+
+                  <ion-icon  src="../../assets/icon/smile-icon.svg" class="pointer card-icon">
+                  </ion-icon>
+               </div>
+            </ion-col>
+         </ion-row>
+      </ion-grid>
+   </div>
+</div>

@@ -1,0 +1,110 @@
+ion-content{
+    --ion-font-family:var(--font-family);
+    --padding-bottom: 32px;
+    ion-toolbar ion-buttons{
+        margin-inline-start:0px;
+    }
+    ion-toolbar{
+        padding-right: calc(var(--ion-safe-area-right));
+    }
+    .mobilehandle{
+        font-size: 32px;
+        transform: none;
+    }
+    .overall{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        .overalltext{
+            font-size: 14px;
+        }
+        .balance{
+            font-size: 24px;
+        }
+    }
+    h2{
+        font-size: 28px;
+        font-weight: 400;
+    }
+    p{
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--sub-title-color);
+    }
+
+    form {
+        ion-label{
+            font-size: 16px;
+        }
+        ion-item.divider {
+            --min-height: 5px;
+            --padding-start: 0px;
+            --border-color: var(--border-three-color);
+            margin: 0;
+            --border-width: 0;
+        }
+        ion-item {
+            margin: 12px 3px 15px 0;
+            --border-width: 1px; 
+            --border-color: var(--border-one-color);
+            --padding-start: 17px;
+            --min-height: 44px;
+            ion-icon.dollar, ion-icon.percent {
+                transform: scale(0.65);
+            }
+            ion-icon.dollar{
+                margin-inline-end: 12px;
+            }
+        }
+        ion-button{
+            font-weight: 600;
+        }
+    }
+
+    @media (max-width: 39.9375em) {
+        .overall{
+            margin-top: 26px;
+            .overalltext, .balance{
+                font-size: 16px;
+            }
+        }
+        ion-button.save{
+            margin-bottom: 4px;
+        }
+        ion-button.cancel{
+            margin-top: 4px;
+        }
+        form{
+            ion-item.mobile-align{
+                margin-right: 16px;
+                margin-left: 16px;
+            }
+        }
+        .mobile-align{
+            margin-right: 16px;
+            margin-left: 16px;
+        }
+    }
+
+    @media (min-width: 40em) {
+        --padding-start: 32px;
+        --padding-end: 32px;
+        ion-title.freedomtitle{
+            font-size: 28px;
+        }
+        .subtitle{
+            margin-top: 0px;
+            margin-left: 46px;
+        }
+        ion-button.save{
+            margin-left: 0px;
+        }
+        .header-top{
+            ion-button{
+                transform: translateX(-11px);
+            }
+        }
+    }
+}

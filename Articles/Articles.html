@@ -1,0 +1,41 @@
+<ion-header>
+    <ion-toolbar #j_265 color="primary">
+        <ion-avatar slot="start" class="avatar-icon" (click)="navigateToProfile()">
+            <ion-img #j_1364 [src]="userAvatar || this.userSvc.defaultAvatar" alt="Image error" alt="image">
+            </ion-img>
+        </ion-avatar>
+        <ion-title #j_267 color="dark">
+            Articles
+        </ion-title>
+        <ion-button #j_268 slot="end" class="add-icon" (click)="createNewAccount()">
+            <ion-icon #j_268__icon name="add-circle" slot="icon-only" color="dark">
+            </ion-icon>
+        </ion-button>
+    </ion-toolbar>
+</ion-header>
+<ion-content color="cardbackground">
+    <ion-refresher #j_258>
+        <ion-refresher-content>
+        </ion-refresher-content>
+    </ion-refresher>
+    <ion-refresher [disabled]="false" slot="fixed" (ionRefresh)="doRefresh($event)"
+    spiner="spiral">
+        <ion-refresher-content>
+        </ion-refresher-content>
+    </ion-refresher>
+    <ion-card #j_260 *ngFor="let a of articleList">
+        <ion-card-content #j_261 [routerLink]="['/articleDetails', a.id]" *ngIf="a">
+            <img #j_262 class="img-responsive article-image" [src]="a?.coverImage?.url" alt="Image error"
+            *ngIf="a && a.coverImage && a.coverImage.url">
+            <ion-card-title #j_263 class="article-title">
+                {{a.title}}
+            </ion-card-title>
+        </ion-card-content>
+    </ion-card>
+</ion-content>
+<ion-footer>
+    <div #j_270>
+        <bottom-menu>
+        </bottom-menu>
+    </div>
+</ion-footer>

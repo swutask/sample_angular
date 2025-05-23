@@ -1,0 +1,143 @@
+<ion-header class="ion-no-border header-top ion-hide-sm-up"> 
+    <ion-toolbar mode="md" color="pure-white">
+        <ion-buttons slot="start">
+            <ion-button color="success" routerDirection="back" (click)="goBack()">
+                <ion-icon src="assets/icon/arrowback.svg" class="ion-hide-sm-down">
+                </ion-icon>
+                <ion-icon src="assets/icon/arrowbackmobile.svg" class="ion-hide-sm-up">
+                </ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="dark" class="freedomtitle">
+            Freedom Number
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="freedom-number-details-content">
+    <div class="freedom-background">
+    <ion-header class="ion-no-border header-top ion-hide-sm-down"> 
+        <ion-toolbar mode="md" color="pure-white">
+            <ion-buttons slot="start">
+                <ion-button color="success" routerDirection="back" (click)="goBack()">
+                    <ion-icon src="assets/icon/arrowback.svg" class="ion-hide-sm-down">
+                    </ion-icon>
+                    <ion-icon src="assets/icon/arrowbackmobile.svg" class="ion-hide-sm-up">
+                    </ion-icon>
+                </ion-button>
+            </ion-buttons>
+            <ion-title color="dark" class="freedomtitle">
+                Freedom Number
+            </ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-item class="divider ion-hide-sm-up"></ion-item>
+    <ion-grid>
+        <ion-row>
+            <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                <div class="contentalign subheading"><ion-text color="medium">Identify the "unearned" income needed monthly to cover your minimum core overhead (needs)</ion-text>
+                </div>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-wrap">
+            <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                <form class="contentalign labeltop">
+                    <ion-label position="stacked">
+                        Housing
+                    </ion-label>
+                    <ion-item lines="none">
+                        <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+                        </ion-icon>
+                        <ion-input mask="separator.2" type="tel" inputmode="decimal" class="dollar-input" name="housing"
+                        [(ngModel)]="data.housing" min="0" (ionChange)="calculate()" debounce="50">
+                        </ion-input>
+                    </ion-item>
+                    <ion-label position="stacked">
+                        Food
+                    </ion-label>
+                    <ion-item lines="none">
+                        <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+                        </ion-icon>
+                        <ion-input mask="separator.2" type="tel" inputmode="decimal" class="dollar-input" name="food"
+                        [(ngModel)]="data.food" min="0" (ionChange)="calculate()" debounce="50">
+                        </ion-input>
+                    </ion-item>
+                    <ion-label position="stacked">
+                        Utilities
+                    </ion-label>
+                    <ion-item lines="none">
+                        <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+                        </ion-icon>
+                        <ion-input mask="separator.2" type="tel" inputmode="decimal" class="dollar-input" name="utilities"
+                        [(ngModel)]="data.utilities" min="0" (ionChange)="calculate()" debounce="50">
+                        </ion-input>
+                    </ion-item>
+                    <ion-label position="stacked">
+                        Transportation
+                    </ion-label>
+                    <ion-item lines="none">
+                        <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+                        </ion-icon>
+                        <ion-input mask="separator.2" type="tel" inputmode="decimal" class="dollar-input" name="transportation"
+                        [(ngModel)]="data.transportation" min="0" (ionChange)="calculate()" debounce="50">
+                        </ion-input>
+                    </ion-item>
+                    <ion-label position="stacked">
+                        Other
+                    </ion-label>
+                    <ion-item lines="none">
+                        <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+                        </ion-icon>
+                        <ion-input mask="separator.2" type="tel" inputmode="decimal" class="dollar-input" name="other"
+                        [(ngModel)]="data.other" min="0" (ionChange)="calculate()" debounce="50">
+                        </ion-input>
+                    </ion-item>
+                </form>
+            </ion-col>
+            <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                <ion-item disabled="false" lines="none" class="overall contentchartalign">
+                    <ion-label>
+                        Overall Amount:
+                    </ion-label>
+                    <ion-text>${{data.result.toLocaleString('en-US',{minimumFractionDigits: 0, maximumFractionDigits: 0})}}</ion-text>
+                </ion-item>
+                <ion-item lines="none" class="contentchartalign">
+                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+        [legend]="barChartLegend" [chartType]="barChartType" [colors]="chartColors"></canvas>
+                </ion-item>
+                <ion-item *ngIf="legendData?.length>0" lines="none" class="contentchartalign">
+                    <div class="my-legend">
+                        <div class="legend-item" *ngFor="let legendItem of legendData;let i=index;">
+                            <div class="box" [style.background-color]="legendItem.fillStyle"></div>
+                            <div class="boxText">{{legendItem.text}}</div>
+                            <div class="boxValue">{{barChartData[i].data}}%</div>
+                        </div>
+                    </div>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-button mode="ios" shape="round" type="button" class="save ion-margin contentalignbutton actionBtn ion-hide-sm-down" (click)="saveToAccount()">
+        Save changes
+    </ion-button>
+    <ion-button mode="ios" shape="round" type="button" class="cancel ion-margin actionBtn ion-hide-sm-down" (click)="goBack()">
+        Cancel
+    </ion-button>
+    <ion-button mode="ios" shape="round" type="button" class="save ion-margin contentalignbutton fullbtn ion-hide-sm-up" (click)="saveToAccount()">
+        Save changes
+    </ion-button>
+    <ion-button mode="ios" shape="round" type="button" class="cancel ion-margin fullbtn ion-hide-sm-up" (click)="goBack()">
+        Cancel
+    </ion-button>
+</div>
+<ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button color="new-dark" (click)="openTutorial()">
+      <ion-icon src="assets/icon/education.svg"></ion-icon>
+    </ion-fab-button>
+</ion-fab>
+</ion-content>
+<ion-footer>
+    <div>
+        <bottom-menu>
+        </bottom-menu>
+    </div>
+</ion-footer>

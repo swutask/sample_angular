@@ -1,0 +1,235 @@
+ion-content{
+    --ion-font-family:var(--font-family);
+    --padding-bottom: 32px;
+    ion-toolbar ion-buttons{
+        margin-inline-start:0px;
+    }
+    ion-toolbar{
+        padding-right: calc(var(--ion-safe-area-right));
+        padding-left: calc(var(--ion-safe-area-left) + 8px);
+    }
+    .header-top{
+        ion-button{
+            --background-focused-opacity: 0;
+            --background-hover-opacity: 0;
+        }
+    }
+    .tutorialTitle {
+        margin-left: 12px;
+    }
+    .mobilehandle{
+        font-size: 32px;
+        transform: none;
+    }
+    .overall{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        .overalltext{
+            font-size: 16px;
+        }
+        .balance{
+            font-size: 24px;
+        }
+    }
+    h2{
+        font-size: 28px;
+        font-weight: 400;
+    }
+    p{
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 400;
+        margin: 0px;
+        margin-bottom: 20px;
+    }
+    p.twf{
+        font-size: 18px;
+        font-weight: 400;
+        margin: 0px;
+    }
+    ul li, ol li { 
+        
+        &::marker {
+            color: #179966;
+        }
+        &:not(:first-child) {
+            padding-top: 8px;
+        }
+    }
+    
+    .subTitle {
+        font-size: 22px;
+        padding: 5px;
+        padding-left: 10px;
+        line-height: 32px;
+        margin: 10px 0 0 0;
+    }
+    .videoPlaceholder{
+        text-align: center;
+        ion-img{
+            height: 100%;
+            max-width: 100%;
+            filter:brightness(0.5);
+        }
+        ion-icon{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            color: white;
+            width: 18px;
+            height: 20px;
+            padding: 22px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(7px);
+        }
+    }
+
+    .listratio{
+        ul{
+        list-style: none;
+        padding-inline-start: 0px;
+            li{
+                &::before {
+                    content: "\2022";
+                    color: var(--main-theme);
+                    font-weight: bold;
+                    display: inline-block; 
+                    width: 1em;
+                }
+            }
+        }
+        ion-img{
+            height: 144px;
+            width: 144px;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+        ion-list{
+            display: inline-block;
+            width: calc(100% - 242px);
+            margin: 0 auto 0 95px;
+        }
+    }
+
+    .educationtutorial{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .educationcards{
+        display: flex;
+        justify-content: center;
+        ion-card{
+            border-radius: 20px;
+            margin-left: 0px;
+            margin-right: 0px;
+            ion-card-header{
+                display: flex;
+                align-items: flex-start;
+            }
+            h2{
+                width: 92%;
+                margin-right: 0px;
+                margin-top: 0px;
+                color: var(--main-text-color);
+            }
+            ion-icon{
+                width: 22px;
+                height: 22px;
+            }
+            ion-chip{
+                border-color: var(--border-three-color);
+                margin-top: 16px;
+                --color:var(--sub-title-color-second)
+            }
+            ion-chip:hover{
+                --color:white;
+                background:var(--main-theme);
+            }
+        }
+    }
+
+    .box{
+        height: 16px;
+        width: 12px;
+    }
+    .boxText{
+        margin-left: 12px;
+    }
+    .my-legend{
+        margin-top: 8px;
+    }
+    .boxValue{
+        margin-left: auto;
+    }
+    .legend-item{
+        display: flex;
+        align-items: center;
+        margin-top: 16px;
+        margin-bottom: 9px;
+        font-size: 16px;
+    }
+
+    .legend-item.total{
+        margin-top: -20px;
+    }
+
+    @media (max-width: 39.9375em) {
+        h2{
+            font-size: 18px;
+        }
+        .overall{
+            margin-top: 26px;
+            .overalltext, .balance{
+                font-size: 16px;
+            }
+        }
+        .mobile-align{
+            margin-right: 16px;
+            margin-left: 16px;
+        }
+        .listratio{
+            ion-list{
+                width: calc(100% - 144px);
+                margin: 0;
+            }
+        }
+        p{
+            font-size: 14px;
+        }
+        ul li, ol li {
+            font-size: 14px;
+            &:not(:first-child) {
+                padding-top: 4px;
+            }
+        }
+        .subTitle {
+            font-size: 18px;
+        }
+        .tutorialTitle {
+            padding: 0;
+        }
+    }
+
+    @media (min-width: 40em) {
+        --padding-start: 32px;
+        --padding-end: 32px;
+        ion-title.tutorialTitle{
+            font-size: 28px;
+            padding-left: 0px;
+        }
+        .subtitle{
+            margin-top: 0px;
+            margin-left: 46px;
+            font-size: 18px;
+            color: var(--sub-title-color);
+        }
+    }
+}

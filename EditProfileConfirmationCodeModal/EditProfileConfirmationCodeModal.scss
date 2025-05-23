@@ -1,0 +1,26 @@
+ion-footer {
+    display: flex;
+    justify-content: flex-end;
+
+    ion-button {
+        --color: black;
+    }
+}
+
+.heading-text {
+    text-align: center;
+}
+
+.code-item {
+    width: 90%;
+    margin: auto;
+}
+
+.resend-code {
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    color: #179966;
+    margin: 12px 0 0 0;
+    text-decoration: underline;
+}

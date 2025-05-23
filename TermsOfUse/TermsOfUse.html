@@ -1,0 +1,28 @@
+<ion-content>
+    <ion-header class="ion-no-border ion-hide-sm-up ion-margin-top">
+        <ion-toolbar color="new-dark" mode="md" class="ion-margin-top">
+            <ion-title color="pure-white">
+                Terms of services
+            </ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-grid class="ion-no-padding">
+        <ion-row>
+            <ion-col size-lg="2" size-md="2" size-sm="12" size-xl="2" size-xs="12" class="ion-hide-sm-down ion-no-padding">
+                <ion-img src="assets/images/logo_placeholder.svg" alt="Image error" class="logo_placeholder">
+                </ion-img>
+            </ion-col>
+            <ion-col size-lg="10" size-md="10" size-sm="12" size-xl="10" size-xs="12" class="ion-no-padding">
+                <h1 class="signup-title ion-hide-sm-down ">
+                    Terms of services
+                </h1>
+                <div class="terms-block" *ngFor="let str of agreementText().split('\n')">
+                    {{str}}
+                </div>
+                <ion-button mode="ios" shape="round" type="button" class="save ion-margin" [routerLink]="['/login']">
+                    OK
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

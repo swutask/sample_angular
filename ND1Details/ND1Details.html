@@ -1,0 +1,480 @@
+<ion-header class="ion-no-border header-top ion-hide-sm-up"> 
+    <ion-toolbar mode="md" color="pure-white">
+        <ion-buttons slot="start">
+            <ion-button color="success" routerDirection="back" (click)="goBack()">
+                <ion-icon src="assets/icon/arrowback.svg" class="ion-hide-sm-down">
+                </ion-icon>
+                <ion-icon src="assets/icon/arrowbackmobile.svg" class="ion-hide-sm-up">
+                </ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="dark" class="freedomtitle">
+            Budgeting <ion-text color="medium">(ND1)</ion-text>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="freedom-number-details-content">
+    <div class="freedom-background">
+        <ion-header class="ion-no-border header-top ion-hide-sm-down"> 
+            <ion-toolbar mode="md" color="pure-white">
+                <ion-buttons slot="start">
+                    <ion-button color="success" routerDirection="back" (click)="goBack()">
+                        <ion-icon src="assets/icon/arrowback.svg" class="ion-hide-sm-down">
+                        </ion-icon>
+                        <ion-icon src="assets/icon/arrowbackmobile.svg" class="ion-hide-sm-up">
+                        </ion-icon>
+                    </ion-button>
+                </ion-buttons>
+                <ion-title color="dark" class="freedomtitle">
+                    Budgeting <ion-text color="medium">(ND1)</ion-text>
+                </ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <ion-item class="divider ion-hide-sm-up ion-margin-bottom"></ion-item>
+    <ion-grid>
+        <ion-row>
+            <ion-col class="no-padding-bottom" size-lg="5" size-md="6" size-sm="12" size-xl="5" size-xs="12">
+                <ion-card-title class="contentalign subheading">
+                    Earned Income Rules Based System
+                </ion-card-title>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="no-padding-top" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                <ion-card-subtitle class="contentalign">
+                    Set your ND1 spending controls
+                </ion-card-subtitle>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-grid>
+        <ion-row class="ion-wrap">
+            <ion-col  size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                <form class="contentalign labeltop">
+                    <ion-label position="stacked" class="formlabel">
+                        Earned Income
+                    </ion-label>
+                    <ion-item class="earneditem" lines="none">
+                        <ion-icon ngClass="dollar" src="assets/icon/Dollar.svg" slot="start" color="success">
+                        </ion-icon>
+                        <ion-input readonly="true" mask="separator.2" type="tel" inputmode="decimal"
+                        class="dollar-input" name="earnedIncome" [(ngModel)]="data.earnedIncome" (click)="openGoals()"
+                        (ionChange)="calculate($event)">
+                        </ion-input>
+                    </ion-item>
+                    <ion-label class="formlabel" position="stacked">
+                        Bills
+                    </ion-label>
+                    <div class="enterPercent">
+                    <ion-item lines="none">
+                        <ion-icon src="assets/icon/percent.svg" slot="end">
+                        </ion-icon>
+                        <ion-input mask="separator.10" thousandSeparator="" type="tel" inputmode="decimal" class="dollar-input"
+                        name="living" [(ngModel)]="data.living" (ngModelChange)="calculate($event)" debounce="50">
+                        </ion-input>
+                    </ion-item>
+                    <div class="percentValue">{{ (earnedIncome != 0 &amp;&amp; living != 0) ? ((earnedIncome *
+                        (living || 0) / 100) | currency : 'USD' : 'symbol' : '1.0-0') : &quot;$0&quot; }}</div>
+                    </div>
+                    <ion-text color="medium">Bills include minimum payments on existing debts</ion-text>
+                    <ion-item class="range" lines="none">
+                        <ion-range [pin]="true" mode="md" snaps="true" ticks="false" min="0" max="100" color="dark" [(ngModel)]="data.living" name="living" (ngModelChange)="calculate($event)" debounce="50">
+                        </ion-range>
+                      </ion-item>
+                      <!-- <br class="ion-hide-sm-up"> -->
+                    <ion-label class="formlabel" position="stacked">
+                        Giving
+                    </ion-label>
+                    <div class="enterPercent">
+                    <ion-item lines="none">
+                        <ion-icon src="assets/icon/percent.svg" slot="end">
+                        </ion-icon>
+                        <ion-input mask="separator.10" thousandSeparator="" type="tel" inputmode="decimal" class="dollar-input"
+                        name="giving" [(ngModel)]="data.giving" (ngModelChange)="calculate($event)" debounce="50">
+                        </ion-input>
+                    </ion-item>
+                    <div class="percentValue">{{ (earnedIncome != 0 &amp;&amp; data.giving != 0) ? ((earnedIncome *
+                        (data.giving || 0) / 100) | currency : 'USD' : 'symbol' : '1.0-0') : &quot;$0&quot; }}</div>
+                    </div>
+                    <ion-item class="range" lines="none">
+                        <ion-range [pin]="true" mode="md" snaps="true" ticks="false" min="0" max="100" color="dark" [(ngModel)]="data.giving" name="giving" (ngModelChange)="calculate($event)" debounce="50">
+                        </ion-range>
+                    </ion-item>
+                    <ion-label class="formlabel" position="stacked">
+                        Wealth
+                    </ion-label>
+                    <div class="enterPercent">
+                    <ion-item lines="none">
+                        <ion-icon src="assets/icon/percent.svg" slot="end">
+                        </ion-icon>
+                        <ion-input mask="separator.10" thousandSeparator="" type="tel" inputmode="decimal" class="dollar-input"
+                        name="wealth" [(ngModel)]="data.wealth" (ngModelChange)="calculate($event)" debounce="50">
+                        </ion-input>
+                    </ion-item>
+                    <div class="percentValue">{{ (earnedIncome != 0 &amp;&amp; data.wealth != 0) ? ((earnedIncome *
+                        (data.wealth || 0) / 100) | currency : 'USD' : 'symbol' : '1.0-0') : &quot;$0&quot; }}</div>
+                    </div>
+                    <ion-text color="medium">Seed capital to create unearned income</ion-text>
+                    <ion-item class="range" lines="none">
+                        <ion-range [pin]="true" mode="md" snaps="true" ticks="false" min="0" max="100" color="dark" [(ngModel)]="data.wealth" name="wealth" (ngModelChange)="calculate($event)" debounce="50">
+                        </ion-range>
+                    </ion-item>
+                    <ion-label class="formlabel" position="stacked">
+                        Debt Accelerator
+                    </ion-label>
+                    <div class="enterPercent">
+                    <ion-item lines="none">
+                        <ion-icon src="assets/icon/percent.svg" slot="end">
+                        </ion-icon>
+                        <ion-input mask="separator.10" thousandSeparator="" type="tel" inputmode="decimal" class="dollar-input"
+                        name="debt" [(ngModel)]="data.debt" (ngModelChange)="calculate($event)" debounce="50">
+                        </ion-input>
+                    </ion-item>
+                    <div class="percentValue">{{ (earnedIncome != 0 &amp;&amp; data.debt != 0) ? ((earnedIncome *
+                        (data.debt || 0) / 100) | currency : 'USD' : 'symbol' : '1.0-0') : &quot;$0&quot; }}</div>
+                    </div>
+                    <ion-text color="medium">To be applied towards Debt Payoff</ion-text>
+                    <ion-item class="range" lines="none">
+                        <ion-range [pin]="true" mode="md" snaps="true" ticks="false" min="0" max="100" color="dark" [(ngModel)]="data.debt" name="debt" (ngModelChange)="calculate($event)" debounce="50">
+                        </ion-range>
+                    </ion-item>
+                    <h3 *ngIf="data.customAccounts.length>0">Custom accounts</h3>
+                    <div *ngFor="let account of data.customAccounts; let i = index">
+                        <div class="customlabel">
+                            <ion-label class="formlabel" position="stacked">
+                                {{account.label | titlecase}}
+                            </ion-label>
+                            <ion-icon (click)="removeCustomAccount(account.label)" src="assets/icon/trash.svg" slot="end" class="cursor-pointer"></ion-icon>
+                        </div>
+                        <div class="enterPercent">
+                        <ion-item lines="none">
+                            <ion-icon src="assets/icon/percent.svg" slot="end">
+                            </ion-icon>
+                            <ion-input mask="separator.10" thousandSeparator="" type="tel" inputmode="decimal" class="dollar-input"
+                            name="custom-account-{{i}}" [(ngModel)]="account.value" (ngModelChange)="calculate($event)" debounce="50">
+                            </ion-input>
+                        </ion-item>
+                        <div class="percentValue">{{ (earnedIncome != 0 &amp;&amp; account.value != 0) ? ((earnedIncome *
+                            (account.value || 0) / 100) | currency : 'USD' : 'symbol' : '1.0-0') : &quot;$0&quot; }}</div>
+                        </div>
+                        <ion-item class="range" lines="none">
+                            <ion-range [pin]="true" mode="md" snaps="true" ticks="false" min="0" max="100" color="dark" [(ngModel)]="account.value" name="custom-account-{{i}}" (ngModelChange)="calculate($event)" debounce="50">
+                            </ion-range>
+                        </ion-item>
+                    </div>
+                    <ion-item mode="md" button="true" lines="none" class="customadd range cursor-pointer" 
+                    (click)="bluractive()"
+                     id="open-modal" *ngIf="data.customAccounts?.length < customAccountsLimit">
+                        <ion-icon name="add" slot="start" color="success"></ion-icon>
+                        <strong>Add a custom account</strong>
+                    </ion-item>
+                </form>
+            </ion-col>
+            <ion-item class="divider contentchartalign fullwidth ion-hide-sm-up"></ion-item>
+            <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                <ion-row class="ion-hide-sm-up">
+                    <ion-item disabled="false" lines="none" class="overall contentchartalign fullwidth">
+                        <ion-label>
+                            Earned Income:
+                        </ion-label>
+                        <ion-text>{{earnedIncome | currency : 'USD' : 'symbol' : '1.0-0'}}</ion-text>
+                    </ion-item>
+                    <!-- <ion-item class="divider contentchartalign fullwidth"></ion-item> -->
+                </ion-row>
+                <ion-row>
+                    <ion-col size-lg="12" size-md="12" size-sm="4" size-xl="12" size-xs="4">
+                        <ion-item lines="none" class="contentchartalign chartalign">
+                            <canvas baseChart [datasets]="nd1ChartMeta.datasets" [labels]="nd1ChartMeta.labels" [options]="nd1ChartMeta.options"
+                [chartType]="barChartType" #myCanvas></canvas>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col size-lg="12" size-md="12" size-sm="8" size-xl="12" size-xs="8">
+                        <ion-item disabled="false" lines="none" class="overall contentchartalign ion-hide-sm-down">
+                            <div>
+                                <ion-label>
+                                    Earned Income
+                                </ion-label>
+                                <ion-text>$ {{earnedIncome | number:'1.0-0'}}</ion-text>
+                            </div>
+                        </ion-item>
+                        <ion-item class="divider contentchartalign ion-hide-sm-down"></ion-item>
+                        <ion-item *ngIf="legendData?.length>0" lines="none" class="contentchartalign">
+                            <div class="my-legend fullwidth" #legendsItems>
+                                <div class="legend-item fullwidth" *ngFor="let legendItem of legendData;let i=index;">
+                                    <div class="box" [style.background-color]="legendItem.fillStyle"></div>
+                                    <div class="boxText">{{legendItem.text}}</div>
+                                    <div class="boxValue">{{ barChartValues[i] }}%</div>
+                                </div>
+                            </div>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <ion-item class="divider contentchartalign ion-hide-sm-down"></ion-item>
+                        <ion-item lines="none" class="contentchartalign">
+                            <div class="fullwidth">
+                                <div class="legend-item total fullwidth">
+                                    <div>Total sum:</div>
+                                    <div class="boxValue">{{sumPercent}}%</div>
+                                </div>
+                            </div>
+                        </ion-item>
+                        <ion-item *ngIf="sumPercent<100" lines="none" class="contentchartalign">
+                            <div class="warning fullwidth">
+                                <ion-icon name="information-circle-outline"></ion-icon>
+                                Your total sum of budgeting is less than 100%
+                            </div>
+                        </ion-item>
+                        <ion-item *ngIf="sumPercent>100" lines="none" class="contentchartalign">
+                            <div class="warning fullwidth">
+                                <ion-icon name="information-circle-outline"></ion-icon>
+                                Your total sum of budgeting is overuse 100%
+                            </div>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-button [disabled]="sumPercent==100?false:true" mode="ios" shape="round" type="button" class="save ion-margin contentalignbutton actionBtn ion-hide-sm-down" (click)="saveToAccount()">
+        Save changes
+    </ion-button>
+    <ion-button mode="ios" shape="round" type="button" class="cancel ion-margin actionBtn ion-hide-sm-down" (click)="goBack()">
+        Cancel
+    </ion-button>
+    <!-- <ion-item class="divider ion-hide-sm-down"></ion-item>
+    <div class="contentaligntutorial">
+        <ion-accordion-group>
+            <ion-accordion value="tutorial" class="tutorial" toggle-icon="">
+                <ion-item slot="header" (click)="toggleIcon=!toggleIcon">
+                    <ion-label color="success">Tutorial
+                        <p>Freedom & Lifestyle Number</p>
+                    </ion-label>
+                    <ion-icon slot="end" [name]="toggleIcon?'chevron-up':'chevron-down'"></ion-icon>
+                </ion-item>
+            <ion-grid slot="content">
+                <ion-row>
+                    <ion-col  size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                        <h2>ND1 Spending Controls</h2>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col  size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                        <p>ND1 is the first formula in our non discretionary rules based system. 
+                        It is how we manage our Earned Income (money we work for: ie;  wages, tips, 
+                        salary, commissions, bonuses, 1099 income) to begin the process of mastering 
+                        our money.
+                        </p>
+                        <p>
+                        Wealth is created through production not consumption. Money is always looking 
+                        for a place to go, flowing from dumb to smart or where its treated best.
+                        We become its master by giving it purpose and reason for existence and not 
+                        letting money with different purposes co-mingle.
+                        </p>
+                        <p>
+                        We do this by setting up 4 separate accounts and applying the following 
+                        ND1 rules to every deposit (of Earned Income).
+                        </p>
+                    </ion-col>
+                    <ion-col class="videoPlaceholder" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                        <ion-img src="assets/images/videoPlaceholder.png"></ion-img>
+                        <ion-icon src="assets/icon/play.svg"></ion-icon>
+                    </ion-col>
+                </ion-row>
+                <ion-item lines="full"></ion-item>
+                <ion-row>
+                    <ion-col  size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                        <h2>TWF system  ratio</h2>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="listratio">
+                    <ion-col  size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                        <ul>
+                            <li>10% giving account - to help those in need</li>
+                            <li>10% wealth account (20% when debt free)</li>
+                            <li>10% debt account - to accelerate debt payoff</li>
+                            <li>70% living expenses - to cover bills</li>
+                        </ul>
+                    </ion-col>
+                    <ion-col  size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                        <ion-img src="assets/images/PieChart.png"></ion-img>
+                        <ion-list>
+                        <ion-item lines="none">
+                                <div class="legend-item fullwidth">
+                                    <div class="box" [style.background-color]="'#66C6FF'"></div>
+                                    <div class="boxText">Bills</div>
+                                    <div class="boxValue">70%</div>
+                                </div>
+                        </ion-item>
+                        <ion-item lines="none">
+                                <div class="legend-item fullwidth">
+                                    <div class="box" [style.background-color]="'#FFCF33'"></div>
+                                    <div class="boxText">Giving</div>
+                                    <div class="boxValue">10%</div>
+                                </div>
+                        </ion-item>
+                        <ion-item lines="none">
+                                <div class="legend-item fullwidth">
+                                    <div class="box" [style.background-color]="'#5CE593'"></div>
+                                    <div class="boxText">Wealth</div>
+                                    <div class="boxValue">10%</div>
+                                </div>
+                        </ion-item>
+                        <ion-item lines="none">
+                                <div class="legend-item fullwidth">
+                                    <div class="box" [style.background-color]="'#FF524D'"></div>
+                                    <div class="boxText">Debt Accelerator</div>
+                                    <div class="boxValue">10%</div>
+                                </div>
+                        </ion-item>
+                    </ion-list>
+                    </ion-col>
+                </ion-row>
+                <ion-item lines="full"></ion-item>
+                <ion-row>
+                    <ion-col  size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                        <h2>How to apply ND1 to variable income.</h2>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col  size-lg="12" size-md="12" size-sm="12" size-xl="12" size-xs="12">
+                        If you have variable income from a job or business, you can identify the baseline (low range) 
+                        income amount over a period of time and setup your ND1 ratios and automated transfers accordingly. 
+                        Then every month or quarter, identify the difference between the baseline trend and the higher 
+                        spiked payment periods - whatever that difference is apply ND1 ratios via manual transfers. 
+                        Test until you figure out a system that works best but the key is setting up a non discretionary 
+                        system, sticking to it and applying it consistently.
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="educationtutorial" size-lg="12" size-md="12" size-sm="12" size-xl="12" size-xs="12">
+                        <h2>Educational materials</h2>
+                        <ion-button mode="ios" shape="round" type="button" class="cancel ion-margin" (click)="goBack()">
+                            Explore more
+                            <ion-icon name="chevron-forward" slot="end"></ion-icon>
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="educationcards" size-lg="4" size-md="4" size-sm="12" size-xl="4" size-xs="12">
+                        <ion-card>
+                            <img src="../../assets/images/ed1.png" class="fullwidth">
+                            <ion-card-header>
+                                <h2>True Wealth Formula - Bootleg</h2>
+                                <ion-icon name="bookmark-outline" color="success"></ion-icon>
+                            </ion-card-header>
+                            <ion-card-content>
+                                Off-grid and uncensored, the perfect TWF starter training for new Wealth Builders
+                                <div>
+                                    <ion-chip outline="true">Investing</ion-chip>
+                                    <ion-chip outline="true">Finance</ion-chip>
+                                    <ion-chip outline="true">Assets</ion-chip>
+                                    <ion-chip outline="true">Stocks</ion-chip>
+                                </div>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-col>
+                    <ion-col class="educationcards" size-lg="4" size-md="4" size-sm="12" size-xl="4" size-xs="12">
+                        <ion-card>
+                            <img src="../../assets/images/ed2.png" class="fullwidth">
+                            <ion-card-header>
+                                <h2>True Wealth Formula - Bootleg</h2>
+                                <ion-icon name="bookmark-outline" color="success"></ion-icon>
+                            </ion-card-header>
+                            <ion-card-content>
+                                Off-grid and uncensored, the perfect TWF starter training for new Wealth Builders
+                                <div>
+                                    <ion-chip outline="true">Investing</ion-chip>
+                                    <ion-chip outline="true">Finance</ion-chip>
+                                    <ion-chip outline="true">Assets</ion-chip>
+                                    <ion-chip outline="true">Stocks</ion-chip>
+                                </div>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-col>
+                    <ion-col class="educationcards" size-lg="4" size-md="4" size-sm="12" size-xl="4" size-xs="12">
+                        <ion-card>
+                            <img src="../../assets/images/ed3.png" class="fullwidth">
+                            <ion-card-header>
+                                <h2>TWF Implementation</h2>
+                                <ion-icon name="bookmark-outline" color="success"></ion-icon>
+                            </ion-card-header>
+                            <ion-card-content>
+                                Your step by step blueprint to personal and financial freedom
+                                <div>
+                                    <ion-chip outline="true">Budget</ion-chip>
+                                    <ion-chip outline="true">Business model</ion-chip>
+                                    <ion-chip outline="true">Liabilities</ion-chip>
+                                </div>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-accordion>
+        </ion-accordion-group>
+    </div> -->
+    <ion-button [disabled]="sumPercent==100?false:true" mode="ios" shape="round" type="button" class="save ion-margin contentalignbutton fullbtn ion-hide-sm-up" (click)="saveToAccount()">
+        Save changes
+    </ion-button>
+    <ion-button mode="ios" shape="round" type="button" class="cancel ion-margin fullbtn ion-hide-sm-up" (click)="goBack()">
+        Cancel
+    </ion-button>
+    </div>
+
+    <ion-modal
+     id="customaccount" class="customaccount" trigger="open-modal" (didDismiss)="modalDismiss()">
+        <ng-template>
+            <ion-content scrollY="false">
+                <ion-icon class="ion-hide-sm-up mobilehandle" src="assets/icon/Handle.svg"></ion-icon>
+                <div class="contentdiv">
+                    <h2>New custom account</h2>
+                    <div class="subheading">Add a custom account and % value.</div>
+                <div class="modeldivider"></div>
+                    <form>
+                        <div class="enterPercent">
+                            <ion-item lines="none">
+                                <ion-input type="text" class="dollar-input" autofocus="true"
+                                name="accountLabel" placeholder="Account title" [(ngModel)]="accountLabel" #accountLabelInput>
+                                </ion-input>
+                            </ion-item>
+                            <ion-item class="ion-margin-top" lines="none">
+                                <ion-icon src="assets/icon/percent.svg" slot="end">
+                                </ion-icon>
+                                <ion-input mask="separator.10" thousandSeparator="" type="tel" inputmode="decimal" class="dollar-input"
+                                name="accountPercent" value="0" [(ngModel)]="accountPercent" debounce="50" (ngModelChange)="customChnage()" #accountPercentInput>
+                                </ion-input>
+                            </ion-item>
+                            <ion-item class="range" lines="none">
+                                <ion-range [pin]="true" class="no-padding-bottom" mode="md" snaps="true" ticks="false" min="0" max="100" color="dark" name="accountPercent" [(ngModel)]="accountPercent">
+                            </ion-range>
+                            </ion-item>
+                        </div>
+                    </form>
+                </div>
+                <ion-row class="buttonrow">
+                    <ion-col class="savecol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                        <ion-button mode="ios" class="modalsave fullwidth" (click)="addCustomAccount()" disabled="true" #savebtn>Create account</ion-button>
+                    </ion-col>
+                    <ion-col class="cancelcol" size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12">
+                        <ion-button mode="ios" type="button" class="modalcancel fullwidth" (click)="modalDismiss()">
+                            Cancel
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </ion-content>
+        </ng-template>
+    </ion-modal>
+    <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+        <ion-fab-button color="new-dark" (click)="openTutorial()">
+          <ion-icon src="assets/icon/education.svg"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+</ion-content>
+<ion-footer>
+    <div>
+        <bottom-menu>
+        </bottom-menu>
+    </div>
+</ion-footer>

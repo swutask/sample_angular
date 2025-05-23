@@ -1,0 +1,301 @@
+:host fieldset {
+  min-width: 0 !important;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+:host .avatar {
+  width: 100px;
+  height: 100px;
+}
+
+:host .no-avatar {
+  position: relative;
+  overflow: hidden;
+  width: 145px;
+  height: 145px;
+  background: #ddd;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+:host .no-avatar:before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 70%;
+  height: 44%;
+  margin: 0 0 0 -35%;
+  background: #989898;
+  -webkit-border-radius: 100% 100% 0 0;
+  border-radius: 100% 100% 0 0;
+}
+
+:host .no-avatar:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 19%;
+  width: 40%;
+  height: 40%;
+  margin: 0 0 0 -20%;
+  background: #989898;
+  -webkit-box-shadow: 0 0 0 4px #DCDCDC;
+  box-shadow: 0 0 0 4px #DCDCDC;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+:host .no-avatar img {
+  position: relative;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  z-index: 10;
+}
+
+:host .goals-formgroup ion-item .item-interactive {
+  align-self: stretch;
+  width: auto;
+  max-width: 100%;
+  margin-left: -15px;
+  /*:ng-deep .item-native {
+            padding-left: 0px
+        }*/
+}
+
+.input-edit-button {
+  position: absolute;
+  right: 15px;
+  top: 25px;
+  height: 30px;
+  z-index: 9999;
+}
+
+.color-red {
+  color: red;
+}
+
+.ion-disabled-field {
+  position: relative;
+}
+
+.main-container {
+  background: #fff;
+  border-radius: 32px;
+  padding: 3rem;
+}
+
+.main-container ion-grid {
+  padding: 0;
+}
+
+.main-container ion-grid ion-col {
+  padding: 0 5px;
+}
+
+.main-container .header-md::after {
+  background-image: none;
+  content: none;
+}
+
+.main-container .backBtn {
+  margin-inline-start: 0px;
+}
+
+.main-container .backBtn .arrow-icon {
+  font-size: 29px;
+  color: #179966;
+}
+
+.main-container .backTitle {
+  padding: 0px;
+  --ion-text-color: #0D0D0D;
+  font-size: 32px;
+  font-weight: 400;
+}
+
+.main-container .form-bio {
+  padding: 0 45px;
+}
+
+.main-container .avtar-main {
+  width: 145px;
+  height: 145px;
+  position: relative;
+}
+
+.main-container .avtar-main .editBtn {
+  position: absolute;
+  bottom: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 44px;
+  overflow: hidden;
+  right: 0;
+  --ion-color-base: #179966 !important;
+}
+
+.main-container .avtar-main .editBtn .edit-pencil {
+  margin: 0;
+}
+
+.main-container .profile-form .default-border {
+  --border-width: 0;
+  margin-bottom: 16px;
+  --inner-padding-end: 0px;
+  --inner-border-width: 0px;
+}
+
+.main-container .profile-form .default-border .date-container {
+  width: 100%;
+}
+
+.main-container .profile-form .default-border .date-container .date-fields {
+  display: flex;
+  width: 100%;
+}
+
+.main-container .profile-form .default-border .date-container .date-fields .date-selector {
+  margin-right: 8px;
+  width: 100%;
+  position: relative;
+}
+
+.main-container .profile-form .default-border .date-container .date-fields .date-selector:last-child {
+  margin-right: 0;
+}
+
+.main-container .profile-form .default-border .date-container .date-fields .date-selector::part(icon) {
+  display: none;
+}
+
+.main-container .profile-form .default-border .date-container .date-fields .date-selector:after {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  border-left: 1px solid #179966;
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-bottom: 1px solid #179966;
+  transform: rotate(315deg);
+}
+
+.main-container .profile-form .default-border .gender-main {
+  background-color: #F2F2F2;
+  border-radius: 100px;
+  padding: 2px !important;
+  display: flex;
+  border: none;
+}
+
+.main-container .profile-form .default-border .gender-main span {
+  padding: 8px 20px !important;
+  border-radius: 50px;
+  margin: 0;
+}
+
+.main-container .profile-form .default-border .gender-main span .genderIcon {
+  color: #179966;
+  margin-right: 10px;
+}
+
+.main-container .profile-form .default-border .gender-main span.selected-gen {
+  background: #fff;
+  display: block;
+  border: none;
+  font-size: 16px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+}
+
+.main-container .profile-form .border {
+  margin-bottom: 12px;
+}
+
+.main-container .profile-form ion-label {
+  color: #0D0D0D;
+  font-size: 1rem;
+  font-weight: 400;
+  transform: none;
+}
+
+.main-container .profile-form .input-border {
+  border: 1px solid #D0D7D4;
+  padding: 11px 12px !important;
+  margin-top: 8px;
+}
+
+.main-container .profile-form .field-col {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.main-container .profile-form .field-col:nth-child(odd) .default-border {
+  margin-right: 4px;
+}
+
+.main-container .profile-form .field-col .btn-main {
+  display: flex;
+  margin-top: 5rem;
+}
+
+.main-container .profile-form .field-col .btn-main .btns {
+  font-weight: 400;
+  font-size: 16px;
+  border-radius: 100px;
+  overflow: hidden;
+  opacity: 1;
+  text-transform: capitalize;
+}
+
+.main-container .profile-form .field-col .btn-main .saveBtn {
+  --background: #179966;
+  color: #fff;
+  margin-right: 1rem;
+}
+
+.main-container .profile-form .field-col .btn-main .cancelBtn {
+  --background: #fff;
+  color: #0D0D0D;
+  border: 1px solid #D0D7D4;
+}
+
+.main-container .profile-form .edit-feild {
+  width: 100%;
+  position: relative;
+}
+
+.main-container .profile-form .edit-feild .input-border {
+  background-color: #FAFAFA;
+}
+
+.main-container .borderHr {
+  background-color: #E6E6E6;
+  height: 1px;
+  margin: 16px 0 24px 0;
+}
+
+.main-container .joinDate {
+  margin: 0;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  color: #0D0D0D;
+  margin-bottom: 22px;
+}
+
+.main-container .joinDate .clndrIcon {
+  margin-right: 10px;
+  color: #179966;
+}
+
+.zeroPadding {
+  --padding-bottom: 0px;
+  --padding-start: 0px;
+  --padding-end: 0px;
+  --padding-top: 0px;
+}

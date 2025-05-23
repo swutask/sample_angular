@@ -1,0 +1,342 @@
+<ion-header class="ion-no-border header-top ion-hide-sm-up"> 
+    <ion-toolbar mode="md" color="pure-white">
+        <ion-buttons slot="start">
+            <ion-button color="success" routerDirection="back" (click)="goBack()">
+                <ion-icon src="assets/icon/arrowback.svg" class="ion-hide-sm-down">
+                </ion-icon>
+                <ion-icon src="assets/icon/arrowbackmobile.svg" class="ion-hide-sm-up">
+                </ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="dark" class="freedomtitle">
+            Compound Return <ion-text color="medium">(MOAC)</ion-text>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content #compoundContent class="compound-return-content" scroll-events="true" (ionScrollEnd)="scrollEnd()">
+    <div class="freedom-background">
+        <ion-header class="ion-no-border header-top ion-hide-sm-down"> 
+            <ion-toolbar mode="md" color="pure-white">
+                <ion-buttons slot="start">
+                    <ion-button color="success" routerDirection="back" (click)="goBack()">
+                        <ion-icon src="assets/icon/arrowback.svg" class="ion-hide-sm-down">
+                        </ion-icon>
+                        <ion-icon src="assets/icon/arrowbackmobile.svg" class="ion-hide-sm-up">
+                        </ion-icon>
+                    </ion-button>
+                </ion-buttons>
+                <ion-title color="dark" class="freedomtitle">
+                    Compound Return <ion-text color="medium">(MOAC)</ion-text>
+                </ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <ion-item class="divider ion-hide-sm-up ion-margin-bottom"></ion-item>
+    <ion-grid>
+        <ion-row>
+            <ion-col class="ion-no-padding" size="10">
+                <ion-row>
+                    <ion-col class="no-padding-bottom">
+                        <ion-card-title class="contentalign subheading">
+                            Asset Growth & Income Forecasting
+                        </ion-card-title>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="no-padding-top">
+                        <ion-card-subtitle class="contentalign">
+                            Project future growth and cash flows based on current and simulated balance sheets
+                        </ion-card-subtitle>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+            <ion-col class="ion-no-padding editcompound" size="2">
+                <ion-icon src="assets/icon/editcurrent.svg" (click)="openAssetForm()" class="cursor-pointer"></ion-icon>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <div class="congrats-banner-mobile ion-hide-sm-up mobile-align" ></div>
+    <div class="congrats-banner outalign mobile-align">
+        <div class="title">
+            <span *ngIf="freedomMonth !==null && (freedomMonth !== -1 || lifestyleMonth !== -1)">Congratulations {{ profile.lastName ? (profile.firstName + ' ' + profile.lastName)
+            : profile.firstName }}!</span>
+            <span *ngIf="freedomMonth === -1 && lifestyleMonth === -1">
+                You're on your way to achieve your goals {{this.userSvc.firstName}}:
+            </span>
+        </div>
+        <div class="details" *ngIf="freedomMonth == 0 && (lifestyleMonth > 0 || lifestyleMonth === -1)">
+            You have already reached your Freedom Number
+        </div>
+        <div class="details" *ngIf="freedomNumber && lifestyleMonth == 0">
+            You have already reached your Freedom & Lifestyle Numbers
+        </div>
+        <ng-container *ngFor="let custom of customGoalsResult">
+            <div class="details" *ngIf="custom.customMonth == 0 && custom.customName != 'Freedom Number' && custom.customName != 'Lifestyle Number'">
+                You have already reached your {{custom.customName}}
+            </div>
+        </ng-container>
+        <div class="subtitile">
+            <span *ngIf="freedomMonth > 0 || lifestyleMonth > 0 || checkCustomGoalReaminingMonth()">Based on your existing Assets you will reach your:</span>
+        </div>
+        <ng-container *ngFor="let custom of customGoalsResult">
+            <div class="details" *ngIf="custom.customMonth > 0">
+                {{custom.customName}} of <ion-text color="success">{{(custom.customNumber ? (custom.customNumber| currency : 'USD' : 'symbol' : '1.0-0' ):'')}} in {{custom.customText}}</ion-text>
+            </div>
+            <div class="details" *ngIf="custom.customMonth === -1">
+                <ion-icon src="assets/icon/warn.svg" color="danger" class="warnicon"></ion-icon> Increase Years/Months Invested and/or Contributions to reach your <ion-text color="danger">{{custom.customName}}!</ion-text>
+            </div>
+        </ng-container>
+        <!-- <div class="details" *ngIf="freedomMonth > 0">
+            Freedom Number of <ion-text color="success">{{(freedomNumber ? (freedomNumber| currency : 'USD' : 'symbol' : '1.0-0' ):'')}} in {{freedomAndLifestyleText.freedomText}}</ion-text>
+        </div>
+        <div class="details" *ngIf="freedomMonth === -1">
+            <ion-icon src="assets/icon/warn.svg" color="danger" class="warnicon"></ion-icon> Increase Years Invested and/or Contributions to reach your <ion-text color="danger">Freedom Number!</ion-text>
+        </div>
+        <div class="details" *ngIf="lifestyleMonth > 0">
+            Lifestyle Number of <ion-text color="success">{{(lifestyleNumber ? (lifestyleNumber| currency : 'USD' : 'symbol' : '1.0-0' ):'')}} in {{freedomAndLifestyleText.lifestyleText}}</ion-text>
+        </div>
+        <div class="details" *ngIf="lifestyleNumber && lifestyleMonth === -1">
+            <ion-icon src="assets/icon/warn.svg" color="danger" class="warnicon"></ion-icon> Increase Years Invested and/or Contributions to reach your <ion-text color="danger">Lifestyle Number!</ion-text>
+        </div> -->
+    </div>
+    <ion-item class="divider"></ion-item>
+    <div class="chartTitle outalign mobile-align">Chart Compound Return </div>
+    <ion-item lines="none" class="outalign contentchartalign mobile-align" id="compoundReturnChart">
+        <canvas baseChart [datasets]="compoundReturnChartMeta.dataSets" [labels]="compoundReturnChartMeta.labels" [options]="compoundReturnChartMeta.options"
+ chartType="line" #myCanvas></canvas>
+    </ion-item>
+    <ion-item *ngIf="legendData?.length>0" lines="none" class=" outalign contentchartalign mobile-align">
+        <div class="my-legend" #legendsItems>
+            <div class="legend-item" *ngFor="let legendItem of legendData;let i=index;">
+                <div class="box" [style.background-color]="legendItem.fillStyle"></div>
+                <div class="boxText">{{legendItem.text}}</div>
+            </div>
+        </div>
+    </ion-item>
+    <ion-item class="divider"></ion-item>
+    <div class="yearTitle outalign mobile-align">
+        After {{calculatedOutputs?.year}} <span *ngIf="!data.showMonthly">Years</span> <span *ngIf="data.showMonthly">Months</span>
+    </div>
+    <div class="results-section outalign mobile-align">
+        <ion-grid>
+            <ion-row>
+                <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12" *ngIf="this.calculatedOutputs?.isMultipleAssets === false && !this.calculatedOutputs?.isPortfolio && !this.calculatedOutputs?.isZVA" class="ion-padding">
+                    <div>
+                        {{calculatedOutputs?.isUnits ? &quot;Units Now Owned&quot; : &quot;Shares Now Owned&quot;}}
+                    </div>
+                    <div class="calculation">
+                        {{calculatedOutputs?.assetsOwned | number:'1.2-2'}}
+                    </div>
+                </ion-col>
+                <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12" class="ion-padding">
+                    <div>
+                        Yield on Cost:
+                    </div>
+                    <div class="calculation">
+                        {{calculatedOutputs?.yieldOnCost}}%
+                    </div>
+                </ion-col>
+                <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12" *ngIf="this.calculatedOutputs?.isMultipleAssets === false && !this.calculatedOutputs?.isPortfolio && !this.calculatedOutputs?.isZVA" class="ion-padding">
+                    <div>
+                        {{calculatedOutputs?.isUnits ? &quot;Income per Unit&quot; : &quot;Dividend per
+                        Share&quot;}}
+                        </div>
+                    <div class="calculation">
+                        {{calculatedOutputs?.dividendInAbsoluteDollars| currency : 'USD' : 'symbol' : '1.3-3'}}
+                    </div>
+                </ion-col>
+                <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12" class="ion-padding">
+                    <div>
+                        New Balance:
+                    </div>
+                    <div class="calculation">
+                        {{calculatedOutputs?.balance | currency : 'USD' : 'symbol' : '1.0-0'}}
+                    </div>
+                </ion-col>
+                <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12" class="ion-padding">
+                    <div>
+                        <span *ngIf="!data.showMonthly">New Annual Income</span> <span *ngIf="data.showMonthly">New Monthly Income</span>
+                    </div>
+                    <div class="calculation">
+                        {{calculatedOutputs?.income | currency : 'USD' : 'symbol' : '1.0-0'}}
+                    </div>
+                </ion-col>
+                <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12" class="ion-padding">
+                    <div>
+                        Total Contributions:
+                    </div>
+                    <div class="calculation">
+                        {{calculatedOutputs?.totalContributions || 0 | currency : 'USD' : 'symbol' : '1.0-0'}}
+                    </div>
+                </ion-col>
+                <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12" class="ion-padding">
+                    <div>
+                        Yield:
+                    </div>
+                    <div class="calculation">
+                        {{calculatedOutputs?.lastMonthsYield}}%
+                    </div>
+                </ion-col>
+                <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12" class="ion-padding">
+                    <div>
+                        Total Return:
+                    </div>
+                    <div class="calculation">
+                        {{calculatedOutputs?.returns}}%
+                    </div>
+                </ion-col>
+                <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12" *ngIf="this.calculatedOutputs?.assetsOwned > 0" class="ion-padding">
+                    <div>
+                        {{calculatedOutputs?.isUnits ? &quot;New Unit Price:&quot; : &quot;New Stock Price:&quot;}}
+                    </div>
+                    <div class="calculation">
+                        {{calculatedOutputs?.lastMonthsAssetPrice | currency : 'USD' : 'symbol' : '1.2-2'}}
+                    </div>
+                </ion-col>
+                <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12" class="ion-padding">
+                    <div>
+                        Total Distribution Paid Out:
+                    </div>
+                    <div class="calculation">
+                        {{calculatedOutputs?.totalDistribution | currency : 'USD' : 'symbol' : '1.0-0'}}
+                    </div>
+                </ion-col>
+                <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12" class="ion-padding">
+                    <div>
+                        New Basis:
+                    </div>
+                    <div class="calculation">
+                        {{calculatedOutputs?.basis | currency : 'USD' : 'symbol' : '1.0-0'}}
+                    </div>
+                </ion-col>
+                <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12" class="ion-padding">
+                    <div>
+                        Total Withdrawals:
+                    </div>
+                    <div class="calculation">
+                        {{calculatedOutputs?.totalAnnualWithdrawal | currency : 'USD' : 'symbol' : '1.0-0'}}
+                    </div>
+                </ion-col>
+                <ion-col size-lg="6" size-md="6" size-sm="12" size-xl="6" size-xs="12" class="ion-padding">
+                    <div>
+                        Risk Adjusted Basis:
+                    </div>
+                    <div class="calculation">
+                        {{calculatedOutputs?.riskAdjustedBasis | currency : 'USD' : 'symbol' : '1.0-0'}}
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+    <ion-item class="divider"></ion-item>
+    <div class="resultgroup">
+        <div class="tresult">
+            <ion-item #toogleItem button (click)="toggleList(toogleItem)" lines="none" class="toogleItems">
+                <ion-label color="dark">MOAC Accounts List
+                </ion-label>
+                <ion-icon class="toggleslot" slot="end" [name]="toggleIconAccount?'chevron-up':'chevron-down'"></ion-icon>
+            </ion-item>
+            <div class="tcontent">
+                <div *ngFor="let account of typeSelectedAccounts">
+                    <ion-card class="accounts-list ion-padding-bottom cursor-pointer">
+                        <div class="accountarea" (click)="editAccount(account.id,account.accountType)" detail="false">
+                            <!-- mobile view -->
+                            <ion-grid class="ion-hide-sm-up ion-no-padding">
+                                <ion-row>
+                                    <ion-col size="8.5" class="mobile-account-card-name cursor-pointer">{{account.name}}</ion-col>
+                                    <ion-col size="3.5" class="mobile-asset-card-balance">{{account.currentBalance | currency : 'USD' : 'symbol' : '1.0-0'}}</ion-col>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col class="mobile-account-card-description">{{account.description}}</ion-col>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col class="mobile-account-card-description">
+                                        {{account?.assetType | assetType}}
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col class="mobile-account-card-description">
+                                        {{account?.investmentType | investmentType}}
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row *ngIf="account.investmentType === &quot;stock&quot;">
+                                    <ion-col class="mobile-account-card-description">
+                                        Qty {{account?.sharesOwned | number:'1.0-2'}}
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row *ngIf="account.investmentType === &quot;stock&quot;">
+                                    <ion-col class="mobile-account-card-description">
+                                        Price {{account?.sharePrice | currency : 'USD' : 'symbol' : '1.0-2'}}
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                            <!-- desktop view -->
+                            <div class="accountColumn ion-hide-sm-down">
+                                <div class="accountName">
+                                    <span *ngIf="account.parentHoldingId">{{account?.parent?.name}}: </span>{{account.name}}
+                                </div>
+                                <div class="accountDescription">
+                                    {{account.description}}
+                                </div>
+                            </div>
+                            <ion-item class="divider ion-hide-sm-down"></ion-item>
+                            <div class="accountBalanceBox">
+                                <div class="accountBalance ion-hide-sm-down">
+                                    <div>{{account?.assetType | assetType}}</div>
+                                    <div>{{account?.investmentType | investmentType}}</div>
+                                    <div>{{getAssetTypeIndicatorLabel(account)}}</div>
+                                    <div>Yield {{account?.currentYield || 0}}%</div>
+                                    <div class="subunit" *ngIf="account.investmentType === &quot;stock&quot;">Qty {{account?.sharesOwned | number:'1.0-2'}}</div>
+                                    <div class="subunit" *ngIf="account.investmentType=== &quot;stock&quot;">Price {{account?.sharePrice | currency : 'USD' : 'symbol' : '1.0-2'}}</div>
+                                    <!-- <ion-grid class="ion-no-padding">
+                                        mobile view
+                                        <ion-row class="ion-hide-sm-up">
+                                            <ion-col size="4" class="ion-no-padding mobile-account-card-details">{{account.assetType | assetType}}</ion-col>
+                                            <ion-col size="1" class="ion-no-padding mobile-account-card-details">{{getAssetTypeIndicatorLabel(account)}}</ion-col>
+                                            <ion-col size="4" class="ion-no-padding mobile-account-card-details">Apprec. {{account.annualAppreciation||0}}%</ion-col>
+                                            <ion-col size="3" class="ion-no-padding mobile-account-card-details">Yield {{account.currentYield||0}}%</ion-col>
+                                        </ion-row>
+                                        desktop view 
+                                        <ion-row class="ion-hide-sm-down">
+                                            <ion-col size="4" class="ion-no-padding">{{account.assetType | assetType}}</ion-col>
+                                            <ion-col size="1" class="ion-no-padding">{{getAssetTypeIndicatorLabel(account)}}</ion-col>
+                                            <ion-col size="3" class="ion-no-padding">Appreciation {{account.annualAppreciation||0}}%</ion-col>
+                                            <ion-col size="3" class="ion-no-padding">Yield {{account.currentYield||0}}%</ion-col>
+                                        </ion-row>
+                                    </ion-grid> -->
+                                </div>
+                                <div class="balance ion-hide-sm-down">{{account.currentBalance | currency : 'USD' : 'symbol' : '1.0-0'}}</div>
+                            </div>
+                        </div>
+                    </ion-card>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ion-item class="divider"></ion-item>
+    <div class="section-title outalign mobile-align">
+        Results By <span *ngIf="!data.showMonthly">Year</span><span *ngIf="data.showMonthly">Month</span>
+    </div>
+    <div class="outalign mobile-align">
+        <div class="compound-return-table" id="compound-return-table">
+            <table class="tablesaw tablesaw-stack main-table" data-tablesaw-mode="stack" role="table">
+                <thead id="tableHeaders" role="rowgroup">
+                </thead>
+                <tbody id="tbodyTarget" role="rowgroup">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <ion-item class="divider ion-hide-sm-down"></ion-item>
+</div>
+<ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button color="new-dark" (click)="openTutorial()">
+        <ion-icon src="assets/icon/education.svg"></ion-icon>
+      </ion-fab-button>
+</ion-fab>
+</ion-content>
+<ion-footer>
+    <div>
+        <bottom-menu>
+        </bottom-menu>
+    </div>
+</ion-footer>

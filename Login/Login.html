@@ -1,0 +1,127 @@
+<ion-content>
+    <ion-img src="assets/images/logo_placeholder.svg" alt="Image error" class="logo_placeholder">
+    </ion-img>
+    <div class="logincontent">
+    <ion-img src="assets/images/stairs.png" alt="Image error" class="login-logo">
+    </ion-img>
+    <p class="login-slogan">
+        Log into your account!
+    </p>
+    <ion-segment *ngIf="!showPhoneCode && !showEmailCode" (ionChange)="segmentChanged($event)" mode="ios" value="phone">
+        <ion-segment-button value="phone">
+          <ion-label>By phone number</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="email">
+          <ion-label>By email </ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    <div class="login-form" novalidate="" [formGroup]="fm">
+        <ion-item *ngIf="type=='phone'" [ngClass]="showPhoneCode?'ion-hide':''" lines="none">
+            <ion-intl-tel-input
+            (keyup.enter)="login()"
+            formControlName="phoneNumber"
+            [preferredCountries]="preferredCountries"
+            defaultCountryiso="us"
+            inputPlaceholder=" ">
+            </ion-intl-tel-input>
+        </ion-item>
+        <ion-item *ngIf="type!='phone'" lines="none" [ngClass]="showEmailCode?'ion-hide':''">
+            <ion-input placeholder="Type your email" (keyup.enter)="login()" type="email" 
+            formControlName="username" name="username">
+            </ion-input>
+        </ion-item>
+
+        <div style="margin-bottom: 10px;" *ngIf="phoneNumber.invalid && phoneNumber.touched" [ngClass]="showPhoneCode?'ion-hide':''">
+            <ion-text color="danger" *ngIf="phoneNumber.errors.required">
+                <p class="ion-no-margin"><sub>Phone is required.</sub></p>
+            </ion-text>
+            <ion-text color="danger" *ngIf="!phoneNumber.errors.required && phoneNumber.errors.phone && type=='phone'">
+                <p class="ion-no-margin"><sub>Phone number is not valid.</sub></p>
+            </ion-text>
+        </div>
+        <div style="margin-bottom: 10px;" *ngIf="username.invalid && username.touched" [ngClass]="showEmailCode?'ion-hide':''">
+            <ion-text color="danger" *ngIf="username.errors.required">
+                <p class="ion-no-margin"><sub>Email is required.</sub></p>
+            </ion-text>
+            <ion-text color="danger" *ngIf="!username.errors.required && username.errors.phone && type=='email'">
+                <p class="ion-no-margin"><sub>Email is not valid.</sub></p>
+            </ion-text>
+        </div>
+        <div style="margin-bottom: 10px;" [ngClass]="showPhoneCode?'ion-hide':''" *ngIf="phoneNumber.valid && phoneNumber.touched && type=='phone'">
+            <ion-text color="success">
+                <p class="ion-no-margin"><sub>Phone number is valid.</sub></p>
+            </ion-text>
+        </div>
+        <div style="margin-bottom: 10px;" [ngClass]="showEmailCode?'ion-hide':''" *ngIf="username.valid && username.touched && type=='email'">
+            <ion-text color="success">
+                <p class="ion-no-margin"><sub>Email is valid.</sub></p>
+            </ion-text>
+        </div>
+        <ion-item class="securecode" [ngClass]="type=='phone' && showPhoneCode ?'':'ion-hide'" lines="none">
+            <ion-input placeholder="Secure code from SMS" type="tel" inputmode="numeric"
+            (keyup.enter)="confirmCode()" formControlName="phoneCode" name="phoneCode" #codephone>
+            </ion-input>
+        </ion-item>
+        <ion-item class="securecode" [ngClass]="type!='phone' && showEmailCode ?'':'ion-hide'" lines="none">
+            <ion-input placeholder="Secure code from email" type="tel" inputmode="numeric"
+            (keyup.enter)="confirmCode()" formControlName="emailCode" name="emailCode" #codeemail>
+            </ion-input>
+        </ion-item>
+        <div class="resendcode cursor-pointer" (click)="sendOTP()" *ngIf="type=='phone' &&showPhoneCode">
+            <ion-icon src="../../assets/images/Vector.svg" color="success"></ion-icon> 
+            Re-send the Code
+        </div>
+        <div class="resendcode cursor-pointer" (click)="sendOTP()" *ngIf="type!='phone' && showEmailCode">
+            <ion-icon src="../../assets/images/Vector.svg" color="success"></ion-icon> 
+            Re-send the Code
+        </div>
+        <ion-button mode="ios" shape="round" type="button" class="save ion-margin-top ion-margin-bottom" 
+        *ngIf="type=='phone' &&!(showPhoneCode)"
+        (click)="login()" [disabled]="!isVersionAllowedToContinue">
+            Receive Code
+            <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+        </ion-button>
+        <ion-button mode="ios" shape="round" type="button" class="save ion-margin-top ion-margin-bottom" 
+        *ngIf="type!='phone' &&!(showEmailCode)"
+        (click)="login()" [disabled]="!isVersionAllowedToContinue">
+            Receive Code
+            <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+        </ion-button>
+        <ion-button mode="ios" shape="round" type="button" class="save ion-margin-top ion-margin-bottom" 
+        *ngIf="type=='phone' && showPhoneCode"
+        (click)="confirmCode()">
+            Submit Code
+            <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+        </ion-button>
+        <ion-button mode="ios" shape="round" type="button" class="save ion-margin-top ion-margin-bottom" 
+        *ngIf="type!='phone' && showEmailCode"
+        (click)="confirmCode()">
+            Submit Code
+            <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+        </ion-button>
+    </div>
+    <div class="login-footer">
+        <div>
+            Don't have an account? <strong class="registernew cursor-pointer" (click)="goToRegistration()"> Register new account</strong>
+        </div>
+        <div class="terms">
+            By using this app you agree with the <span class="terms-link cursor-pointer" (click)="navigateTo('termsOfUse')">Terms of services</span>
+        </div>
+    </div>
+</div>
+
+<ion-modal [isOpen]="!isVersionAllowedToContinue" class="pwa-install-modal" [backdropDismiss]="false">
+    <ng-template>
+        <ion-content class="upgradeContent" scrollY="false">
+            <img class="upgrade-logo" src="assets/images/logo.svg" alt="Image error">
+            <div class="modal-container">
+                <div class="modal-content">
+                    <h1 class="updateheader">This version of the Wealth Builder mobile app is not supported.</h1>
+                    <h2 class="updateheader">Please update to the latest version in order to continue.</h2>
+                    <p (click)="update()" class="update cursor-pointer ">Click here to update the app.</p>
+                </div>
+            </div>
+        </ion-content>
+    </ng-template>
+    </ion-modal>                          
+</ion-content>
